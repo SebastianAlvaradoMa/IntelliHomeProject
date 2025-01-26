@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Intellihome</string>
+    <string name="nombre">Nombre...</string>
+    <string name="apellidos">Apellidos...</string>
+    <string name="usuario">Nombre de usuario...</string>
+    <string name="correo">Correo electrónico...</string>
+    <string name="calendario">Calendario...</string>
+    <string name="nacimiento">Fecha de nacimiento...</string>
+    <string name="género">Género:</string>
+    <string name="contraseña">Contraseña...</string>
+    <string name="confirmar_contraseña">Confirmar contraseña...</string>
+    <string name="paragraph"><b>Términos y Condiciones de Uso de Intellihome</b>\n
+        <b>Fecha de entrada en vigor:</b> 30 de enero\n\n
+        Bienvenido a Intellihome. Al acceder y utilizar nuestra aplicación, usted acepta cumplir con los siguientes términos y condiciones. Si no está de acuerdo con estos términos, le solicitamos que no utilice nuestra aplicación.\n\n
+        <b>1. Definiciones</b>\n
+        <b>Intellihome:</b> Se refiere a la aplicación móvil y/o plataforma web que facilita el alquiler de propiedades.\n
+        <b>Usuario:</b> Cualquier persona que se registre y utilice Intellihome.\n
+        <b>Propiedad:</b> Cualquier inmueble disponible para alquiler a través de Intellihome.\n\n
+        <b>2. Aceptación de Términos</b>\n
+        Al registrarse y utilizar Intellihome, usted acepta estos términos y condiciones en su totalidad. Nos reservamos el derecho a modificar estos términos en cualquier momento, por lo que recomendamos revisarlos periódicamente.\n\n
+        <b>3. Registro de Usuario</b>\n
+        Para utilizar algunas funcionalidades de la aplicación, es necesario crear una cuenta. El Usuario se compromete a proporcionar información veraz y actualizada. Es responsabilidad del Usuario mantener la confidencialidad de sus credenciales de acceso.\n\n
+        <b>4. Uso de la Aplicación</b>\n
+        • Intellihome permite a los Usuarios buscar y alquilar propiedades.\n
+        • El Usuario se compromete a utilizar la aplicación solo para fines lícitos y de acuerdo con las leyes aplicables.\n\n
+        <b>5. Propiedades</b>\n
+        • Las propiedades listadas en Intellihome son ofrecidas por propietarios y agentes inmobiliarios.\n
+        • Intellihome no es responsable de la veracidad, disponibilidad o estado de las propiedades.\n\n
+        <b>6. Comisiones y Pagos</b>\n
+        • Intellihome puede cobrar comisiones por los servicios ofrecidos. Las tarifas serán comunicadas claramente antes de confirmar cualquier transacción.\n
+        • El Usuario acepta realizar los pagos a través de los métodos habilitados en la aplicación.\n\n
+        <b>7. Política de Cancelación</b>\n
+        Las políticas de cancelación varían según cada propiedad y serán indicadas en el anuncio correspondiente. Es responsabilidad del Usuario revisar estas políticas antes de realizar una reserva.\n\n
+        <b>8. Limitación de Responsabilidad</b>\n
+        Intellihome no será responsable de daños directos, indirectos, incidentales o consecuentes que surjan del uso de la aplicación o de la imposibilidad de uso.\n\n
+        <b>9. Propiedad Intelectual</b>\n
+        Todo el contenido de Intellihome, incluyendo textos, gráficos y logotipos, está protegido por derechos de propiedad intelectual. Queda prohibida la reproducción o distribución sin autorización.\n\n
+        <b>10. Modificaciones a los Términos</b>\n
+        Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones entrarán en vigor al ser publicadas en la aplicación. El uso continuado de Intellihome tras la publicación de cambios implica la aceptación de los mismos.\n\n
+        <b>11. Legislación Aplicable</b>\n
+        Estos términos se rigen por las leyes de Costa Rica. Cualquier disputa relacionada con el uso de Intellihome será resuelta en los tribunales.\n\n
+        <b>12. Contacto</b>\n
+        Para cualquier pregunta o inquietud sobre estos términos, por favor contáctenos en jleiton@itcr.ac.cr\n</string>
+</resources>
