@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioButton radioHombre, radioMujer;
     private String selectedGender;
 
-    private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento, editExpiracionM, editExpiracionA, editCuentaIban, editTarjeta, editPin;
+    private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento, editExpiracionM, editExpiracionA, editCuentaIban, editTarjeta, editPin, editHospital, editLugarFavorito, editMascota;
 
     private UserRepository userRepository;
 
@@ -124,6 +124,10 @@ public class SignUpActivity extends AppCompatActivity {
         editCuentaIban = findViewById(R.id.cuentaIban2);
         editTarjeta = findViewById(R.id.tarjeta2);
         editPin = findViewById(R.id.pin2);
+        editHospital = findViewById(R.id.hospital2);
+        editLugarFavorito = findViewById(R.id.lugarFavorito2);
+        editMascota = findViewById(R.id.mascota2);
+
 
         textInputConfirmPassword = findViewById(R.id.editConfirmarContrasena);
         textInputPassword = findViewById(R.id.editContrasena);
@@ -535,6 +539,9 @@ public class SignUpActivity extends AppCompatActivity {
         String tarjeta = editTarjeta.getText().toString().trim();
         String cuentaIban = editCuentaIban.getText().toString().trim();
         String Pin = editPin.getText().toString().trim();
+        String hospital = editHospital.getText().toString().trim();
+        String lugarFavorito = editLugarFavorito.getText().toString().trim();
+        String mascota = editMascota.getText().toString().trim();
 
         // Validate passwords match before showing dialog and making request
         if (!password.equals(confirmPassword)) {
@@ -571,7 +578,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String photoPath = photoFile != null ? photoFile.getAbsolutePath() : "";
         User user = new User(nombre, apellidos, username, email, password, fechaNacimiento, selectedGender,
-                nacionalidad, pasatiempos, photoPath, expiracionM, expiracionA, cuentaIban, tarjeta, Pin);
+                nacionalidad, pasatiempos, photoPath, expiracionM, expiracionA, cuentaIban, tarjeta, Pin, hospital, lugarFavorito, mascota);
 
         userRepository.register(user, new UserRepository.RegistrationCallback() {
             @Override
