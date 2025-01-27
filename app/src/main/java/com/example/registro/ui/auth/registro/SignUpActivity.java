@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioButton radioHombre, radioMujer;
     private String selectedGender;
 
-    private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento;
+    private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento, editExpiracionM, editExpiracionA, editCuentaIban, editTarjeta, editPin;
 
     private UserRepository userRepository;
 
@@ -119,6 +119,11 @@ public class SignUpActivity extends AppCompatActivity {
         editUsername = findViewById(R.id.editUsuario);
         editEmail = findViewById(R.id.editCorreo);
         editFechaNacimiento = findViewById(R.id.editFechaNacimiento);
+        editExpiracionM = findViewById(R.id.ExpiracionM);
+        editExpiracionA = findViewById(R.id.ExpiracionA);
+        editCuentaIban = findViewById(R.id.cuentaIban2);
+        editTarjeta = findViewById(R.id.tarjeta2);
+        editPin = findViewById(R.id.pin2);
 
         textInputConfirmPassword = findViewById(R.id.editConfirmarContrasena);
         textInputPassword = findViewById(R.id.editContrasena);
@@ -148,12 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
                 selectedGender = "Mujer";
             }
         });
-        //Month, Year, IBan, Card, Pin
-        EditText expiracionM = findViewById(R.id.ExpiracionM);
-        EditText expiracionA = findViewById(R.id.ExpiracionA);
-        EditText cuentaIban = findViewById(R.id.cuentaIban2);
-        EditText tarjeta = findViewById(R.id.tarjeta2);
-        EditText Pin = findViewById(R.id.pin2);
+
 
 
         //Set up fecha
@@ -192,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         //CuentaIban
-        cuentaIban.addTextChangedListener(new TextWatcher() {
+        editCuentaIban.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita acción aquí
@@ -208,7 +208,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar el loop de validación removiendo el listener temporalmente
-                cuentaIban.removeTextChangedListener(this);
+                editCuentaIban.removeTextChangedListener(this);
 
                 // Validación para los primeros dos caracteres "CR"
                 if (input.length() <= 2) {
@@ -224,25 +224,25 @@ public class SignUpActivity extends AppCompatActivity {
                 }
 
                 // Establecer el texto validado nuevamente, sin eliminar nada accidentalmente
-                cuentaIban.setText(input);
-                cuentaIban.setSelection(input.length());  // Asegura que el cursor quede al final
+                editCuentaIban.setText(input);
+                editCuentaIban.setSelection(input.length());  // Asegura que el cursor quede al final
 
                 // Vuelve a añadir el listener para futuras validaciones
-                cuentaIban.addTextChangedListener(this);
+                editCuentaIban.addTextChangedListener(this);
             }
         });
         //Longitud Iban
-        cuentaIban.setOnFocusChangeListener((v, hasFocus) -> {
+        editCuentaIban.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = cuentaIban.getText().toString();
+                String input = editCuentaIban.getText().toString();
                 if (input.length() < 22) {
-                    cuentaIban.setText(""); // Borrar si tiene menos de 2 caracteres
+                    editCuentaIban.setText(""); // Borrar si tiene menos de 2 caracteres
                 }
             }
         });
 
         //Tarjeta
-        tarjeta.addTextChangedListener(new TextWatcher() {
+        editTarjeta.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No es necesario hacer nada aquí
@@ -258,44 +258,44 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar loops de validación removiendo el listener temporalmente
-                tarjeta.removeTextChangedListener(this);
+                editTarjeta.removeTextChangedListener(this);
 
                 // Verificar que la tarjeta comienza con '4' (Visa) o '5' (Mastercard)
                 if (input.length() == 1) {
                     if (input.charAt(0) != '4' && input.charAt(0) != '5') {
                         // Si no es '4' ni '5', limpiar el campo
-                        tarjeta.setText("");
+                        editTarjeta.setText("");
                     }
                 }
 
 
                 // Reestablecer el listener
-                tarjeta.addTextChangedListener(this);
+                editTarjeta.addTextChangedListener(this);
             }
         });
 
         //Longitud Tarjeta
-        tarjeta.setOnFocusChangeListener((v, hasFocus) -> {
+        editTarjeta.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = tarjeta.getText().toString();
+                String input = editTarjeta.getText().toString();
                 if (input.length() < 16) {
-                    tarjeta.setText(""); // Borrar si tiene menos de 16 caracteres
+                    editTarjeta.setText(""); // Borrar si tiene menos de 16 caracteres
                 }
             }
         });
 
         //Longitud Pin
-        Pin.setOnFocusChangeListener((v, hasFocus) -> {
+        editPin.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = Pin.getText().toString();
+                String input = editPin.getText().toString();
                 if (input.length() < 3) {
-                    Pin.setText(""); // Borrar si tiene menos de 3 caracteres
+                    editPin.setText(""); // Borrar si tiene menos de 3 caracteres
                 }
             }
         });
 
         //Expiration  Month
-        expiracionM.addTextChangedListener(new TextWatcher() {
+        editExpiracionM.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita acción aquí
@@ -311,7 +311,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar loops de validación
-                expiracionM.removeTextChangedListener(this);
+                editExpiracionM.removeTextChangedListener(this);
 
                 if (!input.isEmpty()) {
                     try {
@@ -333,22 +333,22 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                expiracionM.addTextChangedListener(this);
+                editExpiracionM.addTextChangedListener(this);
             }
         });
 
         //Longitud Mes
-        expiracionM.setOnFocusChangeListener((v, hasFocus) -> {
+        editExpiracionM.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = expiracionM.getText().toString();
+                String input = editExpiracionM.getText().toString();
                 if (input.length() < 2) {
-                    expiracionM.setText(""); // Borrar si tiene menos de 2 caracteres
+                    editExpiracionM.setText(""); // Borrar si tiene menos de 2 caracteres
                 }
             }
         });
 
         //Expiracion Año
-        expiracionA.addTextChangedListener(new TextWatcher() {
+        editExpiracionA.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita acción aquí
@@ -364,7 +364,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar loops de validación
-                expiracionA.removeTextChangedListener(this);
+                editExpiracionA.removeTextChangedListener(this);
 
                 if (!input.isEmpty()) {
                     try {
@@ -382,16 +382,16 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                expiracionA.addTextChangedListener(this);
+                editExpiracionA.addTextChangedListener(this);
             }
         });
 
         // Validar cuando el usuario sale del campo
-        expiracionA.setOnFocusChangeListener((v, hasFocus) -> {
+        editExpiracionA.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = expiracionA.getText().toString();
+                String input = editExpiracionA.getText().toString();
                 if (input.length() < 4) {
-                    expiracionA.setText(""); // Borrar si tiene menos de 4 caracteres
+                    editExpiracionA.setText(""); // Borrar si tiene menos de 4 caracteres
                 }
             }
         });
@@ -530,6 +530,11 @@ public class SignUpActivity extends AppCompatActivity {
         String fechaNacimiento = editFechaNacimiento.getText().toString().trim();
         String nacionalidad = spinnerNacionalidad.getSelectedItem().toString();
         String pasatiempos = spinnerPasatiempos.getSelectedItem().toString();
+        String expiracionM = editExpiracionM.getText().toString().trim();
+        String expiracionA = editExpiracionA.getText().toString().trim();
+        String tarjeta = editTarjeta.getText().toString().trim();
+        String cuentaIban = editCuentaIban.getText().toString().trim();
+        String Pin = editPin.getText().toString().trim();
 
         // Validate passwords match before showing dialog and making request
         if (!password.equals(confirmPassword)) {
@@ -566,7 +571,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String photoPath = photoFile != null ? photoFile.getAbsolutePath() : "";
         User user = new User(nombre, apellidos, username, email, password, fechaNacimiento, selectedGender,
-                nacionalidad, pasatiempos, photoPath);
+                nacionalidad, pasatiempos, photoPath, expiracionM, expiracionA, cuentaIban, tarjeta, Pin);
 
         userRepository.register(user, new UserRepository.RegistrationCallback() {
             @Override
