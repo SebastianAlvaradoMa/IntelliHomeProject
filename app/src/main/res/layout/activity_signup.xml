@@ -230,6 +230,148 @@
             app:layout_constraintStart_toStartOf="@id/editConfirmarContrasena"
             app:layout_constraintTop_toBottomOf="@id/editConfirmarContrasena" />
 
+        <TextView
+            android:id="@+id/cuentaIban1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cuenta IBAN:"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/spinnerPasatiempos"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/spinnerPasatiempos"
+            app:layout_constraintTop_toBottomOf="@id/spinnerPasatiempos" />
+
+        <EditText
+            android:id="@+id/cuentaIban2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/radius_corner"
+            android:inputType="text"
+            android:maxLength="22"
+            app:layout_constraintEnd_toEndOf="@id/cuentaIban1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/cuentaIban1"
+            app:layout_constraintTop_toBottomOf="@id/cuentaIban1" />
+
+        <TextView
+            android:id="@+id/tarjeta1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tarjeta de Credito/Debito:"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/cuentaIban2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/cuentaIban2"
+            app:layout_constraintTop_toBottomOf="@id/cuentaIban2" />
+
+        <EditText
+            android:id="@+id/tarjeta2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/radius_corner"
+            android:inputType="number"
+            android:maxLength="16"
+            app:layout_constraintEnd_toEndOf="@id/tarjeta1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tarjeta1"
+            app:layout_constraintTop_toBottomOf="@id/tarjeta1" />
+
+        <TextView
+            android:id="@+id/pin1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Pin de la tarjeta (CVV):"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tarjeta2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tarjeta2"
+            app:layout_constraintTop_toBottomOf="@id/tarjeta2" />
+
+        <EditText
+            android:id="@+id/pin2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/radius_corner"
+            android:inputType="number"
+            android:maxLength="3"
+            app:layout_constraintEnd_toEndOf="@id/pin1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/pin1"
+            app:layout_constraintTop_toBottomOf="@id/pin1" />
+
+        <TextView
+            android:id="@+id/Expiracion0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Fecha de expiracion:"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/pin2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/pin2"
+            app:layout_constraintTop_toBottomOf="@id/pin2" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/Expiracion0"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/Expiracion0"
+            app:layout_constraintTop_toBottomOf="@id/Expiracion0"
+            >
+
+            <EditText
+                android:id="@+id/ExpiracionM"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/radius_corner"
+                android:hint="MM"
+                android:textSize="18sp"
+                android:inputType="number"
+                android:focusable="true"
+                android:maxLength="2"/>
+
+            <TextView
+                android:id="@+id/separador"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="/"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:padding="8dp"/>
+
+            <EditText
+                android:id="@+id/ExpiracionA"
+                android:layout_width="0dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/radius_corner"
+                android:hint="YYYY"
+                android:inputType="number"
+                android:focusable="true"
+                android:maxLength="4"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/Preguntas"
@@ -241,10 +383,10 @@
             android:text=" Preguntas de Seguridad"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@id/spinnerPasatiempos"
+            app:layout_constraintEnd_toEndOf="@id/linearLayout2"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/spinnerPasatiempos"
-            app:layout_constraintTop_toBottomOf="@id/spinnerPasatiempos" />
+            app:layout_constraintStart_toStartOf="@id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout2" />
         <TextView
             android:id="@+id/hospital1"
             android:layout_width="0dp"

@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -146,6 +148,12 @@ public class SignUpActivity extends AppCompatActivity {
                 selectedGender = "Mujer";
             }
         });
+        //Month, Year, IBan, Card, Pin
+        EditText expiracionM = findViewById(R.id.ExpiracionM);
+        EditText expiracionA = findViewById(R.id.ExpiracionA);
+        EditText cuentaIban = findViewById(R.id.cuentaIban2);
+        EditText tarjeta = findViewById(R.id.tarjeta2);
+        EditText Pin = findViewById(R.id.pin2);
 
 
         //Set up fecha
@@ -179,6 +187,212 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //Handle case where nothing is selected
+            }
+        });
+
+
+        //CuentaIban
+        cuentaIban.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No se necesita acción aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No se necesita acción aquí
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+
+                // Evitar el loop de validación removiendo el listener temporalmente
+                cuentaIban.removeTextChangedListener(this);
+
+                // Validación para los primeros dos caracteres "CR"
+                if (input.length() <= 2) {
+                    // Si no es "C" ni "R", eliminamos el texto no permitido, pero no borremos todo
+                    input = input.replaceAll("[^CR]", "");  // Elimina cualquier letra distinta a C y R
+                } else if (input.length() > 2) {
+                    // Después de "CR", solo permitir números
+                    String restOfString = input.substring(2);  // Obtener todo después de "CR"
+                    if (!restOfString.matches("[0-9]*")) {
+                        // Eliminamos cualquier carácter no numérico después de "CR"
+                        input = input.substring(0, 2) + restOfString.replaceAll("[^0-9]", "");
+                    }
+                }
+
+                // Establecer el texto validado nuevamente, sin eliminar nada accidentalmente
+                cuentaIban.setText(input);
+                cuentaIban.setSelection(input.length());  // Asegura que el cursor quede al final
+
+                // Vuelve a añadir el listener para futuras validaciones
+                cuentaIban.addTextChangedListener(this);
+            }
+        });
+        //Longitud Iban
+        cuentaIban.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String input = cuentaIban.getText().toString();
+                if (input.length() < 22) {
+                    cuentaIban.setText(""); // Borrar si tiene menos de 2 caracteres
+                }
+            }
+        });
+
+        //Tarjeta
+        tarjeta.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No es necesario hacer nada aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario hacer nada aquí
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+
+                // Evitar loops de validación removiendo el listener temporalmente
+                tarjeta.removeTextChangedListener(this);
+
+                // Verificar que la tarjeta comienza con '4' (Visa) o '5' (Mastercard)
+                if (input.length() == 1) {
+                    if (input.charAt(0) != '4' && input.charAt(0) != '5') {
+                        // Si no es '4' ni '5', limpiar el campo
+                        tarjeta.setText("");
+                    }
+                }
+
+
+                // Reestablecer el listener
+                tarjeta.addTextChangedListener(this);
+            }
+        });
+
+        //Longitud Tarjeta
+        tarjeta.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String input = tarjeta.getText().toString();
+                if (input.length() < 16) {
+                    tarjeta.setText(""); // Borrar si tiene menos de 16 caracteres
+                }
+            }
+        });
+
+        //Longitud Pin
+        Pin.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String input = Pin.getText().toString();
+                if (input.length() < 3) {
+                    Pin.setText(""); // Borrar si tiene menos de 3 caracteres
+                }
+            }
+        });
+
+        //Expiration  Month
+        expiracionM.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No se necesita acción aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No se necesita acción aquí
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+
+                // Evitar loops de validación
+                expiracionM.removeTextChangedListener(this);
+
+                if (!input.isEmpty()) {
+                    try {
+                        if (input.length() == 1) {
+                            // Permitir solo "0" o "1" como primer dígito
+                            if (!input.equals("0") && !input.equals("1")) {
+                                s.clear(); // Borrar si es inválido
+                            }
+                        } else if (input.length() == 2) {
+                            // Validar el rango completo del mes (01-12)
+                            int month = Integer.parseInt(input);
+                            if (month < 1 || month > 12) {
+                                s.clear(); // Borrar si no está en el rango
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        // Borrar en caso de error
+                        s.clear();
+                    }
+                }
+
+                expiracionM.addTextChangedListener(this);
+            }
+        });
+
+        //Longitud Mes
+        expiracionM.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String input = expiracionM.getText().toString();
+                if (input.length() < 2) {
+                    expiracionM.setText(""); // Borrar si tiene menos de 2 caracteres
+                }
+            }
+        });
+
+        //Expiracion Año
+        expiracionA.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No se necesita acción aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No se necesita acción aquí
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+
+                // Evitar loops de validación
+                expiracionA.removeTextChangedListener(this);
+
+                if (!input.isEmpty()) {
+                    try {
+                        // Validar solo si tiene exactamente 4 caracteres
+                        if (input.length() == 4) {
+                            int year = Integer.parseInt(input);
+                            // Validar que el año sea 2025 o superior
+                            if (year < 2025) {
+                                s.clear(); // Borrar si el año es inválido
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        // Borrar en caso de error
+                        s.clear();
+                    }
+                }
+
+                expiracionA.addTextChangedListener(this);
+            }
+        });
+
+        // Validar cuando el usuario sale del campo
+        expiracionA.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String input = expiracionA.getText().toString();
+                if (input.length() < 4) {
+                    expiracionA.setText(""); // Borrar si tiene menos de 4 caracteres
+                }
             }
         });
 
