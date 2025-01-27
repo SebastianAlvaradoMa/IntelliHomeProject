@@ -70,6 +70,18 @@ class UserDatabase:
             return False, None, None
         except FileNotFoundError:
             return False, None, None
+        
+        
+def send_to_arduino(command):
+    """Send command to Arduino without waiting for response"""
+    try:
+        if arduino_serial and arduino_serial.is_open:
+            arduino_serial.write(command.encode())
+            return True
+        return False
+    except Exception as e:
+        print(f"Error sending to Arduino: {e}")
+        return False
 
 def process_request(request_data, db):
     """Process incoming client requests"""
@@ -96,14 +108,13 @@ def process_request(request_data, db):
                     "status": "error",
                     "message": "Registration failed"
                 }
-
+            return json.dumps(response) + "\n"
         
         elif action == "LOGIN":
             email = payload.get("email")
             username = payload.get("username")
             password = payload.get("password", "")
 
-            # Try login with either email or username
             success, user_id, user_data = db.verify_credentials(
                 username or "", 
                 password,
@@ -125,17 +136,28 @@ def process_request(request_data, db):
                     "action": "LOGIN",
                     "status": "error",
                     "message": "Invalid credentials"
-                }           
-             
-             
+                }
+            return json.dumps(response) + "\n"
+
+        elif action == "LUCES":
+            command = payload.get("command", "")
+            # Validate command format
+            valid_commands = [
+                "OnHabitacion1", "OffHabitacion1",
+                "OnHabitacion2", "OffHabitacion2",
+                "OnHabitacion3", "OffHabitacion3"
+            ]
+            if command in valid_commands:
+                send_to_arduino(command + "\n")
+            return ""
+
         else:
             response = {
                 "action": action,
                 "status": "error",
                 "message": "Unknown action"
             }
-
-        return json.dumps(response) + "\n"
+            return json.dumps(response) + "\n"
 
     except json.JSONDecodeError:
         return json.dumps({

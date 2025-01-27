@@ -201,8 +201,10 @@
         android:text="Cuarto"
         android:textColor="#100909"
         android:textSize="14sp"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="426dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnCuarto1"
+        app:layout_constraintEnd_toStartOf="@+id/btnCuarto2"
+        app:layout_constraintStart_toStartOf="@+id/btnCuarto1"
+        app:layout_constraintTop_toTopOf="@+id/btnCuarto1" />
 
 
     <TextView
@@ -212,18 +214,23 @@
         android:text="Cuarto"
         android:textColor="#100909"
         android:textSize="14sp"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="426dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btnSala"
+        app:layout_constraintEnd_toStartOf="@+id/btnCuarto3"
+        app:layout_constraintStart_toStartOf="@+id/btnCuarto2"
+        app:layout_constraintTop_toTopOf="@+id/btnCuarto2" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:text="Cuarto"
         android:textColor="#100909"
         android:textSize="14sp"
-        tools:layout_editor_absoluteX="243dp"
-        tools:layout_editor_absoluteY="427dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnCuarto3"
+        app:layout_constraintEnd_toEndOf="@+id/btnCuarto3"
+        app:layout_constraintStart_toStartOf="@+id/btnCuarto3"
+        app:layout_constraintTop_toTopOf="@+id/btnCuarto3" />
 
     <TextView
         android:id="@+id/textView21"
@@ -233,8 +240,10 @@
         android:text="Baño"
         android:textColor="#100909"
         android:textSize="13sp"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="452dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnBanoCuarto"
+        app:layout_constraintEnd_toEndOf="@+id/btnBanoCuarto"
+        app:layout_constraintStart_toStartOf="@+id/btnBanoCuarto"
+        app:layout_constraintTop_toTopOf="@+id/btnBanoCuarto" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
