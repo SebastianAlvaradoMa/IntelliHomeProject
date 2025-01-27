@@ -25,6 +25,9 @@
         android:theme="@style/Theme.Registro"
         tools:targetApi="31">
         <activity
+            android:name=".AlquilarPropiedad"
+            android:exported="true" />
+        <activity
             android:name=".ui.domotic.LucesActivity"
             android:exported="false" />
         <activity
