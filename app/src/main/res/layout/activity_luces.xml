@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#123a75"
+    android:theme="@style/Base.Theme.Registro"
+    tools:context=".ui.domotic.LucesActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="77dp"
+        android:layout_height="65dp"
+        app:srcCompat="@drawable/logo1"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="168dp"
+        tools:layout_editor_absoluteY="36dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/merriweather"
+        android:text="Luces"
+        android:textColor="#FFFCFC"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="127dp" />
+
+    <Button
+        android:id="@+id/btnGaraje"
+        android:layout_width="108dp"
+        android:layout_height="90dp"
+        android:backgroundTint="@color/white"
+        android:text="Garaje"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="287dp"
+        tools:layout_editor_absoluteY="484dp" />
+
+    <Button
+        android:id="@+id/btnBanoCuarto"
+        android:layout_width="54dp"
+        android:layout_height="83dp"
+        android:backgroundTint="@color/white"
+        android:textColor="#100909"
+        android:textSize="12sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="420dp" />
+
+    <Button
+        android:id="@+id/btnBanoPrincipal"
+        android:layout_width="89dp"
+        android:layout_height="41dp"
+        android:backgroundTint="@color/white"
+        android:text="Baño"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="532dp" />
+
+    <Button
+        android:id="@+id/btnCuarto3"
+        android:layout_width="60dp"
+        android:layout_height="115dp"
+        android:backgroundTint="@color/white"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="230dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <Button
+        android:id="@+id/btnSala"
+        android:layout_width="179dp"
+        android:layout_height="89dp"
+        android:backgroundTint="@color/white"
+        android:text="Sala"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="484dp" />
+
+    <Button
+        android:id="@+id/btnCuarto2"
+        android:layout_width="60dp"
+        android:layout_height="115dp"
+        android:backgroundTint="@color/white"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <Button
+        android:id="@+id/btnCuarto1"
+        android:layout_width="60dp"
+        android:layout_height="115dp"
+        android:backgroundTint="@color/white"
+        android:textColor="#100909"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="111dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <Button
+        android:id="@+id/btnCocina"
+        android:layout_width="92dp"
+        android:layout_height="49dp"
+        android:backgroundTint="@color/white"
+        android:text="Cocina"
+        android:textColor="#100909"
+        android:textSize="13sp"
+        app:cornerRadius="0.13dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="494dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/merriweather"
+        android:text="Apagado"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="168dp"
+        tools:layout_editor_absoluteY="259dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/merriweather"
+        android:text="Encendido"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="212dp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="304dp"
+        android:layout_height="55dp"
+        android:fontFamily="@font/merriweather"
+        android:text="* Presione en la habitación que quiera apagar o encender las luces"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="616dp" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="57dp"
+        android:layout_height="71dp"
+        app:srcCompat="@drawable/blanco"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="111dp"
+        tools:layout_editor_absoluteY="244dp" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="57dp"
+        android:layout_height="71dp"
+        app:srcCompat="@drawable/verde"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="111dp"
+        tools:layout_editor_absoluteY="197dp" />
+
+    <ImageButton
+        android:id="@+id/myImageButton"
+        android:layout_width="122dp"
+        android:layout_height="165dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/menu2"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="759dp" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cuarto"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="426dp" />
+
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cuarto"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="184dp"
+        tools:layout_editor_absoluteY="426dp" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cuarto"
+        android:textColor="#100909"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="243dp"
+        tools:layout_editor_absoluteY="427dp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="-90"
+        android:text="Baño"
+        android:textColor="#100909"
+        android:textSize="13sp"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
