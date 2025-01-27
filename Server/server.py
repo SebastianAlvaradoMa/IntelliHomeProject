@@ -1,6 +1,7 @@
 import socket
 import json
 import os
+import serial
 from datetime import datetime
 import hashlib
 
@@ -124,9 +125,9 @@ def process_request(request_data, db):
                     "action": "LOGIN",
                     "status": "error",
                     "message": "Invalid credentials"
-                }
-
-
+                }           
+             
+             
         else:
             response = {
                 "action": action,
@@ -143,14 +144,23 @@ def process_request(request_data, db):
             "message": "Invalid JSON format"
         }) + "\n"
 
-def start_server(host="0.0.0.0", port=1717):
+def start_server(host="0.0.0.0", port=1717, serial_port="/dev/ttyUSB0", baud_rate=9600):
+    global arduino_serial
     db = UserDatabase()
+
+    #Initialize Arduino serial connection
+    try:
+        arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
+        print(f"Connected to Arduino on {serial_port}")
+    except Exception as e:
+        print(f"Failed to connect to Arduino: {e}")
+        arduino_serial = None
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Enable address reuse
         server_socket.bind((host, port))
         server_socket.listen(5)
-        print(f"Server listening on {host}:{port}...")
+        print(f"Server listening on {host}:{port}...")        
 
         while True:
             client_socket, address = server_socket.accept()
