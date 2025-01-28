@@ -25,6 +25,14 @@
         android:theme="@style/Theme.Registro"
         tools:targetApi="31">
         <activity
+            android:name=".ui.menu.BuscarPropiedad"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.domotic.LucesActivity"
             android:exported="false" />
         <activity
@@ -32,31 +40,33 @@
             android:exported="false" /> <!-- Main Activity -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+              <!-Main Activity -->
         </activity> <!-- Sign Up Activity -->
+
         <activity
             android:name=".ui.auth.registro.SignUpActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.auth.login.OlvidoContrasena"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.auth.login.CambioContrasena"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.menu.MenuPrincipal"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.menu.GestionPropiedad"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.menu.RegistroPropiedad"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>
