@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation ("com.google.android.material:material:1.9.0")  //Material Icons library
     implementation ("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
