@@ -24,6 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Registro"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAgGWHzePmqxvJr4rW2b8qcuiAugmuUPaU"
+            />
+
+        <activity
+            android:name=".AlquilarPropiedad"
+            android:exported="true" />
         <activity
             android:name=".ui.domotic.LucesActivity"
             android:exported="false" />
@@ -58,5 +66,7 @@
             android:name=".ui.menu.RegistroPropiedad"
             android:exported="true" />
     </application>
+
+
 
 </manifest>
