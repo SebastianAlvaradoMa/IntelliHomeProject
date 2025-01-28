@@ -28,7 +28,6 @@ public class GestionPropiedad extends AppCompatActivity {
         // Obtener el botón y configurar el listener
         ImageButton button = findViewById(R.id.imageButton);
         button.setOnClickListener(v -> {
-            // Redirigir a la actividad OlvidoContrasena
             Intent intent = new Intent(GestionPropiedad.this, MenuPrincipal.class);
             startActivity(intent);
         });
@@ -36,7 +35,6 @@ public class GestionPropiedad extends AppCompatActivity {
         // Obtener el botón y configurar el listener
         Button button3 = findViewById(R.id.button3);
         button3.setOnClickListener(v -> {
-            // Redirigir a la actividad OlvidoContrasena
             Intent intent = new Intent(GestionPropiedad.this, RegistroPropiedad.class);
             startActivity(intent);
         });

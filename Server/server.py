@@ -18,8 +18,6 @@ class UserDatabase:
         if not os.path.exists(self.filename):
             with open(self.filename, "w") as f:
                 f.write("# User Database - Created on {}\n".format(datetime.now()))
-                f.write("# Format: {\"userId\": \"ID\", \"username\": \"USERNAME\", \"password\": \"PASSWORD\", \"userData\": {...}}\n\n")
-
     def save_user(self, user_data):
         try:
             user_id = str(sum(1 for line in open(self.filename) if line.strip() and not line.startswith("#")))
@@ -37,7 +35,11 @@ class UserDatabase:
                     "gender": hash_data(user_data.get("gender", "")),
                     "nacionalidad": hash_data(user_data.get("nacionalidad", "")),
                     "pasatiempos": hash_data(user_data.get("pasatiempos", "")),
-                    "photoPath": hash_data(user_data.get("photoPath", "")),
+                    "expiracionM": hash_data(user_data.get("expiracionM", "")),
+                    "expiracionA": hash_data(user_data.get("expiracionA", "")),
+                    "tarjeta": hash_data(user_data.get("tarjeta", "")),
+                    "iban": hash_data(user_data.get("iban", "")),
+                    "pin": hash_data(user_data.get("pin", "")),
                     "createdAt": datetime.now().isoformat()
                 }
             }
@@ -141,14 +143,22 @@ def process_request(request_data, db):
 
         elif action == "LUCES":
             command = payload.get("command", "")
-            # Validate command format
             valid_commands = [
                 "OnHabitacion1", "OffHabitacion1",
                 "OnHabitacion2", "OffHabitacion2",
-                "OnHabitacion3", "OffHabitacion3"
+                "OnHabitacion3", "OffHabitacion3",
+                "OnSala", "OffSala",
+                "OnBanoPrincipal", "OffBanoPrincipal",
+                "OnBanoHabitacion", "OffBanoHabitacion",
+                "OnGaraje", "OffGaraje"
             ]
             if command in valid_commands:
-                send_to_arduino(command + "\n")
+                #Print the command to the terminal for testing
+                print(f"Received LUCES command: {command}")
+                if arduino_serial:  #Only send to Arduino if it's connected
+                    send_to_arduino(command + "\n")
+            else:
+                print(f"Invalid LUCES command: {command}")
             return ""
 
         else:

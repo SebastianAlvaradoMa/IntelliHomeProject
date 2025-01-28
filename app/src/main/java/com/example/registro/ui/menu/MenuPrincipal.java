@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
+import com.example.registro.ui.domotic.LucesActivity;
 import com.example.registro.ui.main.MainActivity;
 
 public class MenuPrincipal extends AppCompatActivity {
@@ -37,6 +38,12 @@ public class MenuPrincipal extends AppCompatActivity {
         ImageButton button2 = findViewById(R.id.imageButton8);
         button2.setOnClickListener(v -> {
             Intent intent2 = new Intent(MenuPrincipal.this, GestionPropiedad.class);
+            startActivity(intent2);
+        });
+
+        ImageButton luces = findViewById(R.id.imageButton11);
+        luces.setOnClickListener(v -> {
+            Intent intent2 = new Intent(MenuPrincipal.this,  LucesActivity.class);
             startActivity(intent2);
         });
     }

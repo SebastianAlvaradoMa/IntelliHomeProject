@@ -7,6 +7,7 @@ import org.json.JSONObject;
 public class Message {
     public static final String ACTION_LOGIN = "LOGIN";
     public static final String ACTION_REGISTER = "REGISTER";
+    public static final String ACTION_LUCES = "LUCES";
 
     private String action;
     private JSONObject payload;
@@ -29,6 +30,7 @@ public class Message {
         this.message = json.optString("message", "");
     }
 
+
     public static Message createLoginMessage(String usernameOrEmail, String password) {
         JSONObject payload = new JSONObject();
         try {
@@ -46,7 +48,30 @@ public class Message {
         return new Message(ACTION_LOGIN, payload);
     }
 
+    //Metodo que crea un mensaje de control de luces
+    public static Message createLightsControlMessage(String command) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("command", command);
+            return new Message(ACTION_LUCES, payload);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     public static Message createRegistrationMessage(User user) {
+        try {
+            JSONObject userJson = new JSONObject(user.toJson());
+            return new Message(ACTION_REGISTER, userJson.getJSONObject("payload"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Message createLucesMessage(User user) {
         try {
             JSONObject userJson = new JSONObject(user.toJson());
             return new Message(ACTION_REGISTER, userJson.getJSONObject("payload"));

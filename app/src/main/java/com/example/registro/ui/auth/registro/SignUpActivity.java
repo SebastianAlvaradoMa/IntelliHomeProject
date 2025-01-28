@@ -240,7 +240,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (!hasFocus) {
                 String input = editCuentaIban.getText().toString();
                 if (input.length() < 22) {
-                    editCuentaIban.setText(""); // Borrar si tiene menos de 2 caracteres
+                    editCuentaIban.setText(""); // Borrar si tiene menos de 22 caracteres
                 }
             }
         });
