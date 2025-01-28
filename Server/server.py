@@ -35,11 +35,15 @@ class UserDatabase:
                     "gender": hash_data(user_data.get("gender", "")),
                     "nacionalidad": hash_data(user_data.get("nacionalidad", "")),
                     "pasatiempos": hash_data(user_data.get("pasatiempos", "")),
-                    "expiracionM": hash_data(user_data.get("expiracionM", "")),
-                    "expiracionA": hash_data(user_data.get("expiracionA", "")),
-                    "tarjeta": hash_data(user_data.get("tarjeta", "")),
-                    "iban": hash_data(user_data.get("iban", "")),
-                    "pin": hash_data(user_data.get("pin", "")),
+                    "expiracionM": user_data.get("expiracionM", ""),
+                    "expiracionA": user_data.get("expiracionA", ""),
+                    "cuentaIban": user_data.get("cuentaIban", ""),
+                    "tarjeta": user_data.get("tarjeta", ""),
+                    "Pin": user_data.get("Pin", ""),
+                    "hospital": user_data.get("hospital", ""),
+                    "lugarFavorito": user_data.get("lugarFavorito", ""),
+                    "mascota": user_data.get("mascota", ""),
+
                     "createdAt": datetime.now().isoformat()
                 }
             }
