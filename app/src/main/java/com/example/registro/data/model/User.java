@@ -83,7 +83,7 @@ public class User {
             e.printStackTrace();
             return "{}"; // Return an empty JSON object in case of an error
         }
-}
+    }
 
 
     //Getters

@@ -1,6 +1,5 @@
 package com.example.registro.data.model;
 import com.example.registro.data.model.User;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +7,6 @@ public class Message {
     public static final String ACTION_LOGIN = "LOGIN";
     public static final String ACTION_REGISTER = "REGISTER";
     public static final String ACTION_LUCES = "LUCES";
-
     private String action;
     private JSONObject payload;
     private String status;
@@ -59,6 +57,17 @@ public class Message {
             return null;
         }
     }
+
+    //Metodo que crea un mensaje de registrar propiedad
+//    public static Message createRegisterPropiedadMessage(Propiedad propiedad) {
+//        try {
+//            JSONObject propiedadJson = new JSONObject(propiedad.toJson());
+//            return new Message(ACTION_REGISTER_PROPIEDAD, propiedadJson.getJSONObject("payload"));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
 
     public static Message createRegistrationMessage(User user) {

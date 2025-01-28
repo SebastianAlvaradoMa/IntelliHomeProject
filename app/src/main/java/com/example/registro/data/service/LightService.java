@@ -7,7 +7,6 @@ import com.example.registro.data.remote.SocketManager;
 
 public class LightService {
     private final SocketManager socketManager;
-
     public interface LightCallback {
         void onSuccess(String message);
         void onError(String error);
