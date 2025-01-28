@@ -31,11 +31,11 @@ public class LucesActivity extends AppCompatActivity {
         // Initialize buttons
         setupButton(R.id.btnBanoPrincipal, "BanoPrincipal", 0);
         setupButton(R.id.btnGaraje, "Garaje", 1);
-        setupButton(R.id.btnCuarto2, "Habitacion2", 2);
+        setupButton(R.id.btnCuarto2, "Habitacion3", 2);
         setupButton(R.id.btnBanoCuarto, "BanoHabitacion", 3);
         setupButton(R.id.btnCocina, "Cocina", 4);
         setupButton(R.id.btnCuarto1, "Habitacion1", 5);
-        setupButton(R.id.btnCuarto3, "Habitacion3", 6);
+        setupButton(R.id.btnCuarto3, "Habitacion2", 6);
         setupButton(R.id.btnSala, "Sala", 7);
 
         ImageButton menuButton = findViewById(R.id.myImageButton);

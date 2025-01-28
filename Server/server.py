@@ -96,13 +96,27 @@ def send_to_arduino(command):
         print(f"Error sending to Arduino: {e}")
         return False
 def send_twilio_notification():
-    """Send a Twilio notification when the fire alarm is triggered"""
+    """Send a personalized Twilio notification"""
     try:
+        # Get the current time and date
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        current_date = now.strftime("%d/%m/%Y")
+        
+        # Construct the message body
+        message_body = (
+            f"Estimad@ usuario :\n"
+            "Está ocurriendo un incendio.\n"
+            f"Hora: {current_time}\n"
+            f"Día: {current_date}"
+        )
+        
+        # Send the message
         message = twilio_client.messages.create(
             from_='whatsapp:+14155238886',
-            body='Incendio detectado en la vivienda. Evacúe de inmediato. Se alertó al Cuerpo de Bomberos',
-            to='whatsapp:+506 8408 6287'
-            )
+            body=message_body,
+            to='whatsapp:+50684086287'
+        )
         print(f"Twilio notification sent: {message.sid}")
     except Exception as e:
         print(f"Error sending Twilio notification: {e}")
@@ -116,6 +130,7 @@ def monitor_serial_port():
                 if line == "FIRE_ALARM":  
                     print("Sending Twilio notification...")
                     send_twilio_notification()
+                    break
             except Exception as e:
                 print(f"Error reading from serial port: {e}")
 
@@ -184,7 +199,7 @@ def process_request(request_data, db):
                 "OnSala", "OffSala",
                 "OnBanoPrincipal", "OffBanoPrincipal",
                 "OnBanoHabitacion", "OffBanoHabitacion",
-                "OnGaraje", "OffGaraje"
+                "OnGaraje", "OffGaraje", "OnCocina", "OffCocina"
             ]
             if command in valid_commands:
                 #Print the command to the terminal for testing
@@ -210,7 +225,7 @@ def process_request(request_data, db):
             "message": "Invalid JSON format"
         }) + "\n"
 
-def start_server(host="0.0.0.0", port=1717, serial_port="/dev/ttyUSB0", baud_rate=9600):
+def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
     global arduino_serial
     db = UserDatabase()
 
