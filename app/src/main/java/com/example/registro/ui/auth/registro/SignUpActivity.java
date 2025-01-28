@@ -24,6 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.Manifest;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -55,9 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String selectedGender;
 
     private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento, editExpiracionM, editExpiracionA, editCuentaIban, editTarjeta, editPin, editHospital, editLugarFavorito, editMascota;
-
     private UserRepository userRepository;
-
     private Button registerButton;
     private Button regresarButton;
 
@@ -214,16 +213,18 @@ public class SignUpActivity extends AppCompatActivity {
                 // Evitar el loop de validación removiendo el listener temporalmente
                 editCuentaIban.removeTextChangedListener(this);
 
-                // Validación para los primeros dos caracteres "CR"
+                // Validar que el texto comience con "CR"
                 if (input.length() <= 2) {
-                    // Si no es "C" ni "R", eliminamos el texto no permitido, pero no borremos todo
-                    input = input.replaceAll("[^CR]", "");  // Elimina cualquier letra distinta a C y R
-                } else if (input.length() > 2) {
-                    // Después de "CR", solo permitir números
+                    // Asegurar que siempre empiece con "CR"
+                    if (!input.startsWith("CR")) {
+                        input = "CR" + input.replaceAll("[^CR]", "");  // Eliminar cualquier letra distinta a C y R
+                    }
+                } else {
+                    // Asegurarse de que después de "CR" solo haya números
                     String restOfString = input.substring(2);  // Obtener todo después de "CR"
                     if (!restOfString.matches("[0-9]*")) {
-                        // Eliminamos cualquier carácter no numérico después de "CR"
-                        input = input.substring(0, 2) + restOfString.replaceAll("[^0-9]", "");
+                        // Eliminar cualquier carácter no numérico después de "CR"
+                        input = "CR" + restOfString.replaceAll("[^0-9]", "");
                     }
                 }
 
@@ -234,6 +235,7 @@ public class SignUpActivity extends AppCompatActivity {
                 // Vuelve a añadir el listener para futuras validaciones
                 editCuentaIban.addTextChangedListener(this);
             }
+
         });
         //Longitud Iban
         editCuentaIban.setOnFocusChangeListener((v, hasFocus) -> {
@@ -264,18 +266,22 @@ public class SignUpActivity extends AppCompatActivity {
                 // Evitar loops de validación removiendo el listener temporalmente
                 editTarjeta.removeTextChangedListener(this);
 
-                // Verificar que la tarjeta comienza con '4' (Visa) o '5' (Mastercard)
+                // Verificar si el primer número no es '4' (Visa) ni '5' (Mastercard)
                 if (input.length() == 1) {
                     if (input.charAt(0) != '4' && input.charAt(0) != '5') {
-                        // Si no es '4' ni '5', limpiar el campo
+                        // Si estás dentro de una Activity, usa "this" para obtener el contexto
+                        // Si estás dentro de un Fragment, usa getContext() o getActivity()
+                        Toast.makeText(editTarjeta.getContext(), "Inválido, asegúrate de ingresar una tarjeta Visa o Mastercard", Toast.LENGTH_SHORT).show();
+                        // Limpiar el campo para permitir al usuario ingresar de nuevo
                         editTarjeta.setText("");
                     }
                 }
 
-
                 // Reestablecer el listener
                 editTarjeta.addTextChangedListener(this);
             }
+
+
         });
 
         //Longitud Tarjeta

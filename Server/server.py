@@ -1,6 +1,6 @@
 import socket
 import json
-import os
+import os 
 import serial
 from datetime import datetime
 import hashlib
@@ -35,14 +35,14 @@ class UserDatabase:
                     "gender": hash_data(user_data.get("gender", "")),
                     "nacionalidad": hash_data(user_data.get("nacionalidad", "")),
                     "pasatiempos": hash_data(user_data.get("pasatiempos", "")),
-                    "expiracionM": user_data.get("expiracionM", ""),
-                    "expiracionA": user_data.get("expiracionA", ""),
-                    "cuentaIban": user_data.get("cuentaIban", ""),
-                    "tarjeta": user_data.get("tarjeta", ""),
-                    "Pin": user_data.get("Pin", ""),
-                    "hospital": user_data.get("hospital", ""),
-                    "lugarFavorito": user_data.get("lugarFavorito", ""),
-                    "mascota": user_data.get("mascota", ""),
+                    "expiracionM": hash_data(user_data.get("expiracionM", "")),
+                    "expiracionA": hash_data(user_data.get("expiracionA", "")),
+                    "cuentaIban": hash_data(user_data.get("cuentaIban", "")),
+                    "tarjeta": hash_data(user_data.get("tarjeta", "")),
+                    "Pin": hash_data(user_data.get("Pin", "")),
+                    "hospital": hash_data(user_data.get("hospital", "")),
+                    "lugarFavorito": hash_data(user_data.get("lugarFavorito", "")),
+                    "mascota": hash_data(user_data.get("mascota", "")),
 
                     "createdAt": datetime.now().isoformat()
                 }
