@@ -43,4 +43,18 @@
         <item>Meditar</item>
     </string-array>
 
+    <string-array name="amenidades">
+        <item>Amenidades</item>
+        <item>Alberca</item>
+        <item>Gimnasio</item>
+        <item>Jardín</item>
+        <item>Terraza</item>
+        <item>Asador</item>
+        <item>Cuarto de juegos</item>
+        <item>Estacionamiento techado</item>
+        <item>Sistema de seguridad</item>
+        <item>Área de lavado</item>
+        <item>Oficina o estudio</item>
+    </string-array>
+
 </resources>
