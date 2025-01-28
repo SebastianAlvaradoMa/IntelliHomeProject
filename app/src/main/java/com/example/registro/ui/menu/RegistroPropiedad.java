@@ -1,15 +1,22 @@
 package com.example.registro.ui.menu;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -17,6 +24,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
+import com.example.registro.data.repository.UserRepository;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,11 +33,55 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
-    private Spinner amenidades1,amenidades2, amenidades3, amenidades4;
+
+    private Spinner spinnerAmenidades1;
+    private Spinner spinnerAmenidades2;
+    private Spinner spinnerAmenidades3;
+    private Spinner spinnerAmenidades4;
+
+    private EditText editNombrePropiedad, editPrecio, editContacto2, editPersonasmax2, editTxtlatitud, editTxtlongitud;
+
+    private Button NoButton;
+    private Button SiButton;
 
     EditText txtlatitud, txtlongitud;
     GoogleMap mMap;
+
+    //Seleccionar foto de galeria
+//    private final ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(
+//            new ActivityResultContracts.RequestMultiplePermissions(),
+//            permissions -> {
+//                boolean allGranted = true;
+//                for (Boolean granted : permissions.values()) {
+//                    allGranted = allGranted && granted;
+//                }
+//                if (allGranted) {
+//                    showImagePickerDialog();
+//                }
+//            }
+//    );
+//
+//    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            result -> {
+//                if (result.getResultCode() == Activity.RESULT_OK) {
+//                    fondoCamara.setImageURI(photoUri);
+//                }
+//            }
+//    );
+//
+//    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            result -> {
+//                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+//                    Uri selectedImage = result.getData().getData();
+//                    fondoCamara.setImageURI(selectedImage);
+//                }
+//            }
+//    );
 
 
     @Override
@@ -37,15 +89,21 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registro_propiedad);
-
-        txtlatitud=findViewById(R.id.txtlatitud);
-        txtlongitud=findViewById(R.id.txtlongitud);
+        //Init user repository
 
 
-        amenidades1 = findViewById(R.id.amenidades1);
-        amenidades2 = findViewById(R.id.amenidades2);
-        amenidades3 = findViewById(R.id.amenidades3);
-        amenidades4 = findViewById(R.id.amenidades4);
+        editNombrePropiedad=findViewById(R.id.nombre);
+        editPrecio=findViewById(R.id.precio2);
+        editContacto2=findViewById(R.id.contacto2);
+        editPersonasmax2=findViewById(R.id.personasmax2);
+
+        editTxtlatitud=findViewById(R.id.txtlatitud);
+        editTxtlongitud=findViewById(R.id.txtlongitud);
+        //Initialize spinners
+        spinnerAmenidades1 = findViewById(R.id.amenidades1);
+        spinnerAmenidades2 = findViewById(R.id.amenidades2);
+        spinnerAmenidades3 = findViewById(R.id.amenidades3);
+        spinnerAmenidades4 = findViewById(R.id.amenidades4);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -59,17 +117,17 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
                 android.R.layout.simple_spinner_item
         );
         pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades1.setAdapter(pasatiemposAdapter);
+        spinnerAmenidades1.setAdapter(pasatiemposAdapter);
 
         pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades2.setAdapter(pasatiemposAdapter);
+        spinnerAmenidades2.setAdapter(pasatiemposAdapter);
 
         pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades3.setAdapter(pasatiemposAdapter);
+        spinnerAmenidades3.setAdapter(pasatiemposAdapter);
 
         pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades4.setAdapter(pasatiemposAdapter);
-        amenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAmenidades4.setAdapter(pasatiemposAdapter);
+        spinnerAmenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) { //Ignore first item (prompt)
@@ -81,7 +139,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        amenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAmenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) { //Ignore first item (prompt)
@@ -93,7 +151,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        amenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAmenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) { //Ignore first item (prompt)
@@ -105,7 +163,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        amenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAmenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) { //Ignore first item (prompt)
