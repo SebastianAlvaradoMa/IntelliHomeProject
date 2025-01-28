@@ -4,6 +4,13 @@ import os
 import serial
 from datetime import datetime
 import hashlib
+import threading
+from twilio.rest import Client  # Import Twilio client
+
+#Notificaciones de WA
+account_sid = ''
+auth_token = ''
+twilio_client = Client(account_sid, auth_token)
 
 def hash_data(data):
     """Hash the given data using SHA-256."""
@@ -88,6 +95,29 @@ def send_to_arduino(command):
     except Exception as e:
         print(f"Error sending to Arduino: {e}")
         return False
+def send_twilio_notification():
+    """Send a Twilio notification when the fire alarm is triggered"""
+    try:
+        message = twilio_client.messages.create(
+            from_='whatsapp:+14155238886',
+            body='Incendio detectado en la vivienda. Evacúe de inmediato. Se alertó al Cuerpo de Bomberos',
+            to='whatsapp:+506 8408 6287'
+            )
+        print(f"Twilio notification sent: {message.sid}")
+    except Exception as e:
+        print(f"Error sending Twilio notification: {e}")
+
+def monitor_serial_port():
+    """Monitor the serial port for the fire alarm flag"""
+    while True:
+        if arduino_serial and arduino_serial.is_open:
+            try:
+                line = arduino_serial.readline().decode('utf-8').strip()
+                if line == "FIRE_ALARM":  
+                    print("Sending Twilio notification...")
+                    send_twilio_notification()
+            except Exception as e:
+                print(f"Error reading from serial port: {e}")
 
 def process_request(request_data, db):
     """Process incoming client requests"""
@@ -192,8 +222,13 @@ def start_server(host="0.0.0.0", port=1717, serial_port="/dev/ttyUSB0", baud_rat
         print(f"Failed to connect to Arduino: {e}")
         arduino_serial = None
 
+    #Start a thread to monitor the serial port for the fire alarm flag
+    serial_monitor_thread = threading.Thread(target=monitor_serial_port)
+    serial_monitor_thread.daemon = True  
+    serial_monitor_thread.start()
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Enable address reuse
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
         server_socket.bind((host, port))
         server_socket.listen(5)
         print(f"Server listening on {host}:{port}...")        
