@@ -7,6 +7,7 @@ public class Message {
     public static final String ACTION_LOGIN = "LOGIN";
     public static final String ACTION_REGISTER = "REGISTER";
     public static final String ACTION_LUCES = "LUCES";
+    public static final String ACTION_REGISTER_PROPERTY = "REGISTER_PROPERTY";
     private String action;
     private JSONObject payload;
     private String status;
@@ -58,16 +59,16 @@ public class Message {
         }
     }
 
-    //Metodo que crea un mensaje de registrar propiedad
-//    public static Message createRegisterPropiedadMessage(Propiedad propiedad) {
-//        try {
-//            JSONObject propiedadJson = new JSONObject(propiedad.toJson());
-//            return new Message(ACTION_REGISTER_PROPIEDAD, propiedadJson.getJSONObject("payload"));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    public static Message createRegisterPropertyMessage(Property property) {
+        try {
+            JSONObject payload = new JSONObject(property.toJson());
+            return new Message(ACTION_REGISTER_PROPERTY, payload);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
     public static Message createRegistrationMessage(User user) {

@@ -1,6 +1,9 @@
 package com.example.registro.ui.menu;
+import android.content.Intent;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
+import android.widget.ImageButton;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -35,6 +38,14 @@ public class BuscarPropiedad extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         searchView = findViewById(R.id.searchView);
+
+        // Obtener el botón y configurar el listener
+        ImageButton button3 = findViewById(R.id.imageButton2);
+        button3.setOnClickListener(v -> {
+            // Redirigir a la actividad OlvidoContrasena
+            Intent intent = new Intent(BuscarPropiedad.this, MenuPrincipal.class);
+            startActivity(intent);
+        });
 
         for (int i = 0; i < propiedadList.length; i++) {
             ModelClass modelClass = new ModelClass();

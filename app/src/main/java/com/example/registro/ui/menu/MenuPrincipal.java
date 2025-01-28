@@ -34,6 +34,14 @@ public class MenuPrincipal extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Obtener el botón y configurar el listemner
+        ImageButton button3 = findViewById(R.id.imageButton9);
+        button3.setOnClickListener(v -> {
+            // Redirigir a la actividad OlvidoContrasena
+            Intent intent = new Intent(MenuPrincipal.this, BuscarPropiedad.class);
+            startActivity(intent);
+        });
+
 
         ImageButton button2 = findViewById(R.id.imageButton8);
         button2.setOnClickListener(v -> {

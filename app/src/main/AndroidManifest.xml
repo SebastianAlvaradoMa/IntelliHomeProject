@@ -35,46 +35,41 @@
         <activity
             android:name=".ui.menu.BuscarPropiedad"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.domotic.LucesActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.auth.registro.TerminosCondiciones"
-            android:exported="false" /> <!-- Main Activity -->
+            android:exported="true" /> <!-- Main Activity -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="false">
-            <!-- <intent-filter>
+            android:exported="true">
+             <intent-filter>
                  <action android:name="android.intent.action.MAIN" />
 
                  <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
-              <!-Main Activity -->
-        </activity> <!-- Sign Up Activity -->
+        </activity>
 
         <activity
             android:name=".ui.auth.registro.SignUpActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.auth.login.OlvidoContrasena"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.auth.login.CambioContrasena"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.menu.MenuPrincipal"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.menu.GestionPropiedad"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.menu.RegistroPropiedad"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 

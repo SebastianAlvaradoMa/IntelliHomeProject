@@ -1,8 +1,7 @@
 package com.example.registro.ui.menu;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,13 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -24,16 +19,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
-import com.example.registro.data.repository.UserRepository;
-import com.google.android.gms.maps.CameraUpdate;
+import com.example.registro.data.model.Property;
+import com.example.registro.data.repository.PropertyRepository;
+import com.example.registro.data.service.PropertyService;
+import com.example.registro.ui.auth.registro.SignUpActivity;
+import com.example.registro.ui.main.MainActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.File;
+import com.google.android.material.snackbar.Snackbar;
 
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
@@ -46,8 +43,13 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
     private Button NoButton;
     private Button SiButton;
+    private String mascotasSelection = "No"; // Default value
 
-    EditText txtlatitud, txtlongitud;
+    private String amenidad1Value = "";
+    private String amenidad2Value = "";
+    private String amenidad3Value = "";
+    private String amenidad4Value = "";
+
     GoogleMap mMap;
 
     //Seleccionar foto de galeria
@@ -82,6 +84,112 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 //                }
 //            }
 //    );
+
+    private void registerProperty() {
+        // Get values from EditText fields
+        String name = editNombrePropiedad.getText().toString().trim();
+        String priceStr = editPrecio.getText().toString().trim();
+        String contact = editContacto2.getText().toString().trim();
+        String maxPeopleStr = editPersonasmax2.getText().toString().trim();
+        String latitudeStr = editTxtlatitud.getText().toString().trim();
+        String longitudeStr = editTxtlongitud.getText().toString().trim();
+
+        // Validate required fields
+        if (name.isEmpty() || priceStr.isEmpty() || contact.isEmpty() ||
+                maxPeopleStr.isEmpty() || latitudeStr.isEmpty() || longitudeStr.isEmpty()) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Please fill in all required fields", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        // Parse numeric values with try-catch blocks
+        double price;
+        int maxPeople;
+        double latitude;
+        double longitude;
+
+        try {
+            price = Double.parseDouble(priceStr);
+            if (price <= 0) {
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Price must be greater than 0", Snackbar.LENGTH_LONG).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Please enter a valid price", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        try {
+            maxPeople = Integer.parseInt(maxPeopleStr);
+            if (maxPeople <= 0) {
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Maximum people must be greater than 0", Snackbar.LENGTH_LONG).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Please enter a valid number for maximum people", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        try {
+            latitude = Double.parseDouble(latitudeStr);
+            longitude = Double.parseDouble(longitudeStr);
+            if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Please enter valid coordinates", Snackbar.LENGTH_LONG).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Snackbar.make(findViewById(android.R.id.content),
+                    "Please enter valid coordinates", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        String amenity1 = spinnerAmenidades1.getSelectedItem().toString();
+        String amenity2 = spinnerAmenidades2.getSelectedItem().toString();
+        String amenity3 = spinnerAmenidades3.getSelectedItem().toString();
+        String amenity4 = spinnerAmenidades4.getSelectedItem().toString();
+
+        PropertyService propertyService = new PropertyService();
+        propertyService.registerProperty(name, price, contact, maxPeople, latitude, longitude,
+                mascotasSelection, amenity1, amenity2, amenity3, amenity4,
+                new PropertyService.PropertyCallback() {
+                    @Override
+                    public void onSuccess(String message) {
+                        runOnUiThread(() -> {
+                            runOnUiThread(() -> {
+                                try {
+
+                                    new AlertDialog.Builder(RegistroPropiedad.this)
+                                            .setTitle("Registro Exitoso")
+                                            .setMessage(message)
+                                            .setPositiveButton("OK", (dialog, which) -> {
+                                                Intent intent = new Intent(RegistroPropiedad.this, GestionPropiedad.class);
+                                                startActivity(intent);
+                                                finish();
+                                            })
+                                            .setCancelable(false)
+                                            .show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            Snackbar.make(findViewById(android.R.id.content),
+                                    error, Snackbar.LENGTH_LONG).show();
+                        });
+                    }
+                });
+    }
+
 
 
     @Override
@@ -127,64 +235,80 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
         pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAmenidades4.setAdapter(pasatiemposAdapter);
+        NoButton = findViewById(R.id.no);
+        SiButton = findViewById(R.id.si);
+
+        // Set up button click listeners
+        NoButton.setOnClickListener(v -> {
+            mascotasSelection = "No";
+            NoButton.setSelected(true);
+            SiButton.setSelected(false);
+        });
+
+        SiButton.setOnClickListener(v -> {
+            mascotasSelection = "Yes";
+            SiButton.setSelected(true);
+            NoButton.setSelected(false);
+        });
+
+        // Update spinner listeners to store selected values
         spinnerAmenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
+                amenidad1Value = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                amenidad1Value = "";
             }
         });
+
         spinnerAmenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
+                amenidad2Value = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                amenidad2Value = "";
             }
         });
+
         spinnerAmenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
+                amenidad3Value = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                amenidad3Value = "";
             }
         });
+
         spinnerAmenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
+                amenidad4Value = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                amenidad4Value = "";
             }
         });
 
 
 
-
+    Button registerButton = findViewById(R.id.registerButton); // Assuming you have a button with this ID
+    registerButton.setOnClickListener(v -> registerProperty());
 
 
     // Obtener el botón y configurar el listener
     ImageButton button = findViewById(R.id.back);
         button.setOnClickListener(v -> {
-        // Redirigir a la actividad OlvidoContrasena
         Intent intent = new Intent(RegistroPropiedad.this, GestionPropiedad.class);
         startActivity(intent);
     });
@@ -207,8 +331,8 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
-        txtlatitud.setText("" + latLng.latitude);
-        txtlongitud.setText(""+ latLng.longitude);
+        editTxtlatitud.setText("" + latLng.latitude);
+        editTxtlongitud.setText(""+ latLng.longitude);
 
         mMap.clear();
         LatLng tec = new LatLng(latLng.latitude,latLng.longitude);
@@ -220,8 +344,8 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onMapLongClick(@NonNull LatLng latLng) {
-        txtlatitud.setText(""+latLng.latitude);
-        txtlongitud.setText(""+latLng.longitude);
+        editTxtlatitud.setText(""+latLng.latitude);
+        editTxtlongitud.setText(""+latLng.longitude);
         mMap.clear();
         LatLng tec = new LatLng(latLng.latitude,latLng.longitude);
         mMap.addMarker(new MarkerOptions().position(tec).title(""));

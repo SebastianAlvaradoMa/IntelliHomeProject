@@ -1,13 +1,13 @@
 import socket
 import json
-import os 
+import os
 import serial
 from datetime import datetime
 import hashlib
 import threading
 from twilio.rest import Client  # Import Twilio client
 
-#Notificaciones de WA
+# Notificaciones de WA
 account_sid = ''
 auth_token = ''
 twilio_client = Client(account_sid, auth_token)
@@ -25,6 +25,7 @@ class UserDatabase:
         if not os.path.exists(self.filename):
             with open(self.filename, "w") as f:
                 f.write("# User Database - Created on {}\n".format(datetime.now()))
+
     def save_user(self, user_data):
         try:
             user_id = str(sum(1 for line in open(self.filename) if line.strip() and not line.startswith("#")))
@@ -50,7 +51,6 @@ class UserDatabase:
                     "hospital": hash_data(user_data.get("hospital", "")),
                     "lugarFavorito": hash_data(user_data.get("lugarFavorito", "")),
                     "mascota": hash_data(user_data.get("mascota", "")),
-
                     "createdAt": datetime.now().isoformat()
                 }
             }
@@ -83,8 +83,47 @@ class UserDatabase:
             return False, None, None
         except FileNotFoundError:
             return False, None, None
-        
-        
+
+class PropertyDatabase:
+    def __init__(self, filename="properties.txt"):
+        self.filename = filename
+        self.ensure_file_exists()
+
+    def ensure_file_exists(self):
+        if not os.path.exists(self.filename):
+            with open(self.filename, "w") as f:
+                f.write("# Property Database - Created on {}\n".format(datetime.now()))
+
+    def save_property(self, property_data):
+        try:
+            property_id = str(sum(1 for line in open(self.filename) if line.strip() and not line.startswith("#")))
+            
+            # Convert numeric values to strings before hashing
+            hashed_property_data = {
+                "propertyId": property_id,
+                "propertyData": {
+                    "nombrePropiedad": hash_data(str(property_data.get("nombrePropiedad", ""))),
+                    "mascotas": hash_data(str(property_data.get("mascotas", ""))),
+                    "precio": hash_data(str(property_data.get("precio", ""))),
+                    "contacto": hash_data(str(property_data.get("contacto", ""))),
+                    "maxPersonas": hash_data(str(property_data.get("maxPersonas", ""))),
+                    "amenidad1": hash_data(str(property_data.get("amenidad1", ""))),
+                    "amenidad2": hash_data(str(property_data.get("amenidad2", ""))),
+                    "amenidad3": hash_data(str(property_data.get("amenidad3", ""))),
+                    "amenidad4": hash_data(str(property_data.get("amenidad4", ""))),
+                    "latitud": hash_data(str(property_data.get("latitud", ""))),
+                    "longitud": hash_data(str(property_data.get("longitud", ""))),
+                    "createdAt": datetime.now().isoformat()
+                }
+            }
+            
+            with open(self.filename, "a") as f:
+                f.write(json.dumps(hashed_property_data, ensure_ascii=False) + "\n")
+            return True, property_id
+        except Exception as e:
+            print(f"Error saving property: {e}")
+            return False, None
+
 def send_to_arduino(command):
     """Send command to Arduino without waiting for response"""
     try:
@@ -95,6 +134,7 @@ def send_to_arduino(command):
     except Exception as e:
         print(f"Error sending to Arduino: {e}")
         return False
+
 def send_twilio_notification():
     """Send a personalized Twilio notification"""
     try:
@@ -134,7 +174,7 @@ def monitor_serial_port():
             except Exception as e:
                 print(f"Error reading from serial port: {e}")
 
-def process_request(request_data, db):
+def process_request(request_data, db, property_db):
     """Process incoming client requests"""
     try:
         request = json.loads(request_data)
@@ -202,13 +242,32 @@ def process_request(request_data, db):
                 "OnGaraje", "OffGaraje", "OnCocina", "OffCocina"
             ]
             if command in valid_commands:
-                #Print the command to the terminal for testing
+                # Print the command to the terminal for testing
                 print(f"Received LUCES command: {command}")
-                if arduino_serial:  #Only send to Arduino if it's connected
+                if arduino_serial:  # Only send to Arduino if it's connected
                     send_to_arduino(command + "\n")
             else:
                 print(f"Invalid LUCES command: {command}")
             return ""
+        
+        elif action == "REGISTER_PROPERTY":
+            success, property_id = property_db.save_property(payload)
+            if success:
+                response = {
+                    "action": "REGISTER_PROPERTY",
+                    "status": "success",
+                    "message": "Property registration successful",
+                    "payload": {
+                        "propertyId": property_id
+                    }
+                }
+            else:
+                response = {
+                    "action": "REGISTER_PROPERTY",
+                    "status": "error",
+                    "message": "Property registration failed"
+                }
+            return json.dumps(response) + "\n"
 
         else:
             response = {
@@ -228,8 +287,9 @@ def process_request(request_data, db):
 def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
     global arduino_serial
     db = UserDatabase()
+    property_db = PropertyDatabase()
 
-    #Initialize Arduino serial connection
+    # Initialize Arduino serial connection
     try:
         arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
         print(f"Connected to Arduino on {serial_port}")
@@ -237,7 +297,7 @@ def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
         print(f"Failed to connect to Arduino: {e}")
         arduino_serial = None
 
-    #Start a thread to monitor the serial port for the fire alarm flag
+    # Start a thread to monitor the serial port for the fire alarm flag
     serial_monitor_thread = threading.Thread(target=monitor_serial_port)
     serial_monitor_thread.daemon = True  
     serial_monitor_thread.start()
@@ -261,7 +321,7 @@ def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
                             break
 
                         print(f"Received: {data}")
-                        response = process_request(data, db)
+                        response = process_request(data, db, property_db)
                         print(f"Sending: {response}")
                         client_socket.sendall(response.encode('utf-8'))
 
