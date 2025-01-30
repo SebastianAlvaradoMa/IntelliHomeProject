@@ -200,18 +200,18 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         //Init user repository
 
 
-        editNombrePropiedad=findViewById(R.id.nombre);
-        editPrecio=findViewById(R.id.precio2);
-        editContacto2=findViewById(R.id.contacto2);
-        editPersonasmax2=findViewById(R.id.personasmax2);
+        editNombrePropiedad=findViewById(R.id.name);
+        editPrecio=findViewById(R.id.price);
+        editContacto2=findViewById(R.id.contact);
+        editPersonasmax2=findViewById(R.id.maxPeople);
 
-        editTxtlatitud=findViewById(R.id.txtlatitud);
-        editTxtlongitud=findViewById(R.id.txtlongitud);
+        editTxtlatitud=findViewById(R.id.latitude);
+        editTxtlongitud=findViewById(R.id.longitude);
         //Initialize spinners
-        spinnerAmenidades1 = findViewById(R.id.amenidades1);
-        spinnerAmenidades2 = findViewById(R.id.amenidades2);
-        spinnerAmenidades3 = findViewById(R.id.amenidades3);
-        spinnerAmenidades4 = findViewById(R.id.amenidades4);
+        spinnerAmenidades1 = findViewById(R.id.amenity1);
+        spinnerAmenidades2 = findViewById(R.id.amenity2);
+        spinnerAmenidades3 = findViewById(R.id.amenity3);
+        spinnerAmenidades4 = findViewById(R.id.amenity4);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
