@@ -1,38 +1,68 @@
 package com.example.registro.ui.menu;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
+import com.example.registro.data.service.PropertyService;
 import com.example.registro.data.model.Property;
 import com.example.registro.data.repository.PropertyRepository;
-import com.example.registro.data.service.PropertyService;
 import com.example.registro.ui.auth.registro.SignUpActivity;
 import com.example.registro.ui.main.MainActivity;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.gms.maps.model.LatLngBounds;
+
+import java.io.File;
+import java.io.IOException;
+
 
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+
+    //Variables de la Camara
+    private ImageButton camara;
+    private File photoFile;
+    private Uri photoUri;
+
+    //Variables del Mapa
+    private GoogleMap mMap;
+    private PlacesClient placesClient;
+    private AutoCompleteTextView searchText;
 
     private Spinner spinnerAmenidades1;
     private Spinner spinnerAmenidades2;
@@ -50,41 +80,78 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private String amenidad3Value = "";
     private String amenidad4Value = "";
 
-    GoogleMap mMap;
+
+    //Busca la ubicacion en el mapa
+    private void buscarUbicacion(String query) {
+        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+                .setQuery(query)
+                .setLocationBias(RectangularBounds.newInstance(new LatLngBounds(
+                        new LatLng(-90, -180), new LatLng(90, 180))))
+                .build();
+
+        placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
+            for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
+                String placeId = prediction.getPlaceId();
+
+                placesClient.fetchPlace(com.google.android.libraries.places.api.net.FetchPlaceRequest.builder(
+                                placeId, java.util.Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.LAT_LNG))
+                        .build()
+                ).addOnSuccessListener(fetchPlaceResponse -> {
+                    LatLng latLng = fetchPlaceResponse.getPlace().getLatLng();
+                    if (latLng != null) {
+                        // Actualizar los campos de latitud y longitud
+                        editTxtlatitud.setText(String.valueOf(latLng.latitude));
+                        editTxtlongitud.setText(String.valueOf(latLng.longitude));
+
+                        // Mover el mapa a la nueva ubicación
+                        mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title("Ubicación seleccionada")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))); // Marcador rojo
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12)); // Zoom a la ciudad
+                    }
+                }).addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    Snackbar.make(findViewById(android.R.id.content), "No se encontró la ubicación", Snackbar.LENGTH_LONG).show();
+                });
+
+                break;
+            }
+        });
+    }
 
     //Seleccionar foto de galeria
-//    private final ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(
-//            new ActivityResultContracts.RequestMultiplePermissions(),
-//            permissions -> {
-//                boolean allGranted = true;
-//                for (Boolean granted : permissions.values()) {
-//                    allGranted = allGranted && granted;
-//                }
-//                if (allGranted) {
-//                    showImagePickerDialog();
-//                }
-//            }
-//    );
-//
-//    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            result -> {
-//                if (result.getResultCode() == Activity.RESULT_OK) {
-//                    fondoCamara.setImageURI(photoUri);
-//                }
-//            }
-//    );
-//
-//    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            result -> {
-//                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-//                    Uri selectedImage = result.getData().getData();
-//                    fondoCamara.setImageURI(selectedImage);
-//                }
-//            }
-//    );
+    private final ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            permissions -> {
+                boolean allGranted = true;
+                for (Boolean granted : permissions.values()) {
+                    allGranted = allGranted && granted;
+                }
+                if (allGranted) {
+                    showImagePickerDialog();
+                }
+            }
+    );
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    camara.setImageURI(photoUri);
+                }
+            }
+    );
+    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri selectedImage = result.getData().getData();
+                    camara.setImageURI(selectedImage);
+                }
+            }
+    );
 
+    //Registrar propiedad
     private void registerProperty() {
         // Get values from EditText fields
         String name = editNombrePropiedad.getText().toString().trim();
@@ -199,6 +266,31 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_registro_propiedad);
         //Init user repository
 
+        Button btnBuscar = findViewById(R.id.btnBuscar);
+        btnBuscar.setOnClickListener(v -> {
+            String query = searchText.getText().toString().trim();
+            if (!query.isEmpty()) {
+                buscarUbicacion(query);
+            } else {
+                Snackbar.make(v, "Ingresa una ubicación", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+        //Inicializar CAMARA
+        camara = findViewById(R.id.camara);
+        camara.setOnClickListener(v -> checkPermissionsAndShowPicker());
+
+        // Inicializar Places API MAPA y Llave
+        Places.initialize(getApplicationContext(), "AIzaSyBUlGx5Q5FU9SKGG1JG2SBlZH5Upp_Zgy0");
+        placesClient = Places.createClient(this);
+
+        searchText = findViewById(R.id.searchText);
+        searchText.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1));
+        searchText.setOnItemClickListener((parent, view, position, id) -> buscarUbicacion(searchText.getText().toString()));
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
+        mapFragment.getMapAsync(this);
+
 
         editNombrePropiedad=findViewById(R.id.name);
         editPrecio=findViewById(R.id.price);
@@ -207,7 +299,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
         editTxtlatitud=findViewById(R.id.latitude);
         editTxtlongitud=findViewById(R.id.longitude);
-        //Initialize spinners
+
         spinnerAmenidades1 = findViewById(R.id.amenity1);
         spinnerAmenidades2 = findViewById(R.id.amenity2);
         spinnerAmenidades3 = findViewById(R.id.amenity3);
@@ -218,12 +310,14 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         //Set up pasatiempos spinner
         ArrayAdapter<CharSequence> pasatiemposAdapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.amenidades,
                 android.R.layout.simple_spinner_item
         );
+
         pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAmenidades1.setAdapter(pasatiemposAdapter);
 
@@ -300,48 +394,118 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
+        Button registerButton = findViewById(R.id.registerButton); // Assuming you have a button with this ID
+        registerButton.setOnClickListener(v -> registerProperty());
 
 
-    Button registerButton = findViewById(R.id.registerButton); // Assuming you have a button with this ID
-    registerButton.setOnClickListener(v -> registerProperty());
+        // Obtener el botón y configurar el listener
+        ImageButton button = findViewById(R.id.back);
+            button.setOnClickListener(v -> {
+            Intent intent = new Intent(RegistroPropiedad.this, GestionPropiedad.class);
+            startActivity(intent);
+        });
 
+    }
+    //CAMARA!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Permisos de la camara
+    private void checkPermissionsAndShowPicker() {
+        String[] permissions = {
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        };
 
-    // Obtener el botón y configurar el listener
-    ImageButton button = findViewById(R.id.back);
-        button.setOnClickListener(v -> {
-        Intent intent = new Intent(RegistroPropiedad.this, GestionPropiedad.class);
-        startActivity(intent);
-    });
-
-        //Maps
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
-        mapFragment.getMapAsync(this);
+        multiplePermissionLauncher.launch(permissions);
     }
 
+    //Elegir opciones para seleccionar la foto de la propiedad
+    private void showImagePickerDialog() {
+        String[] options = {"Tomar foto", "Elegir de galería", "Cancelar"};
+
+        new AlertDialog.Builder(this)
+                .setTitle("Seleccionar foto de perfil")
+                .setItems(options, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            openCamera();
+                            break;
+                        case 1:
+                            openGallery();
+                            break;
+                        case 2:
+                            dialog.dismiss();
+                            break;
+                    }
+                })
+                .show();
+    }
+
+    //Tomar foto desde la camara
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent, 0);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            try {
+                photoFile = createImageFile();
+                if (photoFile != null) {
+                    photoUri = FileProvider.getUriForFile(this,
+                            "com.example.registro.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    cameraLauncher.launch(takePictureIntent);
+                }
+            } catch (IOException ex) {
+                // Handle error
+            }
+        }
+    }
+
+    //Abrir galeria
+    private void openGallery() {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryLauncher.launch(pickPhoto);
+    }
+
+    //Crear archivo de imagen
+    private File createImageFile() throws IOException {
+        String timeStamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss",
+                java.util.Locale.getDefault()).format(new java.util.Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(imageFileName, ".jpg", storageDir);
+    }
+
+
+    //MAPA!!!!!!!!!!!!!!!!!!
+    //Caracteristicas del mapa, ubicacion del tec, mover el mapa, etc...
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-34.397, 150.644)));
         mMap =googleMap;
         this.mMap.setOnMapClickListener(this);
         this.mMap.setOnMapLongClickListener(this);
         LatLng tec = new LatLng(9.8372475,-84.0571092);
         mMap.addMarker(new MarkerOptions().position(tec).title("Tecnologico de Costa Rica"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tec));
-
+        mMap.setMinZoomPreference(8);
     }
 
+    //Agrega las coordenadas segun el marcador rojo
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
-        editTxtlatitud.setText("" + latLng.latitude);
-        editTxtlongitud.setText(""+ latLng.longitude);
+        editTxtlatitud.setText(String.valueOf(latLng.latitude));
+        editTxtlongitud.setText(String.valueOf(latLng.longitude));
 
-        mMap.clear();
-        LatLng tec = new LatLng(latLng.latitude,latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(tec).title(""));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(tec));
-
-
+        mMap.clear(); // Limpiar marcadores anteriores
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title("Ubicación seleccionada")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
 
+    //Agrega las coordenadas de la ubicacion
     @Override
     public void onMapLongClick(@NonNull LatLng latLng) {
         editTxtlatitud.setText(""+latLng.latitude);
@@ -350,6 +514,5 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         LatLng tec = new LatLng(latLng.latitude,latLng.longitude);
         mMap.addMarker(new MarkerOptions().position(tec).title(""));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tec));
-
     }
 }
