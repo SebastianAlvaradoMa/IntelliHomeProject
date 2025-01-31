@@ -214,49 +214,16 @@
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@id/personasmax"/>
 
-        <Spinner
-            android:id="@+id/amenidades1"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupAmenidades"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
+            app:singleSelection="false"
             app:layout_constraintEnd_toEndOf="@id/personasmax2"
             app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/textamenidades"/>
-
-        <Spinner
-            android:id="@+id/amenidades2"
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/amenidades1" />
-        <Spinner
-            android:id="@+id/amenidades3"
-
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/amenidades2" />
-
-        <Spinner
-            android:id="@+id/amenidades4"
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/amenidades3" />
+            app:layout_constraintTop_toBottomOf="@+id/textamenidades">
+        </com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:layout_marginTop="40dp"
@@ -266,8 +233,8 @@
             android:text="Ubicación:"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/amenidades4"
-            app:layout_constraintTop_toBottomOf="@id/amenidades4"/>
+            app:layout_constraintStart_toStartOf="@id/chipGroupAmenidades"
+            app:layout_constraintTop_toBottomOf="@id/chipGroupAmenidades"/>
 
         <EditText
             android:id="@+id/txtlatitud"

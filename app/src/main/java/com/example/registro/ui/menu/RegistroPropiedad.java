@@ -1,6 +1,8 @@
 package com.example.registro.ui.menu;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +28,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
     private Spinner amenidades1,amenidades2, amenidades3, amenidades4;
@@ -37,6 +41,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private boolean isNoGreen = false;
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,81 +84,43 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
 
 
-        amenidades1 = findViewById(R.id.amenidades1);
-        amenidades2 = findViewById(R.id.amenidades2);
-        amenidades3 = findViewById(R.id.amenidades3);
-        amenidades4 = findViewById(R.id.amenidades4);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //Set up pasatiempos spinner
-        ArrayAdapter<CharSequence> pasatiemposAdapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.amenidades,
-                android.R.layout.simple_spinner_item
-        );
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades1.setAdapter(pasatiemposAdapter);
 
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades2.setAdapter(pasatiemposAdapter);
+        ChipGroup chipGroupAmenidades = findViewById(R.id.chipGroupAmenidades);
 
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades3.setAdapter(pasatiemposAdapter);
+// Obtener el array de recursos
+        for (String amenidad : getResources().getStringArray(R.array.amenidades)) {
+            Chip chip = new Chip(this);
+            chip.setText(amenidad);
+            chip.setCheckable(true); // Habilita la selección
+            chip.setCheckedIconVisible(false); // Oculta el ícono de selección (opcional)
 
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        amenidades4.setAdapter(pasatiemposAdapter);
-        amenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
+            // Establecer el color de fondo inicial (color azul oscuro)
+            chip.setChipBackgroundColorResource(R.color.dark_blue);
+            chip.setTextColor(getResources().getColor(R.color.white));
+
+            // Listener para cambiar el color al hacer clic
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    // Cambiar a color verde cuando esté seleccionado
+                    chip.setChipBackgroundColorResource(R.color.green);
+                } else {
+                    // Volver al color azul oscuro cuando no esté seleccionado
+                    chip.setChipBackgroundColorResource(R.color.dark_blue);
                 }
-            }
+            });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        amenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
-            }
+            chipGroupAmenidades.addView(chip);
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        amenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        amenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { //Ignore first item (prompt)
-                    String selectedHobby = parent.getItemAtPosition(position).toString();
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
 
 

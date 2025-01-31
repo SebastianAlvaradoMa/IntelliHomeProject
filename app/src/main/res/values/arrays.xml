@@ -44,17 +44,36 @@
     </string-array>
 
     <string-array name="amenidades">
-        <item>Amenidades</item>
-        <item>Alberca</item>
-        <item>Gimnasio</item>
-        <item>Jardín</item>
-        <item>Terraza</item>
-        <item>Asador</item>
-        <item>Cuarto de juegos</item>
-        <item>Estacionamiento techado</item>
+        <item>Cocina equipada (con electrodomésticos modernos)</item>
+        <item>Aire acondicionado</item>
+        <item>Calefacción</item>
+        <item>Wi-Fi gratuito</item>
+        <item>Televisión por cable o satélite</item>
+        <item>Lavadora y secadora</item>
+        <item>Piscina</item>
+        <item>Jardín o patio</item>
+        <item>Barbacoa o parrilla</item>
+        <item>Terraza o balcón</item>
+        <item>Gimnasio en casa</item>
+        <item>Garaje o espacio de estacionamiento</item>
         <item>Sistema de seguridad</item>
-        <item>Área de lavado</item>
-        <item>Oficina o estudio</item>
+        <item>Habitaciones con baño en suite</item>
+        <item>Muebles de exterior</item>
+        <item>Microondas</item>
+        <item>Lavavajillas</item>
+        <item>Cafetera</item>
+        <item>Ropa de cama y toallas incluidas</item>
+        <item>Acceso a áreas comunes (piscina, gimnasio)</item>
+        <item>Camas adicionales o sofá cama</item>
+        <item>Servicios de limpieza opcionales</item>
+        <item>Acceso a transporte público cercano</item>
+        <item>Mascotas permitidas</item>
+        <item>Cercanía a tiendas y restaurantes</item>
+        <item>Sistema de calefacción por suelo radiante</item>
+        <item>Escritorio o área de trabajo</item>
+        <item>Sistemas de entretenimiento (videojuegos, equipo de música)</item>
+        <item>Chimenea</item>
+        <item>Acceso a internet de alta velocidad</item>
     </string-array>
 
 </resources>
