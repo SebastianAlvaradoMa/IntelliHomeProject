@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/boton_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado deshabilitado -->
+    <item android:state_enabled="false" android:color="@color/dark_blue" />
+    <!-- Estado presionado -->
+    <item android:state_pressed="true" android:color="@color/green" />
+    <!-- Estado por defecto (habilitado y no presionado) -->
+    <item android:color="@color/dark_blue" />
+</selector>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,6 +32,9 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
     EditText txtlatitud, txtlongitud;
     GoogleMap mMap;
+    private Button buttonSi, buttonNo;
+    private boolean isSiGreen = false;
+    private boolean isNoGreen = false;
 
 
     @Override
@@ -40,6 +45,38 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
         txtlatitud=findViewById(R.id.txtlatitud);
         txtlongitud=findViewById(R.id.txtlongitud);
+        //Color
+
+        buttonSi = findViewById(R.id.si);
+        buttonNo=findViewById(R.id.no);
+
+        buttonSi.setOnClickListener(view -> {
+            if (isSiGreen) {
+                // Cambia a azul oscuro (color original)
+                buttonSi.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_blue));
+                buttonNo.setEnabled(true); // Habilita el otro botón
+            } else {
+                // Cambia a verde
+                buttonSi.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+                buttonNo.setEnabled(false); // Deshabilita el otro botón
+            }
+            isSiGreen = !isSiGreen; // Alterna el estado del botón "Sí"
+        });
+
+        buttonNo.setOnClickListener(view -> {
+            if (isNoGreen) {
+                // Cambia a azul oscuro (color original)
+                buttonNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_blue));
+                buttonSi.setEnabled(true); // Habilita el otro botón
+            } else {
+                // Cambia a verde
+                buttonNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+                buttonSi.setEnabled(false); // Deshabilita el otro botón
+            }
+            isNoGreen = !isNoGreen; // Alterna el estado del botón "No"
+        });
+
+
 
 
         amenidades1 = findViewById(R.id.amenidades1);
