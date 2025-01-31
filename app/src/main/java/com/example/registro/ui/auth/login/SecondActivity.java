@@ -39,7 +39,7 @@ public class SecondActivity extends AppCompatActivity {
             return insets;
         });
 
-        nombre = findViewById(R.id.nombre);
+        nombre = findViewById(R.id.name);
         correo = findViewById(R.id.correo);
         signOutBtn = findViewById(R.id.signOutBtn);
 

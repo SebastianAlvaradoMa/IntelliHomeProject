@@ -73,7 +73,7 @@ import java.io.IOException;
 
 
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
-   
+
     GoogleMap mMap;
     private Button SiButton, NoButton;
     private boolean isSiGreen = false;
@@ -88,7 +88,6 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private Uri photoUri;
 
     //Variables del Mapa
-    private GoogleMap mMap;
     private PlacesClient placesClient;
     private AutoCompleteTextView searchText;
 
@@ -312,6 +311,8 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
         //Color
 
+        NoButton = findViewById(R.id.no);
+        SiButton = findViewById(R.id.si);
 
         SiButton.setOnClickListener(view -> {
             if (isSiGreen) {
@@ -396,7 +397,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
 
         // Inicializar Places API MAPA y Llave
-        Places.initialize(getApplicationContext(), "");
+        Places.initialize(getApplicationContext(), "AIzaSyAgGWHzePmqxvJr4rW2b8qcuiAugmuUPaU");
         placesClient = Places.createClient(this);
 
 
@@ -457,8 +458,6 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
 
 
-        NoButton = findViewById(R.id.no);
-        SiButton = findViewById(R.id.si);
 
         // Set up button click listeners
         NoButton.setOnClickListener(v -> {

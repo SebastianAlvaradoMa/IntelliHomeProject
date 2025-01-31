@@ -16,19 +16,7 @@
         android:background="#123a75"
         android:padding="16dp">
 
-        <Button
 
-            android:id="@+id/si2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:backgroundTint="@drawable/boton_selector"
-            android:padding="9dp"
-            android:text="Sí"
-            android:textColor="@color/white"
-            map:layout_constraintBottom_toBottomOf="@id/mascotas"
-            map:layout_constraintStart_toEndOf="@id/mascotas"
-            map:layout_constraintTop_toTopOf="@id/mascotas" />
         <Button
             android:id="@+id/registerButton"
             android:layout_marginTop="30dp"
@@ -239,7 +227,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:singleSelection="false"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/textamenidades">
         </com.google.android.material.chip.ChipGroup>
@@ -252,7 +240,7 @@
             android:text="Selecciona los días disponibles para la propiedad:"
             android:textSize="16sp"
             android:paddingBottom="16dp"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/chipGroupAmenidades"/>
 
@@ -264,7 +252,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             app:singleSelection="false"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/textdisponibilidad">
         </com.google.android.material.chip.ChipGroup>
@@ -277,7 +265,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/dark_blue"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/chipGroupDisponibilidad"/>
 
