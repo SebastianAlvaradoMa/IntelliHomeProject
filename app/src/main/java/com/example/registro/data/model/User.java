@@ -8,18 +8,26 @@ public class User {
     private String apellidos;
     private String username;
     private String email;
-
     private String password;
     private String fechaNacimiento;
-
     private String gender;
-
     private String nacionalidad;
     private String pasatiempos;
-    private String photoPath;  //Path(??)
+    private String photoPath;
+
+    //Datos Tarjeta
+    private String expiracionM;
+    private String expiracionA;
+    private String cuentaIban;
+    private  String tarjeta;
+    private String Pin;
+    private String hospital;
+    private String lugarFavorito;
+    private String mascota;
+    //Path(??)
 
     public User(String nombre, String apellidos, String username, String email, String password, String fechaNacimiento, String gender,
-                String nacionalidad, String pasatiempos, String photoPath) {
+                String nacionalidad, String pasatiempos, String photoPath, String expiracionM, String expiracionA, String cuentaIban, String tarjeta, String Pin, String hospital, String lugarFavorito, String mascota) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.username = username;
@@ -30,6 +38,14 @@ public class User {
         this.nacionalidad = nacionalidad;
         this.pasatiempos = pasatiempos;
         this.photoPath = photoPath;
+        this.expiracionM = expiracionM;
+        this.expiracionA = expiracionA;
+        this.cuentaIban = cuentaIban;
+        this.tarjeta = tarjeta;
+        this.Pin = Pin;
+        this.hospital = hospital;
+        this.lugarFavorito = lugarFavorito;
+        this.mascota = mascota;
     }
 
     //Convert user data to json format for transmission
@@ -49,6 +65,14 @@ public class User {
             payloadObject.put("nacionalidad", nacionalidad);
             payloadObject.put("pasatiempos", pasatiempos);
             payloadObject.put("photoPath", photoPath);
+            payloadObject.put("expiracionM", expiracionM);
+            payloadObject.put("expiracionA", expiracionA);
+            payloadObject.put("tarjeta", tarjeta);
+            payloadObject.put("iban", cuentaIban);
+            payloadObject.put("pin", Pin);
+            payloadObject.put("hospital", hospital);
+            payloadObject.put("lugarFavorito", lugarFavorito);
+            payloadObject.put("mascota", mascota);
 
             // Wrap in the client request format
             jsonObject.put("action", "REGISTER");
@@ -59,7 +83,7 @@ public class User {
             e.printStackTrace();
             return "{}"; // Return an empty JSON object in case of an error
         }
-}
+    }
 
 
     //Getters
@@ -69,4 +93,11 @@ public class User {
     public String getNacionalidad() { return nacionalidad; }
     public String getPasatiempos() { return pasatiempos; }
     public String getPhotoPath() { return photoPath; }
+    public String getExpiracionM() { return expiracionM; }
+    public String getExpiracionA() { return expiracionA; }
+    public String getTarjeta() { return tarjeta; }
+    public String getPin() { return Pin; }
+    public String getHospital() { return hospital; }
+    public String getLugarFavorito() { return lugarFavorito; }
+    public String getMascota() { return mascota; }
 }

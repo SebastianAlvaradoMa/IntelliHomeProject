@@ -1,111 +1,86 @@
 package com.example.registro.ui.domotic;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.example.registro.R;
+import com.example.registro.data.service.LightService;
+import com.example.registro.ui.menu.GestionPropiedad;
+import com.example.registro.ui.menu.MenuPrincipal;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
+
 
 public class LucesActivity extends AppCompatActivity {
+    private LightService lightService;
+    private boolean[] lightStates = new boolean[8]; // Track state of each light
 
-    private Socket socket;
-    private PrintWriter out;
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_luces);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        lightService = new LightService();
+
+        // Initialize buttons
+        setupButton(R.id.btnBanoPrincipal, "BanoPrincipal", 0);
+        setupButton(R.id.btnGaraje, "Garaje", 1);
+        setupButton(R.id.btnCuarto2, "Habitacion3", 2);
+        setupButton(R.id.btnBanoCuarto, "BanoHabitacion", 3);
+        setupButton(R.id.btnCocina, "Cocina", 4);
+        setupButton(R.id.btnCuarto1, "Habitacion1", 5);
+        setupButton(R.id.btnCuarto3, "Habitacion2", 6);
+        setupButton(R.id.btnSala, "Sala", 7);
+
+        ImageButton menuButton = findViewById(R.id.myImageButton);
+
+
+        menuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LucesActivity.this, MenuPrincipal.class);
+            startActivity(intent);
         });
 
-        // Botones
-        Button btnBanoPrincipal = findViewById(R.id.btnBanoPrincipal);
-        Button btnGaraje = findViewById(R.id.btnGaraje);
-        Button btnCuarto2 = findViewById(R.id.btnCuarto2);
-        Button btnBanoCuarto = findViewById(R.id.btnBanoCuarto);
-        Button btnCocina = findViewById(R.id.btnCocina);
-        Button btnCuarto1 = findViewById(R.id.btnCuarto1);
-        Button btnCuarto3 = findViewById(R.id.btnCuarto3);
-        Button btnSala = findViewById(R.id.btnSala);
-
-        configureSwitchBehavior(btnBanoPrincipal, "BanoPrincipal");
-        configureSwitchBehavior(btnGaraje, "Garaje");
-        configureSwitchBehavior(btnCuarto2, "Habitacion2");
-        configureSwitchBehavior(btnBanoCuarto, "BanoHabitacion");
-        configureSwitchBehavior(btnCocina, "Cocina");
-        configureSwitchBehavior(btnCuarto1, "Habitacion1");
-        configureSwitchBehavior(btnCuarto3, "Habitacion3");
-        configureSwitchBehavior(btnSala, "Sala");
-
-        connectToServer();
     }
-    private void configureSwitchBehavior(Button button, String room) {
+
+    private void setupButton(int buttonId, String room, int stateIndex) {
+        Button button = findViewById(buttonId);
         button.setOnClickListener(v -> {
-            // Alterna entre verde y blanco
-            if (button.getCurrentTextColor() == Color.WHITE) {
-                button.setBackgroundColor(Color.GREEN); // Cambia a verde
-                button.setTextColor(Color.WHITE); // Mantiene el texto blanco
-                sendJsonToServer("On" + room); // Enviar JSON cuando la luz está encendida
-            } else {
-                button.setBackgroundColor(Color.WHITE); // Cambia a blanco
-                button.setTextColor(Color.BLACK); // Cambia el texto a negro
-                sendJsonToServer("Off" + room); // Enviar JSON cuando la luz está apagada
-            }
+            // Toggle state
+            lightStates[stateIndex] = !lightStates[stateIndex];
+
+            // Update button appearance immediately for responsiveness
+            updateButtonAppearance(button, lightStates[stateIndex]);
+
+            // Send command to server
+            lightService.controlLight(room, lightStates[stateIndex], new LightService.LightCallback() {
+                @Override
+                public void onSuccess(String message) {
+                    runOnUiThread(() -> {
+                        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        // Revert button state on error
+                        lightStates[stateIndex] = !lightStates[stateIndex];
+                        updateButtonAppearance(button, lightStates[stateIndex]);
+                        Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
+                    });
+                }
+            });
         });
     }
 
-    // Enviar el JSON al servidor
-    private void sendJsonToServer(String command) {
-        if (socket != null && socket.isConnected() && out != null) {
-            try {
-                String json = String.format("{\"action\": \"LUCES\", \"payload\": {\"command\": \"%s\"}}", command);
-
-                out.println(json);
-                out.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private void connectToServer() {
-        new Thread(() -> {
-            try {
-                socket = new Socket("192.168.0.1", 1717);
-                OutputStream os = socket.getOutputStream();
-                out = new PrintWriter(os, true);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            if (socket != null && !socket.isClosed()) {
-                socket.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void updateButtonAppearance(Button button, boolean isOn) {
+        button.setBackgroundColor(isOn ? Color.GREEN : Color.WHITE);
+        button.setTextColor(isOn ? Color.WHITE : Color.BLACK);
     }
 }

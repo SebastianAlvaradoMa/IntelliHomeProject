@@ -4,6 +4,13 @@ import os
 import serial
 from datetime import datetime
 import hashlib
+import threading
+from twilio.rest import Client  # Import Twilio client
+
+# Notificaciones de WA
+account_sid = ''
+auth_token = ''
+twilio_client = Client(account_sid, auth_token)
 
 def hash_data(data):
     """Hash the given data using SHA-256."""
@@ -18,7 +25,6 @@ class UserDatabase:
         if not os.path.exists(self.filename):
             with open(self.filename, "w") as f:
                 f.write("# User Database - Created on {}\n".format(datetime.now()))
-                f.write("# Format: {\"userId\": \"ID\", \"username\": \"USERNAME\", \"password\": \"PASSWORD\", \"userData\": {...}}\n\n")
 
     def save_user(self, user_data):
         try:
@@ -37,7 +43,14 @@ class UserDatabase:
                     "gender": hash_data(user_data.get("gender", "")),
                     "nacionalidad": hash_data(user_data.get("nacionalidad", "")),
                     "pasatiempos": hash_data(user_data.get("pasatiempos", "")),
-                    "photoPath": hash_data(user_data.get("photoPath", "")),
+                    "expiracionM": hash_data(user_data.get("expiracionM", "")),
+                    "expiracionA": hash_data(user_data.get("expiracionA", "")),
+                    "cuentaIban": hash_data(user_data.get("cuentaIban", "")),
+                    "tarjeta": hash_data(user_data.get("tarjeta", "")),
+                    "Pin": hash_data(user_data.get("Pin", "")),
+                    "hospital": hash_data(user_data.get("hospital", "")),
+                    "lugarFavorito": hash_data(user_data.get("lugarFavorito", "")),
+                    "mascota": hash_data(user_data.get("mascota", "")),
                     "createdAt": datetime.now().isoformat()
                 }
             }
@@ -71,7 +84,97 @@ class UserDatabase:
         except FileNotFoundError:
             return False, None, None
 
-def process_request(request_data, db):
+class PropertyDatabase:
+    def __init__(self, filename="properties.txt"):
+        self.filename = filename
+        self.ensure_file_exists()
+
+    def ensure_file_exists(self):
+        if not os.path.exists(self.filename):
+            with open(self.filename, "w") as f:
+                f.write("# Property Database - Created on {}\n".format(datetime.now()))
+
+    def save_property(self, property_data):
+        try:
+            property_id = str(sum(1 for line in open(self.filename) if line.strip() and not line.startswith("#")))
+            
+            # Convert numeric values to strings before hashing
+            hashed_property_data = {
+                "propertyId": property_id,
+                "propertyData": {
+                    "nombrePropiedad": hash_data(str(property_data.get("nombrePropiedad", ""))),
+                    "mascotas": hash_data(str(property_data.get("mascotas", ""))),
+                    "precio": hash_data(str(property_data.get("precio", ""))),
+                    "contacto": hash_data(str(property_data.get("contacto", ""))),
+                    "maxPersonas": hash_data(str(property_data.get("maxPersonas", ""))),
+                    "amenidad1": hash_data(str(property_data.get("amenidad1", ""))),
+                    "amenidad2": hash_data(str(property_data.get("amenidad2", ""))),
+                    "amenidad3": hash_data(str(property_data.get("amenidad3", ""))),
+                    "amenidad4": hash_data(str(property_data.get("amenidad4", ""))),
+                    "latitud": hash_data(str(property_data.get("latitud", ""))),
+                    "longitud": hash_data(str(property_data.get("longitud", ""))),
+                    "createdAt": datetime.now().isoformat()
+                }
+            }
+            
+            with open(self.filename, "a") as f:
+                f.write(json.dumps(hashed_property_data, ensure_ascii=False) + "\n")
+            return True, property_id
+        except Exception as e:
+            print(f"Error saving property: {e}")
+            return False, None
+
+def send_to_arduino(command):
+    """Send command to Arduino without waiting for response"""
+    try:
+        if arduino_serial and arduino_serial.is_open:
+            arduino_serial.write(command.encode())
+            return True
+        return False
+    except Exception as e:
+        print(f"Error sending to Arduino: {e}")
+        return False
+
+def send_twilio_notification():
+    """Send a personalized Twilio notification"""
+    try:
+        # Get the current time and date
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        current_date = now.strftime("%d/%m/%Y")
+        
+        # Construct the message body
+        message_body = (
+            f"Estimad@ usuario :\n"
+            "Está ocurriendo un incendio.\n"
+            f"Hora: {current_time}\n"
+            f"Día: {current_date}"
+        )
+        
+        # Send the message
+        message = twilio_client.messages.create(
+            from_='whatsapp:+14155238886',
+            body=message_body,
+            to='whatsapp:+50684086287'
+        )
+        print(f"Twilio notification sent: {message.sid}")
+    except Exception as e:
+        print(f"Error sending Twilio notification: {e}")
+
+def monitor_serial_port():
+    """Monitor the serial port for the fire alarm flag"""
+    while True:
+        if arduino_serial and arduino_serial.is_open:
+            try:
+                line = arduino_serial.readline().decode('utf-8').strip()
+                if line == "FIRE_ALARM":  
+                    print("Sending Twilio notification...")
+                    send_twilio_notification()
+                    break
+            except Exception as e:
+                print(f"Error reading from serial port: {e}")
+
+def process_request(request_data, db, property_db):
     """Process incoming client requests"""
     try:
         request = json.loads(request_data)
@@ -96,14 +199,13 @@ def process_request(request_data, db):
                     "status": "error",
                     "message": "Registration failed"
                 }
-
+            return json.dumps(response) + "\n"
         
         elif action == "LOGIN":
             email = payload.get("email")
             username = payload.get("username")
             password = payload.get("password", "")
 
-            # Try login with either email or username
             success, user_id, user_data = db.verify_credentials(
                 username or "", 
                 password,
@@ -125,17 +227,55 @@ def process_request(request_data, db):
                     "action": "LOGIN",
                     "status": "error",
                     "message": "Invalid credentials"
-                }           
-             
-             
+                }
+            return json.dumps(response) + "\n"
+
+        elif action == "LUCES":
+            command = payload.get("command", "")
+            valid_commands = [
+                "OnHabitacion1", "OffHabitacion1",
+                "OnHabitacion2", "OffHabitacion2",
+                "OnHabitacion3", "OffHabitacion3",
+                "OnSala", "OffSala",
+                "OnBanoPrincipal", "OffBanoPrincipal",
+                "OnBanoHabitacion", "OffBanoHabitacion",
+                "OnGaraje", "OffGaraje", "OnCocina", "OffCocina"
+            ]
+            if command in valid_commands:
+                # Print the command to the terminal for testing
+                print(f"Received LUCES command: {command}")
+                if arduino_serial:  # Only send to Arduino if it's connected
+                    send_to_arduino(command + "\n")
+            else:
+                print(f"Invalid LUCES command: {command}")
+            return ""
+        
+        elif action == "REGISTER_PROPERTY":
+            success, property_id = property_db.save_property(payload)
+            if success:
+                response = {
+                    "action": "REGISTER_PROPERTY",
+                    "status": "success",
+                    "message": "Property registration successful",
+                    "payload": {
+                        "propertyId": property_id
+                    }
+                }
+            else:
+                response = {
+                    "action": "REGISTER_PROPERTY",
+                    "status": "error",
+                    "message": "Property registration failed"
+                }
+            return json.dumps(response) + "\n"
+
         else:
             response = {
                 "action": action,
                 "status": "error",
                 "message": "Unknown action"
             }
-
-        return json.dumps(response) + "\n"
+            return json.dumps(response) + "\n"
 
     except json.JSONDecodeError:
         return json.dumps({
@@ -144,11 +284,12 @@ def process_request(request_data, db):
             "message": "Invalid JSON format"
         }) + "\n"
 
-def start_server(host="0.0.0.0", port=1717, serial_port="/dev/ttyUSB0", baud_rate=9600):
+def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
     global arduino_serial
     db = UserDatabase()
+    property_db = PropertyDatabase()
 
-    #Initialize Arduino serial connection
+    # Initialize Arduino serial connection
     try:
         arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
         print(f"Connected to Arduino on {serial_port}")
@@ -156,8 +297,13 @@ def start_server(host="0.0.0.0", port=1717, serial_port="/dev/ttyUSB0", baud_rat
         print(f"Failed to connect to Arduino: {e}")
         arduino_serial = None
 
+    # Start a thread to monitor the serial port for the fire alarm flag
+    serial_monitor_thread = threading.Thread(target=monitor_serial_port)
+    serial_monitor_thread.daemon = True  
+    serial_monitor_thread.start()
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Enable address reuse
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
         server_socket.bind((host, port))
         server_socket.listen(5)
         print(f"Server listening on {host}:{port}...")        
@@ -175,7 +321,7 @@ def start_server(host="0.0.0.0", port=1717, serial_port="/dev/ttyUSB0", baud_rat
                             break
 
                         print(f"Received: {data}")
-                        response = process_request(data, db)
+                        response = process_request(data, db, property_db)
                         print(f"Sending: {response}")
                         client_socket.sendall(response.encode('utf-8'))
 

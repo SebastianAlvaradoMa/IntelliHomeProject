@@ -7,8 +7,7 @@ public class SocketManager {
 
     private SocketManager() {
         //Initialize the SocketClient
-        socketClient = new SocketClient("10.0.2.2", 1717);
-    }
+        socketClient = new SocketClient("10.0.2.2", 1717);    }
 
     public static SocketManager getInstance() {
         if (instance == null) {

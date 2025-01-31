@@ -24,6 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.Manifest;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -54,10 +55,8 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioButton radioHombre, radioMujer;
     private String selectedGender;
 
-    private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento;
-
+    private EditText editNombre, editApellidos, editUsername, editEmail, editFechaNacimiento, editExpiracionM, editExpiracionA, editCuentaIban, editTarjeta, editPin, editHospital, editLugarFavorito, editMascota;
     private UserRepository userRepository;
-
     private Button registerButton;
     private Button regresarButton;
 
@@ -119,6 +118,15 @@ public class SignUpActivity extends AppCompatActivity {
         editUsername = findViewById(R.id.editUsuario);
         editEmail = findViewById(R.id.editCorreo);
         editFechaNacimiento = findViewById(R.id.editFechaNacimiento);
+        editExpiracionM = findViewById(R.id.ExpiracionM);
+        editExpiracionA = findViewById(R.id.ExpiracionA);
+        editCuentaIban = findViewById(R.id.cuentaIban2);
+        editTarjeta = findViewById(R.id.tarjeta2);
+        editPin = findViewById(R.id.pin2);
+        editHospital = findViewById(R.id.hospital2);
+        editLugarFavorito = findViewById(R.id.lugarFavorito2);
+        editMascota = findViewById(R.id.mascota2);
+
 
         textInputConfirmPassword = findViewById(R.id.editConfirmarContrasena);
         textInputPassword = findViewById(R.id.editContrasena);
@@ -148,12 +156,7 @@ public class SignUpActivity extends AppCompatActivity {
                 selectedGender = "Mujer";
             }
         });
-        //Month, Year, IBan, Card, Pin
-        EditText expiracionM = findViewById(R.id.ExpiracionM);
-        EditText expiracionA = findViewById(R.id.ExpiracionA);
-        EditText cuentaIban = findViewById(R.id.cuentaIban2);
-        EditText tarjeta = findViewById(R.id.tarjeta2);
-        EditText Pin = findViewById(R.id.pin2);
+
 
 
         //Set up fecha
@@ -192,7 +195,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         //CuentaIban
-        cuentaIban.addTextChangedListener(new TextWatcher() {
+        editCuentaIban.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita acción aquí
@@ -208,41 +211,44 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar el loop de validación removiendo el listener temporalmente
-                cuentaIban.removeTextChangedListener(this);
+                editCuentaIban.removeTextChangedListener(this);
 
-                // Validación para los primeros dos caracteres "CR"
+                // Validar que el texto comience con "CR"
                 if (input.length() <= 2) {
-                    // Si no es "C" ni "R", eliminamos el texto no permitido, pero no borremos todo
-                    input = input.replaceAll("[^CR]", "");  // Elimina cualquier letra distinta a C y R
-                } else if (input.length() > 2) {
-                    // Después de "CR", solo permitir números
+                    // Asegurar que siempre empiece con "CR"
+                    if (!input.startsWith("CR")) {
+                        input = "CR" + input.replaceAll("[^CR]", "");  // Eliminar cualquier letra distinta a C y R
+                    }
+                } else {
+                    // Asegurarse de que después de "CR" solo haya números
                     String restOfString = input.substring(2);  // Obtener todo después de "CR"
                     if (!restOfString.matches("[0-9]*")) {
-                        // Eliminamos cualquier carácter no numérico después de "CR"
-                        input = input.substring(0, 2) + restOfString.replaceAll("[^0-9]", "");
+                        // Eliminar cualquier carácter no numérico después de "CR"
+                        input = "CR" + restOfString.replaceAll("[^0-9]", "");
                     }
                 }
 
                 // Establecer el texto validado nuevamente, sin eliminar nada accidentalmente
-                cuentaIban.setText(input);
-                cuentaIban.setSelection(input.length());  // Asegura que el cursor quede al final
+                editCuentaIban.setText(input);
+                editCuentaIban.setSelection(input.length());  // Asegura que el cursor quede al final
 
                 // Vuelve a añadir el listener para futuras validaciones
-                cuentaIban.addTextChangedListener(this);
+                editCuentaIban.addTextChangedListener(this);
             }
+
         });
         //Longitud Iban
-        cuentaIban.setOnFocusChangeListener((v, hasFocus) -> {
+        editCuentaIban.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = cuentaIban.getText().toString();
+                String input = editCuentaIban.getText().toString();
                 if (input.length() < 22) {
-                    cuentaIban.setText(""); // Borrar si tiene menos de 2 caracteres
+                    editCuentaIban.setText(""); // Borrar si tiene menos de 22 caracteres
                 }
             }
         });
 
         //Tarjeta
-        tarjeta.addTextChangedListener(new TextWatcher() {
+        editTarjeta.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No es necesario hacer nada aquí
@@ -258,44 +264,48 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar loops de validación removiendo el listener temporalmente
-                tarjeta.removeTextChangedListener(this);
+                editTarjeta.removeTextChangedListener(this);
 
-                // Verificar que la tarjeta comienza con '4' (Visa) o '5' (Mastercard)
+                // Verificar si el primer número no es '4' (Visa) ni '5' (Mastercard)
                 if (input.length() == 1) {
                     if (input.charAt(0) != '4' && input.charAt(0) != '5') {
-                        // Si no es '4' ni '5', limpiar el campo
-                        tarjeta.setText("");
+                        // Si estás dentro de una Activity, usa "this" para obtener el contexto
+                        // Si estás dentro de un Fragment, usa getContext() o getActivity()
+                        Toast.makeText(editTarjeta.getContext(), "Inválido, asegúrate de ingresar una tarjeta Visa o Mastercard", Toast.LENGTH_SHORT).show();
+                        // Limpiar el campo para permitir al usuario ingresar de nuevo
+                        editTarjeta.setText("");
                     }
                 }
 
-
                 // Reestablecer el listener
-                tarjeta.addTextChangedListener(this);
+                editTarjeta.addTextChangedListener(this);
             }
+
+
         });
 
         //Longitud Tarjeta
-        tarjeta.setOnFocusChangeListener((v, hasFocus) -> {
+        editTarjeta.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = tarjeta.getText().toString();
+                String input = editTarjeta.getText().toString();
                 if (input.length() < 16) {
-                    tarjeta.setText(""); // Borrar si tiene menos de 16 caracteres
+                    editTarjeta.setText(""); // Borrar si tiene menos de 16 caracteres
                 }
             }
         });
 
         //Longitud Pin
-        Pin.setOnFocusChangeListener((v, hasFocus) -> {
+        editPin.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = Pin.getText().toString();
+                String input = editPin.getText().toString();
                 if (input.length() < 3) {
-                    Pin.setText(""); // Borrar si tiene menos de 3 caracteres
+                    editPin.setText(""); // Borrar si tiene menos de 3 caracteres
                 }
             }
         });
 
         //Expiration  Month
-        expiracionM.addTextChangedListener(new TextWatcher() {
+        editExpiracionM.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita acción aquí
@@ -311,7 +321,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar loops de validación
-                expiracionM.removeTextChangedListener(this);
+                editExpiracionM.removeTextChangedListener(this);
 
                 if (!input.isEmpty()) {
                     try {
@@ -333,22 +343,22 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                expiracionM.addTextChangedListener(this);
+                editExpiracionM.addTextChangedListener(this);
             }
         });
 
         //Longitud Mes
-        expiracionM.setOnFocusChangeListener((v, hasFocus) -> {
+        editExpiracionM.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = expiracionM.getText().toString();
+                String input = editExpiracionM.getText().toString();
                 if (input.length() < 2) {
-                    expiracionM.setText(""); // Borrar si tiene menos de 2 caracteres
+                    editExpiracionM.setText(""); // Borrar si tiene menos de 2 caracteres
                 }
             }
         });
 
         //Expiracion Año
-        expiracionA.addTextChangedListener(new TextWatcher() {
+        editExpiracionA.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita acción aquí
@@ -364,7 +374,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String input = s.toString();
 
                 // Evitar loops de validación
-                expiracionA.removeTextChangedListener(this);
+                editExpiracionA.removeTextChangedListener(this);
 
                 if (!input.isEmpty()) {
                     try {
@@ -382,16 +392,16 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                expiracionA.addTextChangedListener(this);
+                editExpiracionA.addTextChangedListener(this);
             }
         });
 
         // Validar cuando el usuario sale del campo
-        expiracionA.setOnFocusChangeListener((v, hasFocus) -> {
+        editExpiracionA.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String input = expiracionA.getText().toString();
+                String input = editExpiracionA.getText().toString();
                 if (input.length() < 4) {
-                    expiracionA.setText(""); // Borrar si tiene menos de 4 caracteres
+                    editExpiracionA.setText(""); // Borrar si tiene menos de 4 caracteres
                 }
             }
         });
@@ -530,6 +540,14 @@ public class SignUpActivity extends AppCompatActivity {
         String fechaNacimiento = editFechaNacimiento.getText().toString().trim();
         String nacionalidad = spinnerNacionalidad.getSelectedItem().toString();
         String pasatiempos = spinnerPasatiempos.getSelectedItem().toString();
+        String expiracionM = editExpiracionM.getText().toString().trim();
+        String expiracionA = editExpiracionA.getText().toString().trim();
+        String tarjeta = editTarjeta.getText().toString().trim();
+        String cuentaIban = editCuentaIban.getText().toString().trim();
+        String Pin = editPin.getText().toString().trim();
+        String hospital = editHospital.getText().toString().trim();
+        String lugarFavorito = editLugarFavorito.getText().toString().trim();
+        String mascota = editMascota.getText().toString().trim();
 
         // Validate passwords match before showing dialog and making request
         if (!password.equals(confirmPassword)) {
@@ -566,7 +584,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String photoPath = photoFile != null ? photoFile.getAbsolutePath() : "";
         User user = new User(nombre, apellidos, username, email, password, fechaNacimiento, selectedGender,
-                nacionalidad, pasatiempos, photoPath);
+                nacionalidad, pasatiempos, photoPath, expiracionM, expiracionA, cuentaIban, tarjeta, Pin, hospital, lugarFavorito, mascota);
 
         userRepository.register(user, new UserRepository.RegistrationCallback() {
             @Override

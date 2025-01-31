@@ -17,6 +17,7 @@
         android:padding="16dp">
 
         <Button
+
             android:id="@+id/si2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +29,18 @@
             map:layout_constraintBottom_toBottomOf="@id/mascotas"
             map:layout_constraintStart_toEndOf="@id/mascotas"
             map:layout_constraintTop_toTopOf="@id/mascotas" />
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar Propiedad"
+            android:textSize="16sp"
+            android:backgroundTint="@color/dark_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mapa"/>
+
 
         <ImageButton
             android:id="@+id/back"
@@ -50,7 +63,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            />
 
         <ImageButton
             android:layout_marginTop="16sp"
@@ -62,9 +76,8 @@
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
-
-
+            app:layout_constraintTop_toBottomOf="@+id/logo"
+            />
 
         <TextView
             android:layout_marginTop="35dp"
@@ -75,10 +88,11 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/mascotas"
-            app:layout_constraintTop_toBottomOf="@id/mascotas"/>
+            app:layout_constraintTop_toBottomOf="@id/mascotas"
+            />
 
         <EditText
-            android:id="@+id/precio2"
+            android:id="@+id/price"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -90,12 +104,11 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/precio"
             app:layout_constraintStart_toEndOf="@id/precio"
-            app:layout_constraintTop_toTopOf="@id/precio" />
-
-
+            app:layout_constraintTop_toTopOf="@id/precio"
+            />
 
         <EditText
-            android:id="@+id/nombre"
+            android:id="@+id/name"
             android:background="@drawable/radius_corner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -104,7 +117,7 @@
             android:padding="12sp"
             android:hint="Nombre de la propiedad"
             android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/camara"
             />
@@ -118,7 +131,8 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/back"
-            app:layout_constraintTop_toBottomOf="@id/nombre"/>
+            app:layout_constraintTop_toBottomOf="@id/name"
+            />
 
         <Button
             android:id="@+id/si"
@@ -148,6 +162,7 @@
             android:layout_marginStart="5dp"
             android:enabled="true"/>
 
+
         <TextView
             android:layout_marginTop="40dp"
             android:id="@+id/contacto"
@@ -157,10 +172,11 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/precio"
-            app:layout_constraintTop_toBottomOf="@id/precio"/>
+            app:layout_constraintTop_toBottomOf="@id/precio"
+            />
 
         <EditText
-            android:id="@+id/contacto2"
+            android:id="@+id/contact"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -175,6 +191,7 @@
             app:layout_constraintBottom_toBottomOf="@id/contacto"
             android:layout_marginStart="20dp"
             />
+
         <TextView
             android:layout_marginTop="40dp"
             android:id="@+id/personasmax"
@@ -184,11 +201,11 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/contacto"
-            app:layout_constraintTop_toBottomOf="@id/contacto"/>
-
+            app:layout_constraintTop_toBottomOf="@id/contacto"
+            />
 
         <EditText
-            android:id="@+id/personasmax2"
+            android:id="@+id/maxPeople"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -201,7 +218,8 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/personasmax"
             app:layout_constraintStart_toEndOf="@id/personasmax"
-            app:layout_constraintTop_toTopOf="@id/personasmax" />
+            app:layout_constraintTop_toTopOf="@id/personasmax"
+            />
 
         <TextView
             android:layout_marginTop="40dp"
@@ -212,9 +230,8 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@id/personasmax"/>
-
-
+            app:layout_constraintTop_toBottomOf="@id/personasmax"
+            />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupAmenidades"
@@ -264,6 +281,7 @@
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/chipGroupDisponibilidad"/>
 
+
         <TextView
             android:layout_marginTop="40dp"
             android:id="@+id/txtubicacion"
@@ -275,8 +293,9 @@
             app:layout_constraintStart_toStartOf="@id/textdisponibilidad"
             app:layout_constraintTop_toBottomOf="@id/BotonDisponibilidad"/>
 
+
         <EditText
-            android:id="@+id/txtlatitud"
+            android:id="@+id/latitude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -285,63 +304,64 @@
             android:hint="Latitud"
             android:layout_marginTop="15dp"
             android:background="@drawable/radius_corner"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@+id/txtubicacion"
             />
         <EditText
-        android:id="@+id/txtlongitud"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:padding="12sp"
-        android:hint="Longitud"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/radius_corner"
-        app:layout_constraintEnd_toEndOf="@id/personasmax2"
-        app:layout_constraintStart_toStartOf="@id/personasmax"
-        app:layout_constraintTop_toBottomOf="@+id/txtlatitud"
-        />
-
-        <fragment
-            android:id="@+id/mapa"
-            android:layout_marginTop="15dp"
+            android:id="@+id/longitude"
             android:layout_width="0dp"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_height="300dp"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:padding="12sp"
+            android:hint="Longitud"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/radius_corner"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/txtlongitud"
-            map:cameraZoom="10"
-            map:uiRotateGestures="true"
-            map:uiZoomControls="true"
+            app:layout_constraintTop_toBottomOf="@+id/latitude"
             />
 
+        <!-- Fragmento de Google Maps -->
+        <fragment
+            android:id="@+id/mapa"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@id/searchText"
+            map:cameraZoom="10"
+            map:uiRotateGestures="true"
+            map:uiZoomControls="true" />
 
-
-
-
-
-
-
-
-
-
+        <AutoCompleteTextView
+            android:id="@+id/searchText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/radius_corner"
+            android:hint="Buscar ubicación..."
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.625"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/longitude" />
 
         <Button
-            android:layout_marginTop="30dp"
+            android:id="@+id/btnBuscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registrar Propiedad"
-            android:textSize="16sp"
+            android:layout_marginEnd="24dp"
             android:backgroundTint="@color/dark_blue"
-            app:layout_constraintEnd_toEndOf="@id/personasmax2"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/mapa"/>
-
-
-
+            android:text="Buscar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/searchText" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
