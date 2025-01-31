@@ -206,13 +206,15 @@
         <TextView
             android:layout_marginTop="40dp"
             android:id="@+id/textamenidades"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Amenidades:"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/personasmax"
             app:layout_constraintTop_toBottomOf="@id/personasmax"/>
+
+
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupAmenidades"
@@ -226,6 +228,43 @@
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
+            android:id="@+id/textdisponibilidad"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:text="Selecciona los días disponibles para la propiedad:"
+            android:textSize="16sp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroupAmenidades"/>
+
+
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupDisponibilidad"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:singleSelection="false"
+            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/textdisponibilidad">
+        </com.google.android.material.chip.ChipGroup>
+
+        <Button
+            android:id="@+id/BotonDisponibilidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar Disponibilidad"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/dark_blue"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/personasmax2"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroupDisponibilidad"/>
+
+        <TextView
             android:layout_marginTop="40dp"
             android:id="@+id/txtubicacion"
             android:layout_width="wrap_content"
@@ -233,8 +272,8 @@
             android:text="Ubicación:"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/chipGroupAmenidades"
-            app:layout_constraintTop_toBottomOf="@id/chipGroupAmenidades"/>
+            app:layout_constraintStart_toStartOf="@id/textdisponibilidad"
+            app:layout_constraintTop_toBottomOf="@id/BotonDisponibilidad"/>
 
         <EditText
             android:id="@+id/txtlatitud"

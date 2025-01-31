@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -31,6 +32,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
+
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
     private Spinner amenidades1,amenidades2, amenidades3, amenidades4;
 
@@ -39,6 +42,9 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private Button buttonSi, buttonNo;
     private boolean isSiGreen = false;
     private boolean isNoGreen = false;
+    private ChipGroup chipGroupDays;
+    private Button saveAvailabilityButton;
+    private ArrayList<String> selectedDays;
 
 
     @SuppressLint("ResourceType")
@@ -81,6 +87,59 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             isNoGreen = !isNoGreen; // Alterna el estado del botón "No"
         });
 
+        //Disponibilidad
+        chipGroupDays = findViewById(R.id.chipGroupDisponibilidad);
+        saveAvailabilityButton = findViewById(R.id.BotonDisponibilidad);
+        selectedDays = new ArrayList<>();
+
+        // Días de la semana
+        String[] daysOfWeek = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+
+        // Crear chips para cada día de la semana
+        for (String day : daysOfWeek) {
+            Chip chip = new Chip(this);
+            chip.setText(day);
+            chip.setCheckable(true);  // Hacer que los chips sean seleccionables
+            chip.setChipBackgroundColorResource(R.color.dark_blue);  // Color inicial
+
+            chip.setTextColor(getResources().getColor(R.color.white));  // Color de texto
+
+            // Listener para cambiar el color al hacer clic
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    // Cambiar a color verde cuando esté seleccionado
+                    chip.setChipBackgroundColorResource(R.color.green);
+                    selectedDays.add(day); // Agregar el día a la lista de días seleccionados
+                } else {
+                    // Volver al color azul oscuro cuando no esté seleccionado
+                    chip.setChipBackgroundColorResource(R.color.dark_blue);
+                    selectedDays.remove(day); // Eliminar el día de la lista de días seleccionados
+                }
+            });
+
+            chipGroupDays.addView(chip);
+        }
+
+        // Guardar la disponibilidad cuando el usuario presiona el botón
+        saveAvailabilityButton.setOnClickListener(v -> {
+            if (!selectedDays.isEmpty()) {
+                // Mostrar los días seleccionados
+                StringBuilder availability = new StringBuilder("Días seleccionados: ");
+                for (String day : selectedDays) {
+                    availability.append(day).append(", ");
+                }
+                Toast.makeText(RegistroPropiedad.this,
+                        availability.toString(), Toast.LENGTH_LONG).show();
+
+                // Aquí puedes guardar la disponibilidad en la base de datos o hacer lo que necesites.
+                // Por ejemplo: saveAvailabilityToDatabase(selectedDays);
+
+            } else {
+                Toast.makeText(RegistroPropiedad.this,
+                        "No se ha seleccionado ningún día.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
