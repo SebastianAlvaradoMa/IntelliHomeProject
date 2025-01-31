@@ -93,18 +93,6 @@
             app:layout_constraintStart_toStartOf="@id/editUsuario"
             app:layout_constraintTop_toBottomOf="@id/editUsuario" />
 
-        <EditText
-            android:id="@+id/editCorreo2"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/radius_corner"
-            android:hint="@string/correo"
-            android:inputType="textEmailAddress"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/editUsuario"
-            app:layout_constraintStart_toStartOf="@id/editUsuario"
-            app:layout_constraintTop_toBottomOf="@id/editUsuario" />
 
         <EditText
             android:id="@+id/editFechaNacimiento"
