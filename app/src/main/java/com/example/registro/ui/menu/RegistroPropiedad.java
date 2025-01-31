@@ -281,7 +281,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         camara.setOnClickListener(v -> checkPermissionsAndShowPicker());
 
         // Inicializar Places API MAPA y Llave
-        Places.initialize(getApplicationContext(), "AIzaSyBUlGx5Q5FU9SKGG1JG2SBlZH5Upp_Zgy0");
+        Places.initialize(getApplicationContext(), "");
         placesClient = Places.createClient(this);
 
         searchText = findViewById(R.id.searchText);
