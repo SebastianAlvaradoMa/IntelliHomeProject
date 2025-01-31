@@ -314,7 +314,16 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         NoButton = findViewById(R.id.no);
         SiButton = findViewById(R.id.si);
 
+
+        // Set up button click listeners
+        // Configura los listeners para los botones "Sí" y "No"
         SiButton.setOnClickListener(view -> {
+            // Cambia el estado de la selección de mascotas
+            mascotasSelection = "Yes";
+            SiButton.setSelected(true);
+            NoButton.setSelected(false);
+
+            // Cambia el color del botón "Sí" y habilita/deshabilita el botón "No"
             if (isSiGreen) {
                 // Cambia a azul oscuro (color original)
                 SiButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_blue));
@@ -328,6 +337,12 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         });
 
         NoButton.setOnClickListener(view -> {
+            // Cambia el estado de la selección de mascotas
+            mascotasSelection = "No";
+            NoButton.setSelected(true);
+            SiButton.setSelected(false);
+
+            // Cambia el color del botón "No" y habilita/deshabilita el botón "Sí"
             if (isNoGreen) {
                 // Cambia a azul oscuro (color original)
                 NoButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_blue));
@@ -459,18 +474,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
 
 
-        // Set up button click listeners
-        NoButton.setOnClickListener(v -> {
-            mascotasSelection = "No";
-            NoButton.setSelected(true);
-            SiButton.setSelected(false);
-        });
 
-        SiButton.setOnClickListener(v -> {
-            mascotasSelection = "Yes";
-            SiButton.setSelected(true);
-            NoButton.setSelected(false);
-        });
 
 
 
