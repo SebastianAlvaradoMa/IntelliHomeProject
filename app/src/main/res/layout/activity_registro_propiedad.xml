@@ -16,7 +16,6 @@
         android:background="#123a75"
         android:padding="16dp">
 
-
         <Button
             android:id="@+id/registerButton"
             android:layout_marginTop="30dp"
@@ -28,7 +27,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mapa"/>
-
 
         <ImageButton
             android:id="@+id/back"
@@ -128,7 +126,7 @@
             android:layout_height="wrap_content"
             android:text="Sí"
             android:textColor="@color/white"
-            android:backgroundTint="@drawable/boton_selector"
+            android:backgroundTint="@color/dark_blue"
             android:padding="9dp"
             app:layout_constraintStart_toEndOf="@id/mascotas"
             app:layout_constraintTop_toTopOf="@id/mascotas"
@@ -142,14 +140,13 @@
             android:layout_height="wrap_content"
             android:text="No"
             android:textColor="@color/white"
-            android:backgroundTint="@drawable/boton_selector"
+            android:backgroundTint="@color/dark_blue"
             android:padding="9dp"
             app:layout_constraintStart_toEndOf="@id/si"
             app:layout_constraintTop_toTopOf="@id/si"
             app:layout_constraintBottom_toBottomOf="@id/si"
             android:layout_marginStart="5dp"
-            android:enabled="true"/>
-
+            />
 
         <TextView
             android:layout_marginTop="40dp"
@@ -212,7 +209,7 @@
         <TextView
             android:layout_marginTop="40dp"
             android:id="@+id/textamenidades"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Amenidades:"
             android:textColor="@color/white"
@@ -221,54 +218,53 @@
             app:layout_constraintTop_toBottomOf="@id/personasmax"
             />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupAmenidades"
+        <Spinner
+            android:id="@+id/amenity1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:singleSelection="false"
+            android:background="@drawable/radius_corner"
+            android:padding="9dp"
             app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/textamenidades">
-        </com.google.android.material.chip.ChipGroup>
+            app:layout_constraintTop_toBottomOf="@+id/textamenidades"
+            />
 
-        <TextView
-            android:id="@+id/textdisponibilidad"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:text="Selecciona los días disponibles para la propiedad:"
-            android:textSize="16sp"
-            android:paddingBottom="16dp"
-            app:layout_constraintEnd_toEndOf="@id/maxPeople"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroupAmenidades"/>
-
-
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupDisponibilidad"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <Spinner
+            android:id="@+id/amenity2"
             android:layout_marginTop="10dp"
-            app:singleSelection="false"
-            app:layout_constraintEnd_toEndOf="@id/maxPeople"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/textdisponibilidad">
-        </com.google.android.material.chip.ChipGroup>
-
-        <Button
-            android:id="@+id/BotonDisponibilidad"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Guardar Disponibilidad"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/dark_blue"
-            android:textColor="@color/white"
+            android:background="@drawable/radius_corner"
+            android:padding="9dp"
             app:layout_constraintEnd_toEndOf="@id/maxPeople"
             app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroupDisponibilidad"/>
+            app:layout_constraintTop_toBottomOf="@+id/amenity1"
+            />
 
+        <Spinner
+            android:id="@+id/amenity3"
+            android:layout_marginTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_corner"
+            android:padding="9dp"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/amenity2"
+            />
+
+        <Spinner
+            android:id="@+id/amenity4"
+            android:layout_marginTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_corner"
+            android:padding="9dp"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/amenity3"
+            />
 
         <TextView
             android:layout_marginTop="40dp"
@@ -278,9 +274,9 @@
             android:text="Ubicación:"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/textdisponibilidad"
-            app:layout_constraintTop_toBottomOf="@id/BotonDisponibilidad"/>
-
+            app:layout_constraintStart_toStartOf="@id/amenity4"
+            app:layout_constraintTop_toBottomOf="@id/amenity4"
+            />
 
         <EditText
             android:id="@+id/latitude"

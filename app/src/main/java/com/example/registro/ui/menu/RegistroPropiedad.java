@@ -1,6 +1,7 @@
 package com.example.registro.ui.menu;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -51,9 +52,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import java.io.File;
 import java.io.IOException;
 
-
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
+    String TOKEN = "a";
     //Variables de la Camara
     private ImageButton camara;
     private File photoFile;
@@ -259,6 +260,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -281,7 +283,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         camara.setOnClickListener(v -> checkPermissionsAndShowPicker());
 
         // Inicializar Places API MAPA y Llave
-        Places.initialize(getApplicationContext(), "");
+        Places.initialize(getApplicationContext(), TOKEN);
         placesClient = Places.createClient(this);
 
         searchText = findViewById(R.id.searchText);
