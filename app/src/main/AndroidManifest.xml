@@ -30,7 +30,7 @@
             />
 
         <activity
-            android:name=".AlquilarPropiedad"
+            android:name=".ui.menu.AlquilarPropiedad"
             android:exported="true" />
         <activity
             android:name=".ui.menu.BuscarPropiedad"
