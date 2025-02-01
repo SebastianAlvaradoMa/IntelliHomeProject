@@ -15,6 +15,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class OlvidoContrasena extends AppCompatActivity {
 
     private TextInputEditText emailEditText;
@@ -55,6 +58,7 @@ public class OlvidoContrasena extends AppCompatActivity {
         });
 
         // Set the listener for the Verificar button
+        // Set the listener for the Verificar button
         verificarButton.setOnClickListener(v -> {
             // Extract the email and security question answers
             String email = emailEditText.getText().toString().trim();
@@ -71,11 +75,35 @@ public class OlvidoContrasena extends AppCompatActivity {
             // Call the validation service
             validationService.changePasswordValidation(email, pregunta1, pregunta2, pregunta3, new ChangePasswordValidationService.ChangePasswordValidationCallback() {
                 @Override
-                public void onSuccess(String message) {
-                    // If validation is successful, redirect to the CambioContrasena activity
-                    Toast.makeText(OlvidoContrasena.this, message, Toast.LENGTH_SHORT).show();
-                    Intent intent2 = new Intent(OlvidoContrasena.this, CambioContrasena.class);
-                    startActivity(intent2);
+                public void onSuccess(String response) { // response is the raw JSON from the server
+                    try {
+                        // Parse the raw JSON response
+                        JSONObject responseJson = new JSONObject(response);
+
+                        // Check if the status is "success"
+                        if (responseJson.getString("status").equals("success")) {
+                            JSONObject payload = responseJson.getJSONObject("payload");
+                            String userId = payload.getString("userId");
+
+                            // If validation is successful, redirect to the CambioContrasena activity
+                            Toast.makeText(OlvidoContrasena.this, "Validation successful", Toast.LENGTH_SHORT).show();
+
+                            // Create an Intent to start the CambioContrasena activity
+                            Intent intent2 = new Intent(OlvidoContrasena.this, CambioContrasena.class);
+
+                            // Pass the userId to the next activity
+                            intent2.putExtra("USER_ID", userId);
+
+                            // Start the CambioContrasena activity
+                            startActivity(intent2);
+                        } else {
+                            // Handle the case where the status is not success
+                            Toast.makeText(OlvidoContrasena.this, "Validation failed", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(OlvidoContrasena.this, "Error parsing server response", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override

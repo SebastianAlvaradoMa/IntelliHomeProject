@@ -9,6 +9,7 @@ public class Message {
     public static final String ACTION_REGISTER_PROPERTY = "REGISTER_PROPERTY";
 
     public static final String ACTION_CHANGE_PASSWORD_VALIDATION = "CHANGE_PASSWORD_VALIDATION";
+    public static final String ACTION_CHANGE_PASSWORD = "CHANGE_PASSWORD";
     private String action;
     private JSONObject payload;
     private String status;
@@ -67,6 +68,17 @@ public class Message {
             payload.put("pregunta2", pregunta2);
             payload.put("pregunta3", pregunta3);
             return new Message(ACTION_CHANGE_PASSWORD_VALIDATION, payload);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static Message createChangePasswordMessage(String userID, String newPassword) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("userId", userID);
+            payload.put("newPassword", newPassword);
+            return new Message(ACTION_CHANGE_PASSWORD, payload);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

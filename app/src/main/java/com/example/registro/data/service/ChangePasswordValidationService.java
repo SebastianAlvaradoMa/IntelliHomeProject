@@ -27,9 +27,51 @@ public class ChangePasswordValidationService {
         socketManager.sendMessage(changePasswordMessage.toJson(), new SocketClient.SocketCallback() {
             @Override
             public void onResponse(String response) {
+                try {
+                    // Parse the server response
+                    ServerResponse serverResponse = new ServerResponse(response);
+
+                    // Check if the response is successful and contains a valid userId
+                    if ("success".equals(serverResponse.getStatus())) {
+                        String userId = serverResponse.getPayload().getString("userId");
+                        if (!userId.isEmpty()) {
+                            // Pass the raw JSON response to the onSuccess callback
+                            callback.onSuccess(response); // Pass the raw JSON response
+                        } else {
+                            // userId is missing or invalid
+                            callback.onError("Invalid user ID in server response");
+                        }
+                    } else {
+                        // Server returned an error
+                        callback.onError(serverResponse.getMessage());
+                    }
+                } catch (Exception e) {
+                    // Error parsing the server response
+                    callback.onError("Error processing server response: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                callback.onError("Network error: " + error);
+            }
+        });
+    }
+
+    public void changePassword(String userID, String newPassword, ChangePasswordValidationCallback callback) {
+
+        Message changePasswordMessage = Message.createChangePasswordMessage(userID, newPassword);
+        if (changePasswordMessage == null) {
+            callback.onError("Error sending new password");
+            return;
+        }
+
+        socketManager.sendMessage(changePasswordMessage.toJson(), new SocketClient.SocketCallback() {
+            @Override
+            public void onResponse(String response) {
                 // Empty response means success according to your server implementation
                 if (response.isEmpty()) {
-                    callback.onSuccess("ChangePassword request sent succesfully.");
+                    callback.onSuccess("New password sent succesfully.");
                     return;
                 }
 
@@ -51,4 +93,6 @@ public class ChangePasswordValidationService {
             }
         });
     }
+
+
 }
