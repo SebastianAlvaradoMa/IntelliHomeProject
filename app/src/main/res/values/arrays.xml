@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nacionalidades">
+        <item>Nacionalidad...</item>
+        <item>Argentina</item>
+        <item>Bahamas</item>
+        <item>Belice</item>
+        <item>Brasil</item>
+        <item>Canadá</item>
+        <item>Chile</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Dominica</item>
+        <item>Ecuador</item>
+        <item>El Salvador</item>
+        <item>Estados Unidos</item>
+        <item>Granada</item>
+        <item>Guatemala</item>
+        <item>Guyana</item>
+        <item>Haití</item>
+        <item>Honduras</item>
+        <item>Jamaica</item>
+        <item>México</item>
+        <item>Nicaragua</item>
+        <item>Panamá</item>
+        <item>Paraguay</item>
+        <item>Perú</item>
+        <item>República Dominicana</item>
+    </string-array>
+
+    <string-array name="pasatiempos">
+        <item>Pasatiempos...</item>
+        <item>Leer libros</item>
+        <item>Escuchar música</item>
+        <item>Jugar videojuegos</item>
+        <item>Cocinar</item>
+        <item>Andar en bicicleta</item>
+        <item>Dibujar o pintar</item>
+        <item>Ver películas o series</item>
+        <item>Practicar deportes</item>
+        <item>Viajar</item>
+        <item>Meditar</item>
+    </string-array>
+
+    <string-array name="amenidades">
+        <item>Cocina equipada (con electrodomésticos modernos)</item>
+        <item>Aire acondicionado</item>
+        <item>Calefacción</item>
+        <item>Wi-Fi gratuito</item>
+        <item>Televisión por cable o satélite</item>
+        <item>Lavadora y secadora</item>
+        <item>Piscina</item>
+        <item>Jardín o patio</item>
+        <item>Barbacoa o parrilla</item>
+        <item>Terraza o balcón</item>
+        <item>Gimnasio en casa</item>
+        <item>Garaje o espacio de estacionamiento</item>
+        <item>Sistema de seguridad</item>
+        <item>Habitaciones con baño en suite</item>
+        <item>Muebles de exterior</item>
+        <item>Microondas</item>
+        <item>Lavavajillas</item>
+        <item>Cafetera</item>
+        <item>Ropa de cama y toallas incluidas</item>
+        <item>Acceso a áreas comunes (piscina, gimnasio)</item>
+        <item>Camas adicionales o sofá cama</item>
+        <item>Servicios de limpieza opcionales</item>
+        <item>Acceso a transporte público cercano</item>
+        <item>Mascotas permitidas</item>
+        <item>Cercanía a tiendas y restaurantes</item>
+        <item>Sistema de calefacción por suelo radiante</item>
+        <item>Escritorio o área de trabajo</item>
+        <item>Chimenea</item>
+        <item>Acceso a internet de alta velocidad</item>
+        <item>Sistemas de entretenimiento (videojuegos, equipo de música)</item>
+    </string-array>
+
+</resources>

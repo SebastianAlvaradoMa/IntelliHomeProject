@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.MainActivity"
+    android:background="#123a75">
+
+    <!--Linear Layout (repisa)-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="302dp"
+        android:layout_height="395dp"
+        android:textColorHint="@color/gray"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:hintEnabled="false"
+        app:layout_constraintVertical_bias="0.833">
+
+        <!--Contraseña-->
+
+        <!--Botón Registrarse-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:id="@+id/usernameEditText"
+            android:fontFamily="@font/merriweather"
+            android:hint="Ingrese su usuario o correo"
+            android:textSize="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="300dp"
+            android:layout_height="155dp"
+            android:layout_marginTop="16dp"
+            android:textColorHint="@color/gray"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:hintEnabled="false"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="300dp"
+                android:layout_height="55dp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/merriweather"
+                android:hint="Ingrese su contraseña"
+                android:inputType="textPassword"
+                android:textSize="16dp" />
+
+            <!--Olvidó contraseña-->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="300dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="¿Olvidó su contraseña?"
+                android:textColor="@color/LightGray"
+                android:textSize="16dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <!--Botón Iniciar Sesión-->
+            <Button
+                android:id="@+id/Button"
+                android:layout_width="148dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:backgroundTint="@color/DarkBlue"
+                android:text="Iniciar Sesión"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                app:cornerRadius="10dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/Button1"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:backgroundTint="@color/DarkBlue"
+            android:text="Registrarse"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:cornerRadius="10dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="Continuar con:"
+            android:textColor="@color/LightGray"
+            android:textSize="16dp" />
+
+        <ImageButton
+            android:id="@+id/googleBtn"
+            android:layout_width="85dp"
+            android:layout_height="66dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/google" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.825"
+        app:srcCompat="@drawable/logo1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

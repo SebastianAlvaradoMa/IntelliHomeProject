@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="10dp"
+    android:padding="3dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Fondo">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="66dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/casa" />
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/img"
+            android:background="@color/dark_blue"
+            android:singleLine="true"
+            android:text="Nombre Propiedad"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/txt3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="28dp"
+            android:layout_toRightOf="@+id/img"
+            android:background="@color/dark_blue"
+            android:singleLine="true"
+            android:text="Ubicación"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/txt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toRightOf="@+id/img"
+            android:background="@color/dark_blue"
+            android:singleLine="true"
+            android:text="Descripcion"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
