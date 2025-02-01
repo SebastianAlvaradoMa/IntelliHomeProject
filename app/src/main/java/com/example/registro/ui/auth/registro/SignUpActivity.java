@@ -221,9 +221,10 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 } else {
                     // Asegurarse de que después de "CR" solo haya números
-                    String restOfString = input.substring(2);  // Obtener todo después de "CR"
+                    String restOfString = input.substring(2);
                     if (!restOfString.matches("[0-9]*")) {
                         // Eliminar cualquier carácter no numérico después de "CR"
+                        Toast.makeText(editCuentaIban.getContext(), "Inválido, solo se pueden ingresar números después de CR", Toast.LENGTH_SHORT).show();
                         input = "CR" + restOfString.replaceAll("[^0-9]", "");
                     }
                 }
@@ -242,6 +243,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (!hasFocus) {
                 String input = editCuentaIban.getText().toString();
                 if (input.length() < 22) {
+                    Toast.makeText(editCuentaIban.getContext(), "La cuenta Iban debe tener al menos 22 carácteres", Toast.LENGTH_SHORT).show();
                     editCuentaIban.setText(""); // Borrar si tiene menos de 22 caracteres
                 }
             }
@@ -269,8 +271,6 @@ public class SignUpActivity extends AppCompatActivity {
                 // Verificar si el primer número no es '4' (Visa) ni '5' (Mastercard)
                 if (input.length() == 1) {
                     if (input.charAt(0) != '4' && input.charAt(0) != '5') {
-                        // Si estás dentro de una Activity, usa "this" para obtener el contexto
-                        // Si estás dentro de un Fragment, usa getContext() o getActivity()
                         Toast.makeText(editTarjeta.getContext(), "Inválido, asegúrate de ingresar una tarjeta Visa o Mastercard", Toast.LENGTH_SHORT).show();
                         // Limpiar el campo para permitir al usuario ingresar de nuevo
                         editTarjeta.setText("");
@@ -289,6 +289,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (!hasFocus) {
                 String input = editTarjeta.getText().toString();
                 if (input.length() < 16) {
+                    Toast.makeText(editTarjeta.getContext(), "Inválido, el número de la tarjeta debe tener 16 carácteres", Toast.LENGTH_SHORT).show();
                     editTarjeta.setText(""); // Borrar si tiene menos de 16 caracteres
                 }
             }
@@ -299,6 +300,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (!hasFocus) {
                 String input = editPin.getText().toString();
                 if (input.length() < 3) {
+                    Toast.makeText(editPin.getContext(), "El Pin debe tener 3 números", Toast.LENGTH_SHORT).show();
                     editPin.setText(""); // Borrar si tiene menos de 3 caracteres
                 }
             }

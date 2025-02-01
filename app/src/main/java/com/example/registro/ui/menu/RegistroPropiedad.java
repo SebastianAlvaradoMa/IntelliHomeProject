@@ -1,40 +1,27 @@
 package com.example.registro.ui.menu;
 
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
 import android.widget.AutoCompleteTextView;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.core.content.ContextCompat;
-
 import androidx.core.content.FileProvider;
-
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -53,12 +40,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-
-import java.util.ArrayList;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
@@ -71,16 +52,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
-
-    GoogleMap mMap;
-    private Button SiButton, NoButton;
-    private boolean isSiGreen = false;
-    private boolean isNoGreen = false;
-    private ChipGroup chipGroupDays;
-    private Button saveAvailabilityButton;
-    private ArrayList<String> selectedDays;
 
     //Variables de la Camara
     private ImageButton camara;
@@ -88,6 +60,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private Uri photoUri;
 
     //Variables del Mapa
+    private GoogleMap mMap;
     private PlacesClient placesClient;
     private AutoCompleteTextView searchText;
 
@@ -98,7 +71,8 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
     private EditText editNombrePropiedad, editPrecio, editContacto2, editPersonasmax2, editTxtlatitud, editTxtlongitud;
 
-
+    private Button NoButton;
+    private Button SiButton;
     private String mascotasSelection = "No"; // Default value
 
     private String amenidad1Value = "";
@@ -285,8 +259,6 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
 
 
-
-    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -308,119 +280,13 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         camara = findViewById(R.id.camara);
         camara.setOnClickListener(v -> checkPermissionsAndShowPicker());
 
-
-        //Color
-
-        NoButton = findViewById(R.id.no);
-        SiButton = findViewById(R.id.si);
-
-
-        // Set up button click listeners
-        // Configura los listeners para los botones "Sí" y "No"
-        SiButton.setOnClickListener(view -> {
-            // Cambia el estado de la selección de mascotas
-            mascotasSelection = "Yes";
-            SiButton.setSelected(true);
-            NoButton.setSelected(false);
-
-            // Cambia el color del botón "Sí" y habilita/deshabilita el botón "No"
-            if (isSiGreen) {
-                // Cambia a azul oscuro (color original)
-                SiButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_blue));
-                NoButton.setEnabled(true); // Habilita el otro botón
-            } else {
-                // Cambia a verde
-                SiButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-                NoButton.setEnabled(false); // Deshabilita el otro botón
-            }
-            isSiGreen = !isSiGreen; // Alterna el estado del botón "Sí"
-        });
-
-        NoButton.setOnClickListener(view -> {
-            // Cambia el estado de la selección de mascotas
-            mascotasSelection = "No";
-            NoButton.setSelected(true);
-            SiButton.setSelected(false);
-
-            // Cambia el color del botón "No" y habilita/deshabilita el botón "Sí"
-            if (isNoGreen) {
-                // Cambia a azul oscuro (color original)
-                NoButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_blue));
-                SiButton.setEnabled(true); // Habilita el otro botón
-            } else {
-                // Cambia a verde
-                NoButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-                SiButton.setEnabled(false); // Deshabilita el otro botón
-            }
-            isNoGreen = !isNoGreen; // Alterna el estado del botón "No"
-        });
-
-        //Disponibilidad
-        chipGroupDays = findViewById(R.id.chipGroupDisponibilidad);
-        saveAvailabilityButton = findViewById(R.id.BotonDisponibilidad);
-        selectedDays = new ArrayList<>();
-
-        // Días de la semana
-        String[] daysOfWeek = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-
-        // Crear chips para cada día de la semana
-        for (String day : daysOfWeek) {
-            Chip chip = new Chip(this);
-            chip.setText(day);
-            chip.setCheckable(true);  // Hacer que los chips sean seleccionables
-            chip.setChipBackgroundColorResource(R.color.dark_blue);  // Color inicial
-
-            chip.setTextColor(getResources().getColor(R.color.white));  // Color de texto
-
-            // Listener para cambiar el color al hacer clic
-            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    // Cambiar a color verde cuando esté seleccionado
-                    chip.setChipBackgroundColorResource(R.color.green);
-                    selectedDays.add(day); // Agregar el día a la lista de días seleccionados
-                } else {
-                    // Volver al color azul oscuro cuando no esté seleccionado
-                    chip.setChipBackgroundColorResource(R.color.dark_blue);
-                    selectedDays.remove(day); // Eliminar el día de la lista de días seleccionados
-                }
-            });
-
-            chipGroupDays.addView(chip);
-        }
-
-        // Guardar la disponibilidad cuando el usuario presiona el botón
-        saveAvailabilityButton.setOnClickListener(v -> {
-            if (!selectedDays.isEmpty()) {
-                // Mostrar los días seleccionados
-                StringBuilder availability = new StringBuilder("Días seleccionados: ");
-                for (String day : selectedDays) {
-                    availability.append(day).append(", ");
-                }
-                Toast.makeText(RegistroPropiedad.this,
-                        availability.toString(), Toast.LENGTH_LONG).show();
-
-                // Aquí puedes guardar la disponibilidad en la base de datos o hacer lo que necesites.
-                // Por ejemplo: saveAvailabilityToDatabase(selectedDays);
-
-            } else {
-                Toast.makeText(RegistroPropiedad.this,
-                        "No se ha seleccionado ningún día.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
         // Inicializar Places API MAPA y Llave
-        Places.initialize(getApplicationContext(), "AIzaSyAgGWHzePmqxvJr4rW2b8qcuiAugmuUPaU");
+        Places.initialize(getApplicationContext(), "");
         placesClient = Places.createClient(this);
-
 
         searchText = findViewById(R.id.searchText);
         searchText.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1));
         searchText.setOnItemClickListener((parent, view, position, id) -> buscarUbicacion(searchText.getText().toString()));
-
-
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
         mapFragment.getMapAsync(this);
@@ -434,7 +300,10 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         editTxtlatitud=findViewById(R.id.latitude);
         editTxtlongitud=findViewById(R.id.longitude);
 
-
+        spinnerAmenidades1 = findViewById(R.id.amenity1);
+        spinnerAmenidades2 = findViewById(R.id.amenity2);
+        spinnerAmenidades3 = findViewById(R.id.amenity3);
+        spinnerAmenidades4 = findViewById(R.id.amenity4);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -442,41 +311,88 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             return insets;
         });
 
+        //Set up pasatiempos spinner
+        ArrayAdapter<CharSequence> pasatiemposAdapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.amenidades,
+                android.R.layout.simple_spinner_item
+        );
 
-        ChipGroup chipGroupAmenidades = findViewById(R.id.chipGroupAmenidades);
+        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAmenidades1.setAdapter(pasatiemposAdapter);
 
-// Obtener el array de recursos
-        for (String amenidad : getResources().getStringArray(R.array.amenidades)) {
-            Chip chip = new Chip(this);
-            chip.setText(amenidad);
-            chip.setCheckable(true); // Habilita la selección
-            chip.setCheckedIconVisible(false); // Oculta el ícono de selección (opcional)
+        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAmenidades2.setAdapter(pasatiemposAdapter);
 
-            // Establecer el color de fondo inicial (color azul oscuro)
-            chip.setChipBackgroundColorResource(R.color.dark_blue);
-            chip.setTextColor(getResources().getColor(R.color.white));
+        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAmenidades3.setAdapter(pasatiemposAdapter);
 
-            // Listener para cambiar el color al hacer clic
-            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    // Cambiar a color verde cuando esté seleccionado
-                    chip.setChipBackgroundColorResource(R.color.green);
-                } else {
-                    // Volver al color azul oscuro cuando no esté seleccionado
-                    chip.setChipBackgroundColorResource(R.color.dark_blue);
-                }
-            });
+        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAmenidades4.setAdapter(pasatiemposAdapter);
+        NoButton = findViewById(R.id.no);
+        SiButton = findViewById(R.id.si);
 
-            chipGroupAmenidades.addView(chip);
-        }
+        // Set up button click listeners
+        NoButton.setOnClickListener(v -> {
+            mascotasSelection = "No";
+            NoButton.setSelected(true);
+            SiButton.setSelected(false);
+        });
 
+        SiButton.setOnClickListener(v -> {
+            mascotasSelection = "Yes";
+            SiButton.setSelected(true);
+            NoButton.setSelected(false);
+        });
 
+        // Update spinner listeners to store selected values
+        spinnerAmenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                amenidad1Value = parent.getItemAtPosition(position).toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                amenidad1Value = "";
+            }
+        });
 
+        spinnerAmenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                amenidad2Value = parent.getItemAtPosition(position).toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                amenidad2Value = "";
+            }
+        });
 
+        spinnerAmenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                amenidad3Value = parent.getItemAtPosition(position).toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                amenidad3Value = "";
+            }
+        });
 
+        spinnerAmenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                amenidad4Value = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                amenidad4Value = "";
+            }
+        });
 
         Button registerButton = findViewById(R.id.registerButton); // Assuming you have a button with this ID
         registerButton.setOnClickListener(v -> registerProperty());

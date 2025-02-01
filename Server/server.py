@@ -1,16 +1,16 @@
 import socket
 import json
 import os
-import serial
+#import serial
 from datetime import datetime
 import hashlib
 import threading
-from twilio.rest import Client  # Import Twilio client
+#from twilio.rest import Client  # Import Twilio client
 
 # Notificaciones de WA
 account_sid = ''
 auth_token = ''
-twilio_client = Client(account_sid, auth_token)
+#twilio_client = Client(account_sid, auth_token)
 
 def hash_data(data):
     """Hash the given data using SHA-256."""
@@ -152,27 +152,27 @@ def send_twilio_notification():
         )
         
         # Send the message
-        message = twilio_client.messages.create(
-            from_='whatsapp:+14155238886',
-            body=message_body,
-            to='whatsapp:+50684086287'
-        )
-        print(f"Twilio notification sent: {message.sid}")
+        #message = twilio_client.messages.create(
+        #    from_='whatsapp:+14155238886',
+        #    body=message_body,
+        #    to='whatsapp:+50684086287'
+        #)
+        #print(f"Twilio notification sent: {message.sid}")
     except Exception as e:
         print(f"Error sending Twilio notification: {e}")
 
-def monitor_serial_port():
-    """Monitor the serial port for the fire alarm flag"""
-    while True:
-        if arduino_serial and arduino_serial.is_open:
-            try:
-                line = arduino_serial.readline().decode('utf-8').strip()
-                if line == "FIRE_ALARM":  
-                    print("Sending Twilio notification...")
-                    send_twilio_notification()
-                    break
-            except Exception as e:
-                print(f"Error reading from serial port: {e}")
+#def monitor_serial_port():
+#   """Monitor the serial port for the fire alarm flag"""
+#    while True:
+#        if arduino_serial and arduino_serial.is_open:
+#            try:
+#                line = arduino_serial.readline().decode('utf-8').strip()
+#                if line == "FIRE_ALARM":  
+#                    print("Sending Twilio notification...")
+#                    send_twilio_notification()
+#                    break
+#            except Exception as e:
+#                print(f"Error reading from serial port: {e}")
 
 def process_request(request_data, db, property_db):
     """Process incoming client requests"""
@@ -284,23 +284,23 @@ def process_request(request_data, db, property_db):
             "message": "Invalid JSON format"
         }) + "\n"
 
-def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
+def start_server(host="0.0.0.0", port=1717, baud_rate=9600):
     global arduino_serial
     db = UserDatabase()
     property_db = PropertyDatabase()
 
     # Initialize Arduino serial connection
-    try:
-        arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
-        print(f"Connected to Arduino on {serial_port}")
-    except Exception as e:
-        print(f"Failed to connect to Arduino: {e}")
-        arduino_serial = None
+    #try:
+    #    arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
+    #    print(f"Connected to Arduino on {serial_port}")
+    #except Exception as e:
+    #    print(f"Failed to connect to Arduino: {e}")
+    #    arduino_serial = None
 
     # Start a thread to monitor the serial port for the fire alarm flag
-    serial_monitor_thread = threading.Thread(target=monitor_serial_port)
-    serial_monitor_thread.daemon = True  
-    serial_monitor_thread.start()
+    #serial_monitor_thread = threading.Thread(target=monitor_serial_port)
+    #serial_monitor_thread.daemon = True  
+    #serial_monitor_thread.start()
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
