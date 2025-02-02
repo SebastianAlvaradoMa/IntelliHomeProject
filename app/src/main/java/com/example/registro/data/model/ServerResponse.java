@@ -5,13 +5,13 @@ import org.json.JSONObject;
 public class ServerResponse {
     private String status;
     private String message;
-    private JSONObject data;
+    private JSONObject payload;
 
     public ServerResponse(String jsonResponse) throws JSONException {
         JSONObject response = new JSONObject(jsonResponse);
         this.status = response.optString("status", "");
         this.message = response.optString("message", "");
-        this.data = response.optJSONObject("data");
+        this.payload = response.optJSONObject("payload");
     }
 
     public boolean isSuccess() {
@@ -20,6 +20,6 @@ public class ServerResponse {
 
     public String getStatus() { return status; }
     public String getMessage() { return message; }
-    public JSONObject getData() { return data; }
+    public JSONObject getPayload() { return payload; }
 }
 

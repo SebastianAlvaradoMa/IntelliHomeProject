@@ -1,5 +1,4 @@
 package com.example.registro.data.model;
-import com.example.registro.data.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +7,9 @@ public class Message {
     public static final String ACTION_REGISTER = "REGISTER";
     public static final String ACTION_LUCES = "LUCES";
     public static final String ACTION_REGISTER_PROPERTY = "REGISTER_PROPERTY";
+
+    public static final String ACTION_CHANGE_PASSWORD_VALIDATION = "CHANGE_PASSWORD_VALIDATION";
+    public static final String ACTION_CHANGE_PASSWORD = "CHANGE_PASSWORD";
     private String action;
     private JSONObject payload;
     private String status;
@@ -58,6 +60,30 @@ public class Message {
             return null;
         }
     }
+    public static Message createChangePasswordValidationMessage(String email, String pregunta1, String pregunta2, String pregunta3) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("email", email);
+            payload.put("pregunta1", pregunta1);
+            payload.put("pregunta2", pregunta2);
+            payload.put("pregunta3", pregunta3);
+            return new Message(ACTION_CHANGE_PASSWORD_VALIDATION, payload);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static Message createChangePasswordMessage(String userID, String newPassword) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("userId", userID);
+            payload.put("newPassword", newPassword);
+            return new Message(ACTION_CHANGE_PASSWORD, payload);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static Message createRegisterPropertyMessage(Property property) {
         try {
@@ -72,16 +98,6 @@ public class Message {
 
 
     public static Message createRegistrationMessage(User user) {
-        try {
-            JSONObject userJson = new JSONObject(user.toJson());
-            return new Message(ACTION_REGISTER, userJson.getJSONObject("payload"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Message createLucesMessage(User user) {
         try {
             JSONObject userJson = new JSONObject(user.toJson());
             return new Message(ACTION_REGISTER, userJson.getJSONObject("payload"));

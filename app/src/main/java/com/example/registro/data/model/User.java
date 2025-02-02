@@ -70,9 +70,9 @@ public class User {
             payloadObject.put("tarjeta", tarjeta);
             payloadObject.put("iban", cuentaIban);
             payloadObject.put("pin", Pin);
-            payloadObject.put("hospital", hospital);
-            payloadObject.put("lugarFavorito", lugarFavorito);
-            payloadObject.put("mascota", mascota);
+            payloadObject.put("pregunta1", hospital);
+            payloadObject.put("pregunta2", lugarFavorito);
+            payloadObject.put("pregunta3", mascota);
 
             // Wrap in the client request format
             jsonObject.put("action", "REGISTER");

@@ -1,16 +1,16 @@
 import socket
 import json
 import os
-#import serial
+import serial
 from datetime import datetime
 import hashlib
 import threading
-#from twilio.rest import Client  # Import Twilio client
+from twilio.rest import Client  # Import Twilio client
 
 # Notificaciones de WA
 account_sid = ''
 auth_token = ''
-#twilio_client = Client(account_sid, auth_token)
+# twilio_client = Client(account_sid, auth_token)
 
 def hash_data(data):
     """Hash the given data using SHA-256."""
@@ -48,9 +48,9 @@ class UserDatabase:
                     "cuentaIban": hash_data(user_data.get("cuentaIban", "")),
                     "tarjeta": hash_data(user_data.get("tarjeta", "")),
                     "Pin": hash_data(user_data.get("Pin", "")),
-                    "hospital": hash_data(user_data.get("hospital", "")),
-                    "lugarFavorito": hash_data(user_data.get("lugarFavorito", "")),
-                    "mascota": hash_data(user_data.get("mascota", "")),
+                    "pregunta1": hash_data(user_data.get("pregunta1", "")),
+                    "pregunta2": hash_data(user_data.get("pregunta2", "")),
+                    "pregunta3": hash_data(user_data.get("pregunta3", "")),
                     "createdAt": datetime.now().isoformat()
                 }
             }
@@ -83,6 +83,65 @@ class UserDatabase:
             return False, None, None
         except FileNotFoundError:
             return False, None, None
+        
+    def verify_change_password(self, email, pregunta1, pregunta2, pregunta3):
+        try:
+            with open(self.filename, "r") as f:
+                for line in f:
+                    if line.strip() and not line.startswith("#"):
+                        try:
+                            user_data = json.loads(line.strip())
+                            # Hash the email, question1, question2 and question3
+                            hashed_email = hash_data(email)
+                            hashed_pregunta1 = hash_data(pregunta1)
+                            hashed_pregunta2 = hash_data(pregunta2)
+                            hashed_pregunta3 = hash_data(pregunta3)
+
+                            # Check for email matches all question1, question2 and question3 
+                            if (user_data["userData"]["email"] == hashed_email and
+                                user_data["userData"]["pregunta1"] == hashed_pregunta1 and
+                                user_data["userData"]["pregunta2"] == hashed_pregunta2 and
+                                user_data["userData"]["pregunta3"] == hashed_pregunta3):
+                                return True, user_data["userId"]
+                        except json.JSONDecodeError:
+                            continue
+            return False, None, None
+        except FileNotFoundError:
+            return False, None, None
+        
+    def change_password(self, user_id, new_password):
+        try:
+            updated_lines = []  
+            user_found = False  
+
+            with open(self.filename, "r") as f:
+                for line in f:
+                    if line.strip() and not line.startswith("#"):
+                        try:
+                            user_data = json.loads(line.strip())
+                            if user_data.get("userId") == user_id:
+                                # User found, update the password
+                                user_data["password"] = hash_data(new_password)
+                                user_found = True
+                            updated_lines.append(json.dumps(user_data) + "\n")
+                        except json.JSONDecodeError:
+                            # Skip invalid JSON lines
+                            continue
+
+            if not user_found:
+                return False, None
+
+            # Write the updated data back to the file
+            with open(self.filename, "w") as f:
+                f.writelines(updated_lines)
+
+            return True,  user_id
+
+        except FileNotFoundError:
+            return False,  None
+        
+    
+        
 
 class PropertyDatabase:
     def __init__(self, filename="properties.txt"):
@@ -151,28 +210,28 @@ def send_twilio_notification():
             f"Día: {current_date}"
         )
         
-        # Send the message
-        #message = twilio_client.messages.create(
-        #    from_='whatsapp:+14155238886',
-        #    body=message_body,
-        #    to='whatsapp:+50684086287'
-        #)
-        #print(f"Twilio notification sent: {message.sid}")
+        # # Send the message
+        # message = twilio_client.messages.create(
+        #     from_='whatsapp:+14155238886',
+        #     body=message_body,
+        #     to='whatsapp:+50684086287'
+        # )
+        # print(f"Twilio notification sent: {message.sid}")
     except Exception as e:
         print(f"Error sending Twilio notification: {e}")
 
-#def monitor_serial_port():
-#   """Monitor the serial port for the fire alarm flag"""
-#    while True:
-#        if arduino_serial and arduino_serial.is_open:
-#            try:
-#                line = arduino_serial.readline().decode('utf-8').strip()
-#                if line == "FIRE_ALARM":  
-#                    print("Sending Twilio notification...")
-#                    send_twilio_notification()
-#                    break
-#            except Exception as e:
-#                print(f"Error reading from serial port: {e}")
+def monitor_serial_port():
+    """Monitor the serial port for the fire alarm flag"""
+    while True:
+        if arduino_serial and arduino_serial.is_open:
+            try:
+                line = arduino_serial.readline().decode('utf-8').strip()
+                if line == "FIRE_ALARM":  
+                    print("Sending Twilio notification...")
+                    send_twilio_notification()
+                    break
+            except Exception as e:
+                print(f"Error reading from serial port: {e}")
 
 def process_request(request_data, db, property_db):
     """Process incoming client requests"""
@@ -248,7 +307,7 @@ def process_request(request_data, db, property_db):
                     send_to_arduino(command + "\n")
             else:
                 print(f"Invalid LUCES command: {command}")
-            return ""
+            return "" 
         
         elif action == "REGISTER_PROPERTY":
             success, property_id = property_db.save_property(payload)
@@ -268,15 +327,72 @@ def process_request(request_data, db, property_db):
                     "message": "Property registration failed"
                 }
             return json.dumps(response) + "\n"
+        
+        elif action == "CHANGE_PASSWORD_VALIDATION":
+            try:
+                email = payload.get("email")
+                pregunta1 = payload.get("pregunta1")
+                pregunta2 = payload.get("pregunta2")
+                pregunta3 = payload.get("pregunta3")
 
-        else:
-            response = {
-                "action": action,
-                "status": "error",
-                "message": "Unknown action"
-            }
+                # Verify the change password request
+                success, user_id = db.verify_change_password(email, pregunta1, pregunta2, pregunta3)
+
+                if success:
+                    response = {
+                        "action": "CHANGE_PASSWORD_VALIDATION",
+                        "status": "success",
+                        "message": "Change password validation successful",
+                        "payload": {
+                            "userId": user_id
+                        }
+                    }
+                else:
+                    response = {
+                        "action": "CHANGE_PASSWORD_VALIDATION",
+                        "status": "error",
+                        "message": "Change password validation failed"
+                    }
+            except Exception as e:
+                response = {
+                    "action": "CHANGE_PASSWORD_VALIDATION",
+                    "status": "error",
+                    "message": f"Error during change password validation: {str(e)}"
+                }
+
             return json.dumps(response) + "\n"
+        
+        elif action == "CHANGE_PASSWORD":
+            try:
+                user_id = payload.get("userId")
+                newPassword = payload.get("newPassword")
 
+                # Verify the change password request
+                success, user_id = db.change_password(user_id, newPassword)
+
+                if success:
+                    response = {
+                        "action": "CHANGE_PASSWORD",
+                        "status": "success",
+                        "message": "Password changed succesfully",
+                        "payload": {
+                            "userId": user_id
+                        }
+                    }
+                else:
+                    response = {
+                        "action": "CHANGE_PASSWORD",
+                        "status": "error",
+                        "message": "Password change failed"
+                    }
+            except Exception as e:
+                response = {
+                    "action": "CHANGE_PASSWORD",
+                    "status": "error",
+                    "message": f"Error changing password: {str(e)}"
+                }
+
+            return json.dumps(response) + "\n"
     except json.JSONDecodeError:
         return json.dumps({
             "action": "error",
@@ -284,23 +400,23 @@ def process_request(request_data, db, property_db):
             "message": "Invalid JSON format"
         }) + "\n"
 
-def start_server(host="0.0.0.0", port=1717, baud_rate=9600):
+def start_server(host="0.0.0.0", port=1717, serial_port="COM3", baud_rate=9600):
     global arduino_serial
     db = UserDatabase()
     property_db = PropertyDatabase()
 
     # Initialize Arduino serial connection
-    #try:
-    #    arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
-    #    print(f"Connected to Arduino on {serial_port}")
-    #except Exception as e:
-    #    print(f"Failed to connect to Arduino: {e}")
-    #    arduino_serial = None
+    try:
+        arduino_serial = serial.Serial(serial_port, baud_rate, timeout=1)
+        print(f"Connected to Arduino on {serial_port}")
+    except Exception as e:
+        print(f"Failed to connect to Arduino: {e}")
+        arduino_serial = None
 
     # Start a thread to monitor the serial port for the fire alarm flag
-    #serial_monitor_thread = threading.Thread(target=monitor_serial_port)
-    #serial_monitor_thread.daemon = True  
-    #serial_monitor_thread.start()
+    serial_monitor_thread = threading.Thread(target=monitor_serial_port)
+    serial_monitor_thread.daemon = True  
+    serial_monitor_thread.start()
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
