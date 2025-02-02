@@ -161,17 +161,17 @@ class PropertyDatabase:
             hashed_property_data = {
                 "propertyId": property_id,
                 "propertyData": {
-                    "nombrePropiedad": hash_data(str(property_data.get("nombrePropiedad", ""))),
-                    "mascotas": hash_data(str(property_data.get("mascotas", ""))),
-                    "precio": hash_data(str(property_data.get("precio", ""))),
-                    "contacto": hash_data(str(property_data.get("contacto", ""))),
-                    "maxPersonas": hash_data(str(property_data.get("maxPersonas", ""))),
-                    "amenidad1": hash_data(str(property_data.get("amenidad1", ""))),
-                    "amenidad2": hash_data(str(property_data.get("amenidad2", ""))),
-                    "amenidad3": hash_data(str(property_data.get("amenidad3", ""))),
-                    "amenidad4": hash_data(str(property_data.get("amenidad4", ""))),
-                    "latitud": hash_data(str(property_data.get("latitud", ""))),
-                    "longitud": hash_data(str(property_data.get("longitud", ""))),
+                    "nombrePropiedad": str(property_data.get("nombrePropiedad", "")),
+                    "mascotas": str(property_data.get("mascotas", "")),
+                    "precio": str(property_data.get("precio", "")),
+                    "contacto": str(property_data.get("contacto", "")),
+                    "maxPersonas": str(property_data.get("maxPersonas", "")),
+                    "amenidad1": str(property_data.get("amenidad1", "")),
+                    "amenidad2": str(property_data.get("amenidad2", "")),
+                    "amenidad3": str(property_data.get("amenidad3", "")),
+                    "amenidad4": str(property_data.get("amenidad4", "")),
+                    "latitud": str(property_data.get("latitud", "")),
+                    "longitud": str(property_data.get("longitud", "")),
                     "createdAt": datetime.now().isoformat()
                 }
             }
