@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -51,10 +53,20 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
-    String TOKEN = "a";
+    //Variables de amenidades
+    private Button btnSeleccionarAmenidades;
+    private TextView amenidadesSeleccionadas;
+    private String[] listaAmenidades = {"Cocina equipada (con electrodomésticos modernos)", "Aire acondicionado", "Calefacción", "Wi-Fi gratuito", "Televisión por cable o satélite", "Lavadora y secadora", "Piscina", "Jardín o patio", "Barbacoa o parrilla", "Terraza o balcón", "Gimnasio en casa", "Garaje o espacio de estacionamiento", "Sistema de seguridad", "Habitaciones con baño en suite", "Muebles de exterior", "Microondas", "Lavavajillas", "Cafetera", "Ropa de cama y toallas incluidas", "Acceso a áreas comunes (piscina, gimnasio)", "Camas adicionales o sofá cama", "Servicios de limpieza opcionales", "Acceso a transporte público cercano", "Mascotas permitidas", "Cercanía a tiendas y restaurantes", "Sistema de calefacción por suelo radiante", "Escritorio o área de trabajo", "Sistemas de entretenimiento (videojuegos, equipo de música)", "Chimenea", "Acceso a internet de alta velocidad"};
+    private boolean[] seleccionadas;
+    private ArrayList<String> amenidadesElegidas = new ArrayList<>();
+
+    //TOKEN
+    String TOKEN = "";
+
     //Variables de la Camara
     private ImageButton camara;
     private File photoFile;
@@ -65,10 +77,10 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private PlacesClient placesClient;
     private AutoCompleteTextView searchText;
 
-    private Spinner spinnerAmenidades1;
-    private Spinner spinnerAmenidades2;
-    private Spinner spinnerAmenidades3;
-    private Spinner spinnerAmenidades4;
+//    private Spinner spinnerAmenidades1;
+//    private Spinner spinnerAmenidades2;
+//    private Spinner spinnerAmenidades3;
+//    private Spinner spinnerAmenidades4;
 
     private EditText editNombrePropiedad, editPrecio, editContacto2, editPersonasmax2, editTxtlatitud, editTxtlongitud;
 
@@ -216,14 +228,14 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
             return;
         }
 
-        String amenity1 = spinnerAmenidades1.getSelectedItem().toString();
-        String amenity2 = spinnerAmenidades2.getSelectedItem().toString();
-        String amenity3 = spinnerAmenidades3.getSelectedItem().toString();
-        String amenity4 = spinnerAmenidades4.getSelectedItem().toString();
+//        String amenity1 = spinnerAmenidades1.getSelectedItem().toString();
+//        String amenity2 = spinnerAmenidades2.getSelectedItem().toString();
+//        String amenity3 = spinnerAmenidades3.getSelectedItem().toString();
+//        String amenity4 = spinnerAmenidades4.getSelectedItem().toString();
 
         PropertyService propertyService = new PropertyService();
         propertyService.registerProperty(name, price, contact, maxPeople, latitude, longitude,
-                mascotasSelection, amenity1, amenity2, amenity3, amenity4,
+                mascotasSelection, String.valueOf(amenidadesElegidas),
                 new PropertyService.PropertyCallback() {
                     @Override
                     public void onSuccess(String message) {
@@ -259,7 +271,6 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     }
 
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,6 +279,19 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_registro_propiedad);
         //Init user repository
 
+        //Inicializar Amenidades
+        btnSeleccionarAmenidades = findViewById(R.id.btnSeleccionarAmenidades);
+        amenidadesSeleccionadas = findViewById(R.id.amenidadesSeleccionadas);
+        seleccionadas = new boolean[listaAmenidades.length];
+
+        btnSeleccionarAmenidades.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogoAmenidades();
+            }
+        });
+
+        //Boton de buscar en el mapa
         Button btnBuscar = findViewById(R.id.btnBuscar);
         btnBuscar.setOnClickListener(v -> {
             String query = searchText.getText().toString().trim();
@@ -294,18 +318,18 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         mapFragment.getMapAsync(this);
 
 
-        editNombrePropiedad=findViewById(R.id.name);
-        editPrecio=findViewById(R.id.price);
-        editContacto2=findViewById(R.id.contact);
-        editPersonasmax2=findViewById(R.id.maxPeople);
+        editNombrePropiedad = findViewById(R.id.name);
+        editPrecio = findViewById(R.id.price);
+        editContacto2 = findViewById(R.id.contact);
+        editPersonasmax2 = findViewById(R.id.maxPeople);
 
-        editTxtlatitud=findViewById(R.id.latitude);
-        editTxtlongitud=findViewById(R.id.longitude);
+        editTxtlatitud = findViewById(R.id.latitude);
+        editTxtlongitud = findViewById(R.id.longitude);
 
-        spinnerAmenidades1 = findViewById(R.id.amenity1);
-        spinnerAmenidades2 = findViewById(R.id.amenity2);
-        spinnerAmenidades3 = findViewById(R.id.amenity3);
-        spinnerAmenidades4 = findViewById(R.id.amenity4);
+//        spinnerAmenidades1 = findViewById(R.id.amenity1);
+//        spinnerAmenidades2 = findViewById(R.id.amenity2);
+//        spinnerAmenidades3 = findViewById(R.id.amenity3);
+//        spinnerAmenidades4 = findViewById(R.id.amenity4);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -320,17 +344,17 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
                 android.R.layout.simple_spinner_item
         );
 
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAmenidades1.setAdapter(pasatiemposAdapter);
-
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAmenidades2.setAdapter(pasatiemposAdapter);
-
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAmenidades3.setAdapter(pasatiemposAdapter);
-
-        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAmenidades4.setAdapter(pasatiemposAdapter);
+//        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerAmenidades1.setAdapter(pasatiemposAdapter);
+//
+//        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerAmenidades2.setAdapter(pasatiemposAdapter);
+//
+//        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerAmenidades3.setAdapter(pasatiemposAdapter);
+//
+//        pasatiemposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerAmenidades4.setAdapter(pasatiemposAdapter);
         NoButton = findViewById(R.id.no);
         SiButton = findViewById(R.id.si);
 
@@ -348,53 +372,53 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
         });
 
         // Update spinner listeners to store selected values
-        spinnerAmenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                amenidad1Value = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                amenidad1Value = "";
-            }
-        });
-
-        spinnerAmenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                amenidad2Value = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                amenidad2Value = "";
-            }
-        });
-
-        spinnerAmenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                amenidad3Value = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                amenidad3Value = "";
-            }
-        });
-
-        spinnerAmenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                amenidad4Value = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                amenidad4Value = "";
-            }
-        });
+//        spinnerAmenidades1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                amenidad1Value = parent.getItemAtPosition(position).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                amenidad1Value = "";
+//            }
+//        });
+//
+//        spinnerAmenidades2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                amenidad2Value = parent.getItemAtPosition(position).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                amenidad2Value = "";
+//            }
+//        });
+//
+//        spinnerAmenidades3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                amenidad3Value = parent.getItemAtPosition(position).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                amenidad3Value = "";
+//            }
+//        });
+//
+//        spinnerAmenidades4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                amenidad4Value = parent.getItemAtPosition(position).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                amenidad4Value = "";
+//            }
+//        });
 
         Button registerButton = findViewById(R.id.registerButton); // Assuming you have a button with this ID
         registerButton.setOnClickListener(v -> registerProperty());
@@ -402,12 +426,45 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
         // Obtener el botón y configurar el listener
         ImageButton button = findViewById(R.id.back);
-            button.setOnClickListener(v -> {
+        button.setOnClickListener(v -> {
             Intent intent = new Intent(RegistroPropiedad.this, GestionPropiedad.class);
             startActivity(intent);
         });
 
     }
+
+    //Metodo de seleccionar Amenidades
+    private void mostrarDialogoAmenidades() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona las Amenidades");
+        builder.setMultiChoiceItems(listaAmenidades, seleccionadas, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked) {
+                    amenidadesElegidas.add(listaAmenidades[which]);
+                } else {
+                    amenidadesElegidas.remove(listaAmenidades[which]);
+                }
+            }
+        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                actualizarTextoAmenidades();
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.create().show();
+    }
+
+    private void actualizarTextoAmenidades() {
+        if (amenidadesElegidas.isEmpty()) {
+            amenidadesSeleccionadas.setText("Seleccionadas: Ninguna");
+        } else {
+            amenidadesSeleccionadas.setText("Seleccionadas: " + String.join(", ", amenidadesElegidas));
+        }
+    }
+
     //CAMARA!!!!!!!!!!!!!!!!!!!!!!!!!!
     //Permisos de la camara
     private void checkPermissionsAndShowPicker() {
@@ -484,10 +541,10 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-34.397, 150.644)));
-        mMap =googleMap;
+        mMap = googleMap;
         this.mMap.setOnMapClickListener(this);
         this.mMap.setOnMapLongClickListener(this);
-        LatLng tec = new LatLng(9.8372475,-84.0571092);
+        LatLng tec = new LatLng(9.8372475, -84.0571092);
         mMap.addMarker(new MarkerOptions().position(tec).title("Tecnologico de Costa Rica"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tec));
         mMap.setMinZoomPreference(8);
@@ -510,10 +567,10 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     //Agrega las coordenadas de la ubicacion
     @Override
     public void onMapLongClick(@NonNull LatLng latLng) {
-        editTxtlatitud.setText(""+latLng.latitude);
-        editTxtlongitud.setText(""+latLng.longitude);
+        editTxtlatitud.setText("" + latLng.latitude);
+        editTxtlongitud.setText("" + latLng.longitude);
         mMap.clear();
-        LatLng tec = new LatLng(latLng.latitude,latLng.longitude);
+        LatLng tec = new LatLng(latLng.latitude, latLng.longitude);
         mMap.addMarker(new MarkerOptions().position(tec).title(""));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tec));
     }
