@@ -18,11 +18,12 @@ public class PropertyService {
 
     public void registerProperty(String name, double price, String contact, int maxPeople,
                                  double latitude, double longitude, String mascotasSelection,
-                                 String amenidadesElegidas,
+                                 String amenity1, String amenity2, String amenity3, String amenity4,
                                  PropertyCallback callback) {
         // Create Property object from parameters
         Property property = new Property(name, price, contact, maxPeople,
-                latitude, longitude, mascotasSelection, amenidadesElegidas);
+                latitude, longitude, mascotasSelection,
+                amenity1, amenity2, amenity3, amenity4);
 
         // Use repository to handle the registration
         propertyRepository.registerProperty(property, new PropertyRepository.PropertyCallback() {
