@@ -206,77 +206,66 @@
             app:layout_constraintTop_toTopOf="@id/personasmax"
             />
 
-        <TextView
-            android:layout_marginTop="40dp"
-            android:id="@+id/textamenidades"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Amenidades:"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@id/personasmax"
-            />
+<!--        <Spinner-->
+<!--            android:id="@+id/amenity1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:background="@drawable/radius_corner"-->
+<!--            android:padding="9dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/maxPeople"-->
+<!--            app:layout_constraintStart_toStartOf="@id/personasmax"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textamenidades"-->
+<!--            />-->
 
-        <Spinner
-            android:id="@+id/amenity1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/maxPeople"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/textamenidades"
-            />
+<!--        <Spinner-->
+<!--            android:id="@+id/amenity2"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/radius_corner"-->
+<!--            android:padding="9dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/maxPeople"-->
+<!--            app:layout_constraintStart_toStartOf="@id/personasmax"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/amenity1"-->
+<!--            />-->
 
-        <Spinner
-            android:id="@+id/amenity2"
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/maxPeople"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/amenity1"
-            />
+<!--        <Spinner-->
+<!--            android:id="@+id/amenity3"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/radius_corner"-->
+<!--            android:padding="9dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/maxPeople"-->
+<!--            app:layout_constraintStart_toStartOf="@id/personasmax"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/amenity2"-->
+<!--            />-->
 
-        <Spinner
-            android:id="@+id/amenity3"
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/maxPeople"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/amenity2"
-            />
-
-        <Spinner
-            android:id="@+id/amenity4"
-            android:layout_marginTop="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_corner"
-            android:padding="9dp"
-            app:layout_constraintEnd_toEndOf="@id/maxPeople"
-            app:layout_constraintStart_toStartOf="@id/personasmax"
-            app:layout_constraintTop_toBottomOf="@+id/amenity3"
-            />
+<!--        <Spinner-->
+<!--            android:id="@+id/amenity4"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/radius_corner"-->
+<!--            android:padding="9dp"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/maxPeople"-->
+<!--            app:layout_constraintStart_toStartOf="@id/personasmax"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/amenity3"-->
+<!--            />-->
 
         <TextView
-            android:layout_marginTop="40dp"
             android:id="@+id/txtubicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="276dp"
             android:text="Ubicación:"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/amenity4"
-            app:layout_constraintTop_toBottomOf="@id/amenity4"
-            />
+            app:layout_constraintEnd_toEndOf="@+id/latitude"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/latitude"
+            app:layout_constraintTop_toTopOf="@+id/amenidadesSeleccionadas" />
 
         <EditText
             android:id="@+id/latitude"
@@ -346,6 +335,44 @@
             android:text="Buscar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/searchText" />
+
+
+
+
+        <TextView
+            android:layout_marginTop="40dp"
+            android:id="@+id/textamenidades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amenidades:"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/personasmax" />
+
+        <Button
+            android:id="@+id/btnSeleccionarAmenidades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="84dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/dark_blue"
+            android:text="Seleccionar Amenidades"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textamenidades" />
+
+        <TextView
+            android:id="@+id/amenidadesSeleccionadas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionadas: Ninguna"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSeleccionarAmenidades"
+            android:layout_marginTop="10dp" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

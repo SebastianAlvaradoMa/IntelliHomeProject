@@ -10,13 +10,10 @@ public class Property {
     private int maxPeople;
     private double latitude;
     private double longitude;
-    private String amenity1;
-    private String amenity2;
-    private String amenity3;
-    private String amenity4;
+    private String amenidadesElegidas;
     private String mascotasSelection;
 
-    public Property(String name, double price, String contact, int maxPeople, double latitude, double longitude, String mascotasSelection, String amenity1, String amenity2, String amenity3, String amenity4) {
+    public Property(String name, double price, String contact, int maxPeople, double latitude, double longitude, String mascotasSelection, String amenidadesElegidas) {
         this.name = name;
         this.price = price;
         this.contact = contact;
@@ -24,10 +21,7 @@ public class Property {
         this.latitude = latitude;
         this.longitude = longitude;
         this.mascotasSelection = mascotasSelection;
-        this.amenity1 = amenity1;
-        this.amenity2 = amenity2;
-        this.amenity3 = amenity3;
-        this.amenity4 = amenity4;
+        this.amenidadesElegidas = amenidadesElegidas;
     }
 
     public String toJson() {
@@ -40,10 +34,7 @@ public class Property {
             json.put("maxPersonas", maxPeople);
             json.put("latitud", latitude);
             json.put("longitud", longitude);
-            json.put("amenidad1", amenity1);
-            json.put("amenidad2", amenity2);
-            json.put("amenidad3", amenity3);
-            json.put("amenidad4", amenity4);
+            json.put("amenidades", amenidadesElegidas);
         } catch (JSONException e) {
             e.printStackTrace();
         }
