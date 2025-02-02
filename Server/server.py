@@ -107,10 +107,7 @@ class PropertyDatabase:
                     "precio": hash_data(str(property_data.get("precio", ""))),
                     "contacto": hash_data(str(property_data.get("contacto", ""))),
                     "maxPersonas": hash_data(str(property_data.get("maxPersonas", ""))),
-                    "amenidad1": hash_data(str(property_data.get("amenidad1", ""))),
-                    "amenidad2": hash_data(str(property_data.get("amenidad2", ""))),
-                    "amenidad3": hash_data(str(property_data.get("amenidad3", ""))),
-                    "amenidad4": hash_data(str(property_data.get("amenidad4", ""))),
+                    "amenidades": hash_data(str(property_data.get("amenidades", ""))),
                     "latitud": hash_data(str(property_data.get("latitud", ""))),
                     "longitud": hash_data(str(property_data.get("longitud", ""))),
                     "createdAt": datetime.now().isoformat()
