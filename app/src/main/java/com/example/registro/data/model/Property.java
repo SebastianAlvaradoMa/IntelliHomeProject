@@ -26,6 +26,10 @@ public class Property {
         this.amenidadesElegidas = amenidadesElegidas;
     }
 
+    public Property() {
+
+    }
+
     public String toJson() {
         JSONObject json = new JSONObject();
         try {
@@ -43,4 +47,33 @@ public class Property {
         }
         return json.toString();
     }
+
+
+    public String getDescription() {
+        // You can add a description field or generate it from existing fields
+        return "Price: " + price + ", Max People: " + maxPeople;
+    }
+
+    // Getters
+    public String getUserId() { return userId; }
+
+    public String getName() { return name; }
+    public String getPetsAllowed() { return mascotasSelection; }
+    public double getPrice() { return price; }
+    public String getContact() { return contact; }
+    public int getMaxPeople() { return maxPeople; }
+
+
+    // Setters
+    public void setUserId(String userId) { this.userId = userId; }
+
+    public void setName(String name) { this.name = name; }
+    public void setPetsAllowed(String petsAllowed) { mascotasSelection= petsAllowed; }
+    public void setPrice(double price) { this.price = price; }
+    public void setContact(String contact) { this.contact = contact; }
+    public void setMaxPeople(int maxPeople) { this.maxPeople = maxPeople; }
+
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
+
 }

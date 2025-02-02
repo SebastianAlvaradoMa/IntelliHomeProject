@@ -32,6 +32,29 @@ public class PropertyRepository {
         });
     }
 
+    public void fetchProperty(PropertyCallback callback){
+        Message fetchRequestMessage = Message.createFetchRequestMessage();
+        if (fetchRequestMessage == null) {
+            callback.onError("Error creating property fetch Request Message");
+            return;
+        }
+
+        socketManager.sendMessage(fetchRequestMessage.toJson(), new SocketClient.SocketCallback() {
+            @Override
+            public void onResponse(String response) {
+                callback.onSuccess(response);
+            }
+
+            @Override
+            public void onError(String error) {
+                callback.onError(error);
+            }
+        });
+
+
+    }
+
+
     public interface PropertyCallback {
         void onSuccess(String message);
         void onError(String error);

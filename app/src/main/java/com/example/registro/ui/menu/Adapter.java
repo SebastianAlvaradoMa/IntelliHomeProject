@@ -12,51 +12,55 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.registro.R;
+import com.example.registro.data.model.Property;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.MyHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+    private Context context;
+    private List<Property> propertyList;
 
-    Context context;
-    ArrayList<ModelClass> arrayList;
-    LayoutInflater layoutInflater;
-
-    public Adapter(Context context, ArrayList<ModelClass> arrayList){
+    public Adapter(Context context, List<Property> propertyList) {
         this.context = context;
-        this.arrayList = arrayList;
-        layoutInflater = LayoutInflater.from(context);
+        this.propertyList = propertyList;
     }
 
     @NonNull
     @Override
-    public MyHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType){
-        View view = layoutInflater.inflate(R.layout.item_file,parent,false);
-        return new MyHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_file, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder,int position){
-        holder.NombrePropiedad.setText(arrayList.get(position).getNombrePropiedad());
-        holder.Descripcion.setText(arrayList.get(position).getDescripcion());
-        holder.img.setImageResource(arrayList.get(position).getImg());
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Property property = propertyList.get(position);
+        holder.propertyName.setText(property.getName());
+        holder.propertyDescription.setText(property.getDescription());
+        // Load image if necessary
     }
 
     @Override
-    public int getItemCount(){
-        return arrayList.size();
+    public int getItemCount() {
+        return propertyList.size();
     }
 
-    public class MyHolder extends RecyclerView.ViewHolder {
-        TextView NombrePropiedad, Descripcion;
-        ImageView img;
+    public void updateList(List<Property> newList) {
+        propertyList = newList;
+        notifyDataSetChanged();
+    }
 
-        public MyHolder(@NonNull View itemView) {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView propertyName;
+        TextView propertyDescription;
+        ImageView propertyImage;
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            NombrePropiedad = itemView.findViewById(R.id.txt);
-            Descripcion = itemView.findViewById(R.id.txt2);
-            img = itemView.findViewById(R.id.img);
-
+            propertyName = itemView.findViewById(R.id.txt);
+            propertyDescription = itemView.findViewById(R.id.txt2);
+            propertyImage = itemView.findViewById(R.id.img);
         }
     }
 }

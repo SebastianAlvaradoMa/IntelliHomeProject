@@ -161,6 +161,7 @@ class PropertyDatabase:
             hashed_property_data = {
                 "propertyId": property_id,
                 "propertyData": {
+                   "userId": str(property_data.get("userId", "")),
                     "nombrePropiedad": str(property_data.get("nombrePropiedad", "")),
                     "mascotas": str(property_data.get("mascotas", "")),
                     "precio": str(property_data.get("precio", "")),
@@ -182,6 +183,26 @@ class PropertyDatabase:
         except Exception as e:
             print(f"Error saving property: {e}")
             return False, None
+        
+    def fetch_properties(self):
+        try:
+            properties = []
+            if os.path.exists(self.filename):
+                with open(self.filename, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith("#"):  # Ignore comments
+                            try:
+                                property_data = json.loads(line)
+                                properties.append(property_data)
+                            except json.JSONDecodeError as e:
+                                print(f"Error parsing JSON: {e}")
+
+            return True, properties
+        except Exception as e:
+            print(f"Error fetching properties: {e}")
+            return False, []
+         
 
 def send_to_arduino(command):
     """Send command to Arduino without waiting for response"""
@@ -317,6 +338,7 @@ def process_request(request_data, db, property_db):
                     "status": "success",
                     "message": "Property registration successful",
                     "payload": {
+                        
                         "propertyId": property_id
                     }
                 }
@@ -391,8 +413,35 @@ def process_request(request_data, db, property_db):
                     "status": "error",
                     "message": f"Error changing password: {str(e)}"
                 }
-
             return json.dumps(response) + "\n"
+        
+        elif action == "FETCH_PROPERTIES":
+            try:
+                success, propertyData = property_db.fetch_properties()
+                if success:
+                    response = {
+                        "action": "FETCH_PROPERTIES",
+                        "status": "success",
+                        "message": "Fetching properties successful",
+                        "payload": propertyData  # Ensure property data is always a list
+                    }
+                else:
+                    response = {
+                        "action": "FETCH_PROPERTIES",
+                        "status": "error",
+                        "message": "Fetching properties failed",
+                        "payload": []
+                    }
+            except Exception as e:
+                response = {
+                    "action": "FETCH_PROPERTIES",
+                    "status": "error",
+                    "message": f"Error fetching properties: {str(e)}",
+                    "payload": []
+                }
+            return json.dumps(response) + "\n"
+
+        
     except json.JSONDecodeError:
         return json.dumps({
             "action": "error",

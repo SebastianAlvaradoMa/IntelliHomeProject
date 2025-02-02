@@ -234,6 +234,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 //        String amenity4 = spinnerAmenidades4.getSelectedItem().toString();
 
         PropertyService propertyService = new PropertyService();
+
         propertyService.registerProperty(name, price, contact, maxPeople, latitude, longitude,
                 mascotasSelection, String.valueOf(amenidadesElegidas),
                 new PropertyService.PropertyCallback() {

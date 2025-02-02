@@ -1,0 +1,3 @@
+Received: {"action":"FETCH_PROPERTIES","payload":{}}
+
+Sending: {"action": "FETCH_PROPERTIES", "status": "success", "message": "Fetching properties successful", "payload": [{"propertyId": "0", "propertyData": {"userId": "0", "nombrePropiedad": "Casa", "mascotas": "No", "precio": "15000", "contacto": "84842025", "maxPersonas": "5", "amenidad1": "", "amenidad2": "", "amenidad3": "", "amenidad4": "", "latitud": "9.866627420217014", "longitud": "-84.18449811637402", "createdAt": "2025-02-02T11:28:41.074735"}}]}

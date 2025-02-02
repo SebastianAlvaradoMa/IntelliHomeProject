@@ -48,4 +48,21 @@ public class PropertyService {
             }
         });
     }
+
+    public void fetchProperty(PropertyCallback callback) {
+        propertyRepository.fetchProperty(new PropertyRepository.PropertyCallback() {
+            @Override
+            public void onSuccess(String response) {
+                // Pass the entire response directly to the callback
+                callback.onSuccess(response);
+            }
+
+            @Override
+            public void onError(String error) {
+                callback.onError("Network error: " + error);
+            }
+        });
+    }
+
+
 }

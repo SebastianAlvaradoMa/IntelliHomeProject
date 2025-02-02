@@ -10,6 +10,7 @@ public class Message {
 
     public static final String ACTION_CHANGE_PASSWORD_VALIDATION = "CHANGE_PASSWORD_VALIDATION";
     public static final String ACTION_CHANGE_PASSWORD = "CHANGE_PASSWORD";
+    public static final String ACTION_FETCH_PROPERTIES = "FETCH_PROPERTIES";
     private String action;
     private JSONObject payload;
     private String status;
@@ -105,6 +106,11 @@ public class Message {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Message createFetchRequestMessage() {
+        JSONObject payload = new JSONObject();
+        return new Message(ACTION_FETCH_PROPERTIES, payload);
     }
 
     public String toJson() {
