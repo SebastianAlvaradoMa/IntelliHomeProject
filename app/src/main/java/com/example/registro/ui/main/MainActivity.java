@@ -19,6 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
+import com.example.registro.data.model.UserSession;
 import com.example.registro.data.remote.SocketClient;
 import com.example.registro.data.remote.SocketManager;
 import com.example.registro.data.service.AuthService;
@@ -157,8 +158,9 @@ public class MainActivity extends AppCompatActivity {
         // Intentar login
         authService.login(usernameOrEmail, password, new AuthService.AuthCallback() {
             @Override
-            public void onSuccess(String message) {
+            public void onSuccess(String userId) {
                 runOnUiThread(() -> {
+                    UserSession.getInstance().setUserId(userId);
                     progressDialog.dismiss();
                     // Login exitoso - navegar a la siguiente actividad
                     navigateToMainScreen();

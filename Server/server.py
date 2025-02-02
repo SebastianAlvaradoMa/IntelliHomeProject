@@ -5,7 +5,7 @@ import serial
 from datetime import datetime
 import hashlib
 import threading
-from twilio.rest import Client  # Import Twilio client
+# from twilio.rest import Client  # Import Twilio client
 
 # Notificaciones de WA
 account_sid = ''

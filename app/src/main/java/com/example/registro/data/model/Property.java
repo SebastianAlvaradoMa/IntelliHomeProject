@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Property {
+    private String userId;
     private String name;
     private double price;
     private String contact;
@@ -13,7 +14,8 @@ public class Property {
     private String amenidadesElegidas;
     private String mascotasSelection;
 
-    public Property(String name, double price, String contact, int maxPeople, double latitude, double longitude, String mascotasSelection, String amenidadesElegidas) {
+    public Property( String userId, String name, double price, String contact, int maxPeople, double latitude, double longitude, String mascotasSelection, String amenidadesElegidas) {
+        this.userId = userId;
         this.name = name;
         this.price = price;
         this.contact = contact;
@@ -27,6 +29,7 @@ public class Property {
     public String toJson() {
         JSONObject json = new JSONObject();
         try {
+            json.put("userId", userId);
             json.put("nombrePropiedad", name);
             json.put("mascotas", mascotasSelection);
             json.put("precio", price);

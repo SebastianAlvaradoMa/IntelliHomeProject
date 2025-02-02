@@ -10,18 +10,13 @@ public class AuthService {
     private final SocketClient socketClient;
     private final AuthResponseHandler authResponseHandler;
     public interface AuthCallback {
-        void onSuccess(String message);
+        void onSuccess(String userId);
         void onError(String error);
     }
 
     public AuthService(SocketClient socketClient) {
         this.socketClient = socketClient;
         this.authResponseHandler = new AuthResponseHandler();
-    }
-
-    public void login(String username, String password, AuthCallback callback) {
-        Message loginMessage = Message.createLoginMessage(username, password);
-        sendAuthMessage(loginMessage, callback);
     }
 
     public void register(User user, AuthCallback callback) {
@@ -33,6 +28,11 @@ public class AuthService {
         }
     }
 
+    public void login(String username, String password, AuthCallback callback) {
+        Message loginMessage = Message.createLoginMessage(username, password);
+        sendAuthMessage(loginMessage, callback);
+    }
+
     private void sendAuthMessage(Message message, AuthCallback callback) {
         socketClient.sendMessage(message.toJson(), new SocketClient.SocketCallback() {
             @Override
@@ -42,7 +42,8 @@ public class AuthService {
                     boolean success = authResponseHandler.handleResponse(serverResponse);
 
                     if (success) {
-                        callback.onSuccess(serverResponse.getMessage());
+                        String userId = serverResponse.getPayload().getString("userId");
+                        callback.onSuccess(userId); //Pass the user ID back
                     } else {
                         callback.onError(serverResponse.getMessage());
                     }

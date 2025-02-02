@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
+import com.example.registro.data.model.UserSession;
 import com.example.registro.ui.domotic.LucesActivity;
 import com.example.registro.ui.main.MainActivity;
 
