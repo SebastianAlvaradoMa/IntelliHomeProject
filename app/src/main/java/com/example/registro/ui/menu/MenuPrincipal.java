@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.registro.R;
 import com.example.registro.ui.domotic.LucesActivity;
+import com.example.registro.ui.domotic.MenuDomotica;
 import com.example.registro.ui.main.MainActivity;
 
 public class MenuPrincipal extends AppCompatActivity {
@@ -38,8 +39,8 @@ public class MenuPrincipal extends AppCompatActivity {
         ImageButton button3 = findViewById(R.id.imageButton9);
         button3.setOnClickListener(v -> {
             // Redirigir a la actividad OlvidoContrasena
-            Intent intent = new Intent(MenuPrincipal.this, BuscarPropiedad.class);
-            startActivity(intent);
+            Intent intent1 = new Intent(MenuPrincipal.this, BuscarPropiedad.class);
+            startActivity(intent1);
         });
 
 
@@ -49,10 +50,10 @@ public class MenuPrincipal extends AppCompatActivity {
             startActivity(intent2);
         });
 
-        ImageButton luces = findViewById(R.id.imageButton11);
-        luces.setOnClickListener(v -> {
-            Intent intent2 = new Intent(MenuPrincipal.this,  LucesActivity.class);
-            startActivity(intent2);
+        ImageButton button4 = findViewById(R.id.imageButton11);
+        button4.setOnClickListener(v -> {
+            Intent intent3 = new Intent(MenuPrincipal.this, MenuDomotica.class);
+            startActivity(intent3);
         });
     }
 }
