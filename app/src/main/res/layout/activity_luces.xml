@@ -97,7 +97,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.006" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnSala"
@@ -204,7 +204,7 @@
         app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintVertical_bias="0.786" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -229,19 +229,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.232"
         app:srcCompat="@drawable/verde" />
-
-    <ImageButton
-        android:id="@+id/myImageButton"
-        android:layout_width="122dp"
-        android:layout_height="165dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/menu2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.961" />
 
 
     <TextView
@@ -308,6 +295,18 @@
         app:layout_constraintEnd_toEndOf="@+id/btnBanoCuarto"
         app:layout_constraintStart_toStartOf="@+id/btnBanoCuarto"
         app:layout_constraintTop_toTopOf="@+id/btnBanoCuarto" />
+
+    <ImageButton
+        android:id="@+id/myImageButton"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:background="@color/Fondo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.924"
+        app:srcCompat="@drawable/flecha" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
