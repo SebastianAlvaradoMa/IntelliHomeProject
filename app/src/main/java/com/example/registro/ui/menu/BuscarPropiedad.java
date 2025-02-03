@@ -3,7 +3,16 @@ package com.example.registro.ui.menu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.SeekBar;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.registro.R;
 import com.example.registro.data.model.Property;
 import com.example.registro.data.service.PropertyService;
+import com.google.android.material.chip.ChipGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +38,7 @@ public class BuscarPropiedad extends AppCompatActivity {
     private List<Property> propertyList = new ArrayList<>();
     private List<Property> searchList = new ArrayList<>();
     private Adapter adapter;
+    private boolean isLayoutVisible = false;   //Saber si el layout filtros esta visible
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +53,33 @@ public class BuscarPropiedad extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new Adapter(this, propertyList);
         recyclerView.setAdapter(adapter);
+
+        ImageButton buttonShowLayout = findViewById(R.id.filtros);
+        FrameLayout secondLayoutContainer = findViewById(R.id.frameFiltros);
+
+        // Inflar el layout una sola vez
+        LayoutInflater inflater = LayoutInflater.from(BuscarPropiedad.this);
+        View secondLayout = inflater.inflate(R.layout.filtros, null);
+
+        // Configurar el OnClickListener para el botón
+        buttonShowLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isLayoutVisible) {
+                    // Si el layout está visible, ocultarlo
+                    secondLayoutContainer.setVisibility(View.GONE);
+                } else {
+                    // Si el layout no está visible, mostrarlo
+                    secondLayoutContainer.removeAllViews(); // Limpiar el contenedor
+                    secondLayoutContainer.addView(secondLayout); // Añadir el layout inflado
+                    secondLayoutContainer.setVisibility(View.VISIBLE);
+                }
+
+                // Cambiar el estado de visibilidad
+                isLayoutVisible = !isLayoutVisible;
+            }
+        });
+
 
         // Fetch properties from the server
         PropertyService propertyService = new PropertyService();
@@ -91,7 +129,9 @@ public class BuscarPropiedad extends AppCompatActivity {
             Intent intent = new Intent(BuscarPropiedad.this, MenuPrincipal.class);
             startActivity(intent);
         });
+
     }
+
 
     private List<Property> parseProperties(String response) throws JSONException {
         List<Property> properties = new ArrayList<>();
@@ -135,6 +175,10 @@ public class BuscarPropiedad extends AppCompatActivity {
 
         return properties;
     }
+
+
+
+
 
     private void searchProperties(String query) {
         searchList.clear();

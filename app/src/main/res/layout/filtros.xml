@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="10dp"
+    android:padding="3dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="330dp"
+        android:layout_height="match_parent"
+        android:background="@color/dark_blue">
+
+        <TextView
+            android:id="@+id/precio"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:text="Precio por noche:"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="157dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="151dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="84dp"
+            android:layout_toRightOf="@+id/precio"
+            android:max="10"
+            android:outlineAmbientShadowColor="@color/white"
+            android:progress="3" />
+
+        <TextView
+            android:id="@+id/personas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/precio"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/dark_blue"
+            android:singleLine="true"
+            android:text="Cantidad de personas:"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="105dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="35dp"
+            android:layout_toRightOf="@+id/personas"
+            android:defaultValue="0" />
+
+        <TextView
+            android:id="@+id/mascotas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="65dp"
+            android:background="@color/dark_blue"
+            android:singleLine="true"
+            android:text="Permite mascotas"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="65dp"
+            android:layout_toRightOf="@+id/mascotas"
+            android:text="Si"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/actividad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="90dp"
+            android:background="@color/dark_blue"
+            android:singleLine="true"
+            android:text="Actividades"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            app:chipSpacing="8dp"
+            app:singleLine="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="Aventura"
+                android:textSize="10dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tranquilo"
+                android:textSize="10dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Montaña"
+                android:textSize="10dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Playa"
+                android:textSize="10dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
