@@ -55,20 +55,16 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="58dp"
-        android:layout_height="52dp"
+        android:layout_width="94dp"
+        android:layout_height="95dp"
+        android:background="@color/Fondo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4"
-        app:layout_constraintVertical_bias="0.328"
-        android:src="@drawable/menu"
-        android:scaleType="fitCenter"
-        android:background="?android:attr/selectableItemBackground"
-        >
-
-    </ImageButton>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.898"
+        app:srcCompat="@drawable/menu_diseno" />
 
     <Button
         android:id="@+id/button3"
