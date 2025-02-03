@@ -1,23 +1,31 @@
 package com.example.registro.data.model;
 
-public class UserSession {
+import android.app.Application;
+
+public class UserSession extends Application {
+
+
     private static UserSession instance;
     private String userId;
 
-    private UserSession() {}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+    }
 
     public static UserSession getInstance() {
-        if (instance == null) {
-            instance = new UserSession();
-        }
         return instance;
     }
 
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+
 }
+
+
