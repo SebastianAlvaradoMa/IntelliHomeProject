@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AuthService authService;
 
-    private TextInputEditText inputUsername;
-    private TextInputEditText inputPassword;
+    public TextInputEditText inputUsername;
+    public TextInputEditText inputPassword;
     private Button loginButton;
     private ProgressDialog progressDialog;
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         googleBtn.setOnClickListener(v -> signIn());
     }
 
-    private void handleLogin() {
+    public void handleLogin() {
         String usernameOrEmail = inputUsername.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 

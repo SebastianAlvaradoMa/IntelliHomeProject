@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+
+
     lint {
         baseline = file("lint-baseline.xml")
     }
@@ -15,8 +17,8 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        //testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -35,6 +37,13 @@ android {
 }
 
 dependencies {
+    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation ("androidx.test:runner:1.4.0")
+    testImplementation ("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation ("org.mockito:mockito-core:5.11.0")
+    testImplementation(libs.ext.junit) // Para pruebas unitarias
+    androidTestImplementation ("org.mockito:mockito-android:5.11.0") // Para pruebas instrumentada
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
