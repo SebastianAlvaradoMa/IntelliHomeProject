@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Intellihome</string>
     <string name="nombre">Nombre...</string>
     <string name="apellidos">Apellidos...</string>
@@ -9,7 +9,7 @@
     <string name="género">Género:</string>
     <string name="contraseña">Contraseña...</string>
     <string name="confirmar_contraseña">Confirmar contraseña...</string>
-    <string name="paragraph"><b>Términos y Condiciones de Uso de Intellihome</b>\n
+    <string name="paragraph" tools:ignore="Typos"><b>Términos y Condiciones de Uso de Intellihome</b>\n
         <b>Fecha de entrada en vigor:</b> 30 de enero\n\n
         Bienvenido a Intellihome. Al acceder y utilizar nuestra aplicación, usted acepta cumplir con los siguientes términos y condiciones. Si no está de acuerdo con estos términos, le solicitamos que no utilice nuestra aplicación.\n\n
         <b>1. Definiciones</b>\n
