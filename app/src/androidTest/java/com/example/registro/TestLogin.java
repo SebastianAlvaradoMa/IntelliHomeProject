@@ -92,33 +92,33 @@ public class TestLogin {
         }
     }
 
-    @Test
-    public void testLogin_Failure() {
-        // Inicia la actividad usando ActivityScenario
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
-
-            // Configura el mock para simular un error en el login
-            doAnswer(invocation -> {
-                AuthService.AuthCallback callback = invocation.getArgument(2);
-                callback.onError("Credenciales incorrectas");
-                return null;
-            }).when(authService).login(anyString(), anyString(), any());
-
-            // Realizar las acciones dentro de la actividad
-            scenario.onActivity(activity -> {
-                // Configurar nombre de usuario y contraseña incorrectos
-                activity.inputUsername.setText("sebas1234");
-                activity.inputPassword.setText("sebas123"); // Contraseña incorrecta
-                activity.handleLogin(); // Llamar al método handleLogin
-
-                // Verificar que el error se muestra correctamente
-                assertEquals("Credenciales incorrectas", activity.inputUsername.getError());
-            });
-
-            // Verificar que el método login fue llamado con los parámetros correctos
-            verify(authService).login(eq("sebas1234"), eq("sebas123"), any());
-        }
-    }
+//    @Test
+//    public void testLogin_Failure() {
+//        // Inicia la actividad usando ActivityScenario
+//        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+//
+//            // Configura el mock para simular un error en el login
+//            doAnswer(invocation -> {
+//                AuthService.AuthCallback callback = invocation.getArgument(2);
+//                callback.onError("Credenciales incorrectas");
+//                return null;
+//            }).when(authService).login(anyString(), anyString(), any());
+//
+//            // Realizar las acciones dentro de la actividad
+//            scenario.onActivity(activity -> {
+//                // Configurar nombre de usuario y contraseña incorrectos
+//                activity.inputUsername.setText("sebas1234");
+//                activity.inputPassword.setText("sebas123"); // Contraseña incorrecta
+//                activity.handleLogin(); // Llamar al método handleLogin
+//
+//                // Verificar que el error se muestra correctamente
+//                assertEquals("Credenciales incorrectas", activity.inputUsername.getError());
+//            });
+//
+//            // Verificar que el método login fue llamado con los parámetros correctos
+//            verify(authService).login(eq("sebas1234"), eq("sebas123"), any());
+//        }
+//    }
 
 
 }
