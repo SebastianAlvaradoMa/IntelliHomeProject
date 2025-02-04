@@ -279,7 +279,7 @@ def monitor_serial_port():
                     break
                 elif line == "Sismo detectado":  
                     print("Sending Twilio notification...")
-                    send_fire_notification()
+                    send_quake_notification()
                     break
             except Exception as e:
                 print(f"Error reading from serial port: {e}")

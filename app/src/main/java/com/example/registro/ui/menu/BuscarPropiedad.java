@@ -1,6 +1,8 @@
 package com.example.registro.ui.menu;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.registro.R;
 import com.example.registro.data.model.Property;
 import com.example.registro.data.service.PropertyService;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import org.json.JSONArray;
@@ -39,6 +42,8 @@ public class BuscarPropiedad extends AppCompatActivity {
     private List<Property> searchList = new ArrayList<>();
     private Adapter adapter;
     private boolean isLayoutVisible = false;   //Saber si el layout filtros esta visible
+    private ArrayList<String> selectedActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +87,111 @@ public class BuscarPropiedad extends AppCompatActivity {
 
                 // Cambiar el estado de visibilidad
                 isLayoutVisible = !isLayoutVisible;
-            }
-        });
 
+
+                //------------------
+                //    CHIP GROUP
+                //------------------
+
+                // Referencia al ChipGroup
+                ChipGroup chipGroup = secondLayout.findViewById(R.id.chipGroupActividades);
+
+                selectedActivity = new ArrayList<>();
+
+                // Actividades a elegir
+                String[] actividades = {"Terraza", "Piscina", "Wifi", "Aire acondicionado", "Gimnasio", "Barbacoa", "Cocina equipada"};
+
+                // Crear chips para cada actividad
+                for (String eleccion : actividades) {
+                    Chip chip = new Chip(BuscarPropiedad.this);
+                    chip.setText(eleccion);
+                    chip.setCheckable(true);  // Hacer que los chips sean seleccionables
+                    chip.setChipBackgroundColorResource(R.color.dark_blue);  // Color inicial
+
+                    chip.setTextColor(getResources().getColor(R.color.white));  // Color de texto
+
+                    // Listener para cambiar el color al hacer clic
+                    chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        if (isChecked) {
+                            // Cambiar a color verde cuando esté seleccionado
+                            chip.setChipBackgroundColorResource(R.color.Fondo);
+                            selectedActivity.add(eleccion); // Agregar el día a la lista de días seleccionados
+                        } else {
+                            // Volver al color azul oscuro cuando no esté seleccionado
+                            chip.setChipBackgroundColorResource(R.color.light_blue);
+                            selectedActivity.remove(eleccion); // Eliminar el día de la lista de días seleccionados
+                        }
+                    });
+
+                    chipGroup.addView(chip);
+                }
+
+
+                //------------------
+                //   NUMBERPICKER
+                //-----------------
+
+                // Referencia al NumberPicker y TextView
+                NumberPicker numberPicker =secondLayout.findViewById(R.id.numberPicker);
+
+                // Configurar los valores mínimo y máximo
+                numberPicker.setMinValue(1);  // Valor mínimo
+                numberPicker.setMaxValue(100);  // Valor máximo
+
+                // Establecer el valor inicial
+                numberPicker.setValue(1);
+
+                // Cambiar el color del texto del NumberPicker
+                try {
+                    // Obtener los TextViews internos del NumberPicker
+                    for (int i = 0; i < numberPicker.getChildCount(); i++) {
+                        TextView textView = (TextView) numberPicker.getChildAt(i);
+                        if (textView != null) {
+                            // Cambiar el color de todos los números
+                            textView.setTextColor(Color.WHITE);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                //------------------
+                //     SEEKBAR
+                //------------------
+
+                SeekBar seekBar = secondLayout.findViewById(R.id.seekBar);
+                TextView seekBarValue = secondLayout.findViewById(R.id.seekBarProgress);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    seekBar.setMin(10000);
+                }
+                seekBar.setMax(50000);
+
+                // Establecer el valor inicial
+                seekBar.setProgress(0);  // Este es el valor inicial de progreso
+
+                // Configurar el OnSeekBarChangeListener
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        // Actualizar el TextView con el valor del SeekBar
+                        seekBarValue.setText(String.valueOf(progress));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // Manejar el inicio del movimiento aquí
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+
+                });
+            }
+
+        });
 
 
         // Fetch properties from the server
@@ -135,7 +242,6 @@ public class BuscarPropiedad extends AppCompatActivity {
             Intent intent = new Intent(BuscarPropiedad.this, MenuPrincipal.class);
             startActivity(intent);
         });
-
 
     }
 
