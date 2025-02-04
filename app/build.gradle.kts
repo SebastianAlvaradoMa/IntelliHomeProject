@@ -39,7 +39,6 @@ android {
 dependencies {
     testImplementation ("junit:junit:4.13.2") // Para JUnit 4
     testImplementation ("org.junit.jupiter:junit-jupiter:5.9.0")
-    testImplementation ("org.mockito:mockito-core:4.5.1") // Para Mockito
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
     testImplementation ("androidx.test:runner:1.4.0")
