@@ -199,16 +199,17 @@
             app:layout_constraintTop_toBottomOf="@+id/fecha"
             android:paddingBottom="10dp"
             />
+
         <Button
+            android:id="@+id/alquilarButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_blue"
             android:text="Alquilar"
             android:textSize="16sp"
-            android:backgroundTint="@color/dark_blue"
-            app:layout_constraintStart_toStartOf="@id/toleft"
             app:layout_constraintTop_toBottomOf="@+id/minimo"
+            tools:ignore="MissingConstraints" />
 
-            />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
