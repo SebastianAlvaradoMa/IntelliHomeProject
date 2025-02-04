@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +21,23 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private Context context;
     private List<Property> propertyList;
+    private OnItemClickListener listener;
+
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Property property);
+    }
 
     public Adapter(Context context, List<Property> propertyList) {
         this.context = context;
         this.propertyList = propertyList;
     }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
 
     @NonNull
     @Override
@@ -38,7 +51,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         Property property = propertyList.get(position);
         holder.propertyName.setText(property.getName());
         holder.propertyDescription.setText(property.getDescription());
-        // Load image if necessary
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(property);
+            }
+        });
     }
 
     @Override

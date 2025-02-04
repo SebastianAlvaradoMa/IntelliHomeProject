@@ -43,6 +43,19 @@ public class BuscarPropiedad extends AppCompatActivity {
         adapter = new Adapter(this, propertyList);
         recyclerView.setAdapter(adapter);
 
+
+        // Set up item click listener
+        adapter.setOnItemClickListener(property -> {
+            // Create an intent to open AlquilarPropiedad
+            Intent intent = new Intent(BuscarPropiedad.this, AlquilarPropiedad.class);
+
+            // Pass the selected property as a Parcelable extra
+            intent.putExtra("SELECTED_PROPERTY", property);
+
+            startActivity(intent);
+        });
+
+
         // Fetch properties from the server
         PropertyService propertyService = new PropertyService();
         propertyService.fetchProperty(new PropertyService.PropertyCallback() {

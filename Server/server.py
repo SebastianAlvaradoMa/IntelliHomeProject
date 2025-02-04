@@ -215,7 +215,33 @@ def send_to_arduino(command):
         print(f"Error sending to Arduino: {e}")
         return False
 
-def send_twilio_notification():
+def send_fire_notification():
+    """Send a personalized Twilio notification"""
+    try:
+        # Get the current time and date
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        current_date = now.strftime("%d/%m/%Y")
+        
+        # Construct the message body
+        message_body = (
+            f"Estimad@ usuario :\n"
+            "Está ocurriendo un incendio.\n"
+            f"Hora: {current_time}\n"
+            f"Día: {current_date}"
+        )
+        
+        # # Send the message
+        # message = twilio_client.messages.create(
+        #     from_='whatsapp:+14155238886',
+        #     body=message_body,
+        #     to='whatsapp:+50684086287'
+        # )
+        # print(f"Twilio notification sent: {message.sid}")
+    except Exception as e:
+        print(f"Error sending Twilio notification: {e}")
+        
+def send_quake_notification():
     """Send a personalized Twilio notification"""
     try:
         # Get the current time and date
@@ -247,9 +273,13 @@ def monitor_serial_port():
         if arduino_serial and arduino_serial.is_open:
             try:
                 line = arduino_serial.readline().decode('utf-8').strip()
-                if line == "FIRE_ALARM":  
+                if line == "Llama detectada":  
                     print("Sending Twilio notification...")
-                    send_twilio_notification()
+                    send_fire_notification()
+                    break
+                elif line == "Sismo detectado":  
+                    print("Sending Twilio notification...")
+                    send_fire_notification()
                     break
             except Exception as e:
                 print(f"Error reading from serial port: {e}")

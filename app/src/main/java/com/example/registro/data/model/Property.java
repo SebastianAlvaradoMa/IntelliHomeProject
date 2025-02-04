@@ -1,9 +1,12 @@
 package com.example.registro.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Property {
+public class Property implements Parcelable {
     private String userId;
     private String name;
     private double price;
@@ -30,6 +33,18 @@ public class Property {
 
     }
 
+    protected Property(Parcel in) {
+        userId = in.readString();
+        name = in.readString();
+        price = in.readDouble();
+        contact = in.readString();
+        maxPeople = in.readInt();
+        mascotasSelection = in.readString();
+        amenidadesElegidas = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+    }
+
     public String toJson() {
         JSONObject json = new JSONObject();
         try {
@@ -49,6 +64,39 @@ public class Property {
     }
 
 
+    // Parcelable Creator
+    public static final Creator<Property> CREATOR = new Creator<Property>() {
+        @Override
+        public Property createFromParcel(Parcel in) {
+            return new Property(in);
+        }
+
+        @Override
+        public Property[] newArray(int size) {
+            return new Property[size];
+        }
+    };
+
+    // Parcelable methods
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userId);
+        dest.writeString(name);
+        dest.writeDouble(price);
+        dest.writeString(contact);
+        dest.writeInt(maxPeople);
+        dest.writeString(mascotasSelection);
+        dest.writeString(amenidadesElegidas);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+    }
+
+
     public String getDescription() {
         // You can add a description field or generate it from existing fields
         return "Price: " + price + ", Max People: " + maxPeople;
@@ -58,6 +106,7 @@ public class Property {
     public String getUserId() { return userId; }
 
     public String getName() { return name; }
+    public String getAmenidadesElegidas() { return amenidadesElegidas; }
     public String getPetsAllowed() { return mascotasSelection; }
     public double getPrice() { return price; }
     public String getContact() { return contact; }
@@ -66,6 +115,7 @@ public class Property {
 
     // Setters
     public void setUserId(String userId) { this.userId = userId; }
+    public void setAmenidadesElegidas(String amenidadesElegidas) { this.amenidadesElegidas = amenidadesElegidas; }
 
     public void setName(String name) { this.name = name; }
     public void setPetsAllowed(String petsAllowed) { mascotasSelection= petsAllowed; }
