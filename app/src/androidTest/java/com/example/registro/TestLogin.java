@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+import android.os.StrictMode;
+
 import androidx.test.core.app.ActivityScenario;
 
 import com.example.registro.data.service.AuthService;
@@ -18,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class TestLogin {
 
@@ -27,6 +30,9 @@ public class TestLogin {
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this); // Corrección: Usa openMocks en lugar de initMocks
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().build());
+
     }
 
     @Test
