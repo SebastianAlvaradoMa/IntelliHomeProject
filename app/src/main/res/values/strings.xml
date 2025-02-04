@@ -4,7 +4,6 @@
     <string name="apellidos">Apellidos...</string>
     <string name="usuario">Nombre de usuario...</string>
     <string name="correo">Correo electrónico...</string>
-    <string name="calendario">Calendario...</string>
     <string name="nacimiento">Fecha de nacimiento...</string>
     <string name="género">Género:</string>
     <string name="contraseña">Contraseña...</string>
