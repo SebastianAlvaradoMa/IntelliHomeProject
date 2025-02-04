@@ -25,18 +25,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Registro"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.domotic.Sensores"
+            android:exported="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAgGWHzePmqxvJr4rW2b8qcuiAugmuUPaU"
-            />
+            android:value="AIzaSyAgGWHzePmqxvJr4rW2b8qcuiAugmuUPaU" />
 
         <activity
             android:name=".ui.menu.AlquilarPropiedad"
             android:exported="true" />
         <activity
             android:name=".ui.menu.BuscarPropiedad"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.domotic.LucesActivity"
             android:exported="true" />
@@ -46,13 +48,12 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.auth.registro.SignUpActivity"
             android:exported="true" />
@@ -61,6 +62,9 @@
             android:exported="true" />
         <activity
             android:name=".ui.auth.login.CambioContrasena"
+            android:exported="true" />
+        <activity
+            android:name=".ui.domotic.MenuDomotica"
             android:exported="true" />
         <activity
             android:name=".ui.menu.MenuPrincipal"
@@ -72,7 +76,5 @@
             android:name=".ui.menu.RegistroPropiedad"
             android:exported="true" />
     </application>
-
-
 
 </manifest>

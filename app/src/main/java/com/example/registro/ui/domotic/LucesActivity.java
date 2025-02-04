@@ -42,7 +42,7 @@ public class LucesActivity extends AppCompatActivity {
 
 
         menuButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LucesActivity.this, MenuPrincipal.class);
+            Intent intent = new Intent(LucesActivity.this, MenuDomotica.class);
             startActivity(intent);
         });
 

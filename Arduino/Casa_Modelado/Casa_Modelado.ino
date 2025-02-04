@@ -6,15 +6,13 @@
 #define BanoPrincipal 7
 #define BanoHabitacion 8
 #define Garaje 9
-#define Alarma 10
-const int fotoresistenciaPin = A0;
-const int umbralLuz = 500;
+#define Flame 10
+#define Sismo 11
+
+bool flameSensor;
+bool fire;
 
 void setup() {
-  Serial.begin(9600); // Iniciar comunicación serial
-  while (!Serial) {
-    // Esperar hasta que el Serial esté listo (opcional)
-  }
 
   // Configurar los pines como salida
   pinMode(Sala, OUTPUT); // Sala
@@ -25,18 +23,42 @@ void setup() {
   pinMode(BanoPrincipal, OUTPUT); // Baño Principipal
   pinMode(BanoHabitacion, OUTPUT); // Baño Habitación
   pinMode(Garaje, OUTPUT); // Garaje
-  pinMode (Alarma,INPUT_PULLUP); //Boton 
+  pinMode(Flame,INPUT);  // Sensor de fuego 
+  pinMode(Sismo,INPUT); //Sensor de inclinación
+
+  Serial.begin(9600); // Iniciar comunicación serial
+  while (!Serial) {
+    // Esperar hasta que el Serial esté listo (opcional)
+  }
+
 }
 
 void loop() {
-
-  int valorLuz = analogRead(fotoresistenciaPin); // Leer valor de la fotoresistencia
-
-  if (valorLuz > umbralLuz) {
-    Serial.println("FIRE_ALARM"); //  Si hay luz
-  } else {
-    Serial.println("NO HAY FUEGO"); // Mensaje si hay oscuridad
+   
+  //SENSOR DE FUEGO
+  flameSensor = digitalRead (Flame);   //Lectura del pin del sensor flame
+  if (flameSensor && !fire){
+    Serial.println("Llama detectada");
+    fire = true;
   }
+  if (!flameSensor && fire){
+    Serial.println("Llama apagada");
+    fire = false;
+  }
+  delay(200);
+
+  
+  //SENSOR DE INCLINACIÓN (SISMO)
+
+ int SismoSensor = digitalRead(Sismo);  // Leer el estado del sensor
+ if (SismoSensor == HIGH) {
+   Serial.println("Se detuvo actividad sísmica");  //HIFG no hay inclinación
+ } else { 
+   Serial.println("Sismo detectado");
+ }
+ delay(500);
+
+ //ILUMINACIÓN 
 
   if (Serial.available() > 0) {
     // Leer mensaje recibido
@@ -45,7 +67,6 @@ void loop() {
 
     Serial.print("Arduino recibe: ");
     Serial.println(receivedMessage);
-    
 
     // Asociar nombres con LEDs
     if (receivedMessage == "OnSala") {
