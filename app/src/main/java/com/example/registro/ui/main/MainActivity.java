@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public TextInputEditText inputUsername;
     public TextInputEditText inputPassword;
     private Button loginButton;
-    private ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
