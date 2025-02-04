@@ -2,6 +2,7 @@ package com.example.registro.ui.auth.registro;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class SlurChecker {
     public static final List<String> ENGLISH_SLURS = Arrays.asList(
@@ -20,7 +21,10 @@ public class SlurChecker {
     );
 
     public static boolean containsSlur(String text) {
-        String lowerCaseText = text.toLowerCase();
+        // Usar Locale.ROOT para evitar problemas con locales específicos.
+        String lowerCaseText = text.toLowerCase(Locale.ROOT);
+
+        // Buscar la palabra ofensiva en las listas
         for (String slur : ENGLISH_SLURS) {
             if (lowerCaseText.contains(slur)) {
                 return true;
