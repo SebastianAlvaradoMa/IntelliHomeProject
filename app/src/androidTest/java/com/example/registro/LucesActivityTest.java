@@ -31,6 +31,8 @@ public class LucesActivityTest {
     public ActivityScenarioRule<LucesActivity> activityScenarioRule =
             new ActivityScenarioRule<>(LucesActivity.class);
 
+    //Hola
+
     @Mock
     private LightService mockLightService;
 
