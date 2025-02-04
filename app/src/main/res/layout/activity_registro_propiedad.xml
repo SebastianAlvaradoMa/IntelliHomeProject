@@ -297,7 +297,7 @@
             />
 
         <!-- Fragmento de Google Maps -->
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/mapa"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="0dp"
