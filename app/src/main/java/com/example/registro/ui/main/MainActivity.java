@@ -36,7 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 public class MainActivity extends AppCompatActivity {
 
-    private AuthService authService;
+    public AuthService authService;
 
     public TextInputEditText inputUsername;
     public TextInputEditText inputPassword;
