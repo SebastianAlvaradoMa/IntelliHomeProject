@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class TestLogin {
 
     @Mock
-    private AuthService authService;
+    public AuthService authService;
 
     @Before
     public void setUp() {
