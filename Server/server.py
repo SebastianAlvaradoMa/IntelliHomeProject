@@ -167,10 +167,7 @@ class PropertyDatabase:
                     "precio": str(property_data.get("precio", "")),
                     "contacto": str(property_data.get("contacto", "")),
                     "maxPersonas": str(property_data.get("maxPersonas", "")),
-                    "amenidad1": str(property_data.get("amenidad1", "")),
-                    "amenidad2": str(property_data.get("amenidad2", "")),
-                    "amenidad3": str(property_data.get("amenidad3", "")),
-                    "amenidad4": str(property_data.get("amenidad4", "")),
+                    "amenidades": str(property_data.get("amenidades", "")),
                     "latitud": str(property_data.get("latitud", "")),
                     "longitud": str(property_data.get("longitud", "")),
                     "createdAt": datetime.now().isoformat()

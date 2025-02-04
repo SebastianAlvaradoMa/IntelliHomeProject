@@ -34,6 +34,7 @@ public class AlquilarPropiedad extends AppCompatActivity {
     private TextView nombrecasa, terminos, textoamenidades;
     private Property selectedProperty;
     private Button alquilarButton;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class AlquilarPropiedad extends AppCompatActivity {
         entrada = findViewById(R.id.entrada);
         salida = findViewById(R.id.salida);
         alquilarButton = findViewById(R.id.alquilarButton);
+        backButton = findViewById(R.id.back);
 
         if (getIntent().hasExtra("SELECTED_PROPERTY")) {
             selectedProperty = getIntent().getParcelableExtra("SELECTED_PROPERTY");
@@ -66,6 +68,10 @@ public class AlquilarPropiedad extends AppCompatActivity {
         setupDatePicker(salida);
 
         alquilarButton.setOnClickListener(v -> realizarAlquiler());
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AlquilarPropiedad.this, BuscarPropiedad.class);
+            startActivity(intent);
+        });
     }
 
     private void setupDatePicker(EditText editText) {

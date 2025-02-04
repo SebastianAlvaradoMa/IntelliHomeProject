@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.registro.R;
 import com.example.registro.data.service.ChangePasswordValidationService;
+import com.example.registro.ui.main.MainActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.activity.EdgeToEdge;
@@ -53,7 +54,7 @@ public class OlvidoContrasena extends AppCompatActivity {
 
         // Set the listener for the Regresar button
         regresarButton.setOnClickListener(v -> {
-            Intent intent1 = new Intent(OlvidoContrasena.this, CambioContrasena.class);
+            Intent intent1 = new Intent(OlvidoContrasena.this, MainActivity.class);
             startActivity(intent1);
         });
 
