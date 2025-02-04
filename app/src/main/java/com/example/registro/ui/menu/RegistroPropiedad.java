@@ -65,7 +65,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private ArrayList<String> amenidadesElegidas = new ArrayList<>();
 
     //TOKEN
-    String TOKEN = "";
+    String TOKEN = "AIzaSyBRk01R_Qil_kzxng3gUaZd5fq-Z6DkRdo";
 
     //Variables de la Camara
     private ImageButton camara;
