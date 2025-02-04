@@ -3,7 +3,9 @@
     <style name="Base.Theme.Registro" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:windowBackground">@null</item>
+        <item name="android:background">@color/Fondo</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="Theme.Registro" parent="Base.Theme.Registro" />

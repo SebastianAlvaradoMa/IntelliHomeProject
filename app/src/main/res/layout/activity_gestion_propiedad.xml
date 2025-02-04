@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.menu.GestionPropiedad"
-    android:background="@color/Fondo">
+    android:theme="@style/Base.Theme.Registro">
 
 
     <ImageView

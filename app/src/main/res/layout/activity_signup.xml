@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/dark_blue"
+    android:theme="@style/Base.Theme.Registro"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
