@@ -122,6 +122,8 @@
 
         <Button
             android:id="@+id/si"
+            android:enabled="true"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sí"
@@ -136,6 +138,8 @@
 
         <Button
             android:id="@+id/no"
+            android:enabled="true"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No"
@@ -258,14 +262,14 @@
             android:id="@+id/txtubicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="276dp"
+            android:layout_marginTop="90dp"
             android:text="Ubicación:"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/latitude"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/latitude"
-            app:layout_constraintTop_toTopOf="@+id/amenidadesSeleccionadas" />
+            app:layout_constraintTop_toTopOf="@+id/BotonDisponibilidad" />
 
         <EditText
             android:id="@+id/latitude"
@@ -337,13 +341,12 @@
             app:layout_constraintTop_toTopOf="@+id/searchText" />
 
 
-
-
         <TextView
-            android:layout_marginTop="40dp"
             android:id="@+id/textamenidades"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
             android:text="Amenidades:"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -366,14 +369,50 @@
             android:id="@+id/amenidadesSeleccionadas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
             android:text="Seleccionadas: Ninguna"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnSeleccionarAmenidades"
-            android:layout_marginTop="10dp" />
+            app:layout_constraintTop_toBottomOf="@id/btnSeleccionarAmenidades" />
 
+        <TextView
+            android:id="@+id/textdisponibilidad"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="76dp"
+            android:paddingBottom="16dp"
+            android:text="Selecciona los días disponibles para la propiedad:"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
+            app:layout_constraintHorizontal_bias="0.916"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/amenidadesSeleccionadas" />
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupDisponibilidad"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:singleSelection="false"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/textdisponibilidad">
+        </com.google.android.material.chip.ChipGroup>
+
+        <Button
+            android:id="@+id/BotonDisponibilidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar Disponibilidad"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/dark_blue"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/maxPeople"
+            app:layout_constraintStart_toStartOf="@id/personasmax"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroupDisponibilidad"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

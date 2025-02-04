@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,12 +20,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -43,6 +47,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
@@ -50,6 +56,7 @@ import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.gms.maps.model.LatLngBounds;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,9 +70,13 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private String[] listaAmenidades = {"Cocina equipada (con electrodomésticos modernos)", "Aire acondicionado", "Calefacción", "Wi-Fi gratuito", "Televisión por cable o satélite", "Lavadora y secadora", "Piscina", "Jardín o patio", "Barbacoa o parrilla", "Terraza o balcón", "Gimnasio en casa", "Garaje o espacio de estacionamiento", "Sistema de seguridad", "Habitaciones con baño en suite", "Muebles de exterior", "Microondas", "Lavavajillas", "Cafetera", "Ropa de cama y toallas incluidas", "Acceso a áreas comunes (piscina, gimnasio)", "Camas adicionales o sofá cama", "Servicios de limpieza opcionales", "Acceso a transporte público cercano", "Mascotas permitidas", "Cercanía a tiendas y restaurantes", "Sistema de calefacción por suelo radiante", "Escritorio o área de trabajo", "Sistemas de entretenimiento (videojuegos, equipo de música)", "Chimenea", "Acceso a internet de alta velocidad"};
     private boolean[] seleccionadas;
     private ArrayList<String> amenidadesElegidas = new ArrayList<>();
+    private ChipGroup chipGroupDays;
+    private Button saveAvailabilityButton;
+    private ArrayList<String> selectedDays;
+
 
     //TOKEN
-    String TOKEN = "";
+    String TOKEN = "aa";
 
     //Variables de la Camara
     private ImageButton camara;
@@ -77,6 +88,7 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
     private PlacesClient placesClient;
     private AutoCompleteTextView searchText;
 
+
 //    private Spinner spinnerAmenidades1;
 //    private Spinner spinnerAmenidades2;
 //    private Spinner spinnerAmenidades3;
@@ -84,6 +96,8 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
 
     private EditText editNombrePropiedad, editPrecio, editContacto2, editPersonasmax2, editTxtlatitud, editTxtlongitud;
 
+    private boolean isSiGreen = false;
+    private boolean isNoGreen = false;
     private Button NoButton;
     private Button SiButton;
     private String mascotasSelection = "No"; // Default value
@@ -302,6 +316,93 @@ public class RegistroPropiedad extends AppCompatActivity implements OnMapReadyCa
                 Snackbar.make(v, "Ingresa una ubicación", Snackbar.LENGTH_SHORT).show();
             }
         });
+
+        SiButton = findViewById(R.id.si);
+        NoButton = findViewById(R.id.no);
+
+
+        SiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SiButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(RegistroPropiedad.this, android.R.color.holo_blue_light)));  // Azul claro // Cambia a azul
+                SiButton.setEnabled(false); // Deshabilita el botón
+                NoButton.setEnabled(true); // Habilita el otro botón
+                NoButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(RegistroPropiedad.this, android.R.color.darker_gray)));  // Gris oscuro // Restaura color
+            }
+        });
+
+        NoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NoButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(RegistroPropiedad.this, android.R.color.holo_blue_light))); // Cambia a rojo
+                NoButton.setEnabled(false); // Deshabilita el botón
+                SiButton.setEnabled(true); // Habilita el otro botón
+                SiButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(RegistroPropiedad.this, android.R.color.darker_gray))); // Restaura color
+            }
+        });
+
+
+
+        //Disponibilidad
+        chipGroupDays = findViewById(R.id.chipGroupDisponibilidad);
+        saveAvailabilityButton = findViewById(R.id.BotonDisponibilidad);
+        selectedDays = new ArrayList<>();
+
+        // Días de la semana
+        String[] daysOfWeek = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+
+        // Crear chips para cada día de la semana
+        for (String day : daysOfWeek) {
+            Chip chip = new Chip(this);
+            chip.setText(day);
+            chip.setCheckable(true);  // Hacer que los chips sean seleccionables
+            chip.setChipBackgroundColorResource(R.color.dark_blue);  // Color inicial
+
+            chip.setTextColor(getResources().getColor(R.color.white));  // Color de texto
+
+            // Listener para cambiar el color al hacer clic
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    // Cambiar a color verde cuando esté seleccionado
+                    chip.setChipBackgroundColorResource(R.color.green);
+                    selectedDays.add(day); // Agregar el día a la lista de días seleccionados
+                } else {
+                    // Volver al color azul oscuro cuando no esté seleccionado
+                    chip.setChipBackgroundColorResource(R.color.dark_blue);
+                    selectedDays.remove(day); // Eliminar el día de la lista de días seleccionados
+                }
+            });
+
+            chipGroupDays.addView(chip);
+        }
+
+        // Guardar la disponibilidad cuando el usuario presiona el botón
+        saveAvailabilityButton.setOnClickListener(v -> {
+            if (!selectedDays.isEmpty()) {
+                // Mostrar los días seleccionados
+                StringBuilder availability = new StringBuilder("Días seleccionados: ");
+                for (String day : selectedDays) {
+                    availability.append(day).append(", ");
+                }
+                Toast.makeText(RegistroPropiedad.this,
+                        availability.toString(), Toast.LENGTH_LONG).show();
+
+                // Aquí puedes guardar la disponibilidad en la base de datos o hacer lo que necesites.
+                // Por ejemplo: saveAvailabilityToDatabase(selectedDays);
+
+            } else {
+                Toast.makeText(RegistroPropiedad.this,
+                        "No se ha seleccionado ningún día.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Disponibilidad
+        chipGroupDays = findViewById(R.id.chipGroupDisponibilidad);
+        saveAvailabilityButton = findViewById(R.id.BotonDisponibilidad);
+
+
+
 
         //Inicializar CAMARA
         camara = findViewById(R.id.camara);
