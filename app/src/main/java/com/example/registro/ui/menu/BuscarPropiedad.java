@@ -16,6 +16,7 @@ import com.example.registro.R;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class BuscarPropiedad extends AppCompatActivity {
 
@@ -69,7 +70,7 @@ public class BuscarPropiedad extends AppCompatActivity {
 
                 if (newText.length()>0){
                     for (int i=0; i <arrayList.size(); i++){
-                        if(arrayList.get(i).getNombrePropiedad().toUpperCase().contains(newText.toUpperCase())){
+                        if(arrayList.get(i).getNombrePropiedad().toUpperCase(Locale.ROOT).contains(newText.toUpperCase(Locale.ROOT))){
                             ModelClass modelClass = new ModelClass();
                             modelClass.setNombrePropiedad(arrayList.get(i).getNombrePropiedad());
                             modelClass.setDescripcion(arrayList.get(i).getDescripcion());
