@@ -37,7 +37,7 @@
             android:id="@+id/usernameEditText"
             android:fontFamily="@font/merriweather"
             android:hint="Ingrese su usuario o correo"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="300dp"
@@ -60,7 +60,7 @@
                 android:fontFamily="@font/merriweather"
                 android:hint="Ingrese su contraseña"
                 android:inputType="textPassword"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <!--Olvidó contraseña-->
             <TextView
@@ -72,7 +72,7 @@
                 android:gravity="center_horizontal"
                 android:text="¿Olvidó su contraseña?"
                 android:textColor="@color/LightGray"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:clickable="true"
                 android:focusable="true"/>
 
@@ -86,7 +86,7 @@
                 android:backgroundTint="@color/DarkBlue"
                 android:text="Iniciar Sesión"
                 android:textColor="@color/white"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 app:cornerRadius="10dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -100,7 +100,7 @@
             android:backgroundTint="@color/DarkBlue"
             android:text="Registrarse"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="16sp"
             app:cornerRadius="10dp" />
 
         <TextView
@@ -111,7 +111,7 @@
             android:gravity="center_horizontal"
             android:text="Continuar con:"
             android:textColor="@color/LightGray"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/googleBtn"

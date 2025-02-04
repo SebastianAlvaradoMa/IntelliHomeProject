@@ -40,7 +40,7 @@
             android:singleLine="true"
             android:text="Nombre Propiedad"
             android:textColor="@color/white"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/txt3"
@@ -68,7 +68,7 @@
             android:singleLine="true"
             android:text="Descripcion"
             android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
 
     </RelativeLayout>

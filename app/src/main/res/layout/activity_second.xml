@@ -20,21 +20,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bienvenido"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/correo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Correo"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/signOutBtn"

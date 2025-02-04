@@ -17,7 +17,7 @@
         android:backgroundTint="@color/DarkBlue"
         android:text="Verificar"
         android:textColor="@color/white"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:gravity="center"
         android:text="Preguntas de Seguridad"
         android:textColor="@color/white"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="Ingrese su usuario o correo"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:layout_marginTop="16dp"
             android:text="¿Cuál es el nombre del hospital donde naciste?"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -112,7 +112,7 @@
             android:layout_marginTop="16dp"
             android:text="¿Cual es tu lugar favorito de la infancia?"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -140,7 +140,7 @@
             android:layout_marginTop="16dp"
             android:text="¿Cuál es el nombre de tu primera mascota?"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -169,7 +169,7 @@
         android:backgroundTint="@color/DarkBlue"
         android:text="Regresar"
         android:textColor="@color/white"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Verificar"
@@ -185,7 +185,7 @@
         android:gravity="center_horizontal"
         android:text="Por favor, responda las siguientes preguntas de seguridad para confirmar su identidad y proteger su cuenta. Asegúrese de proporcionar las respuestas tal como las registró."
         android:textColor="@color/LightGray"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.432"

@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:text="Minimo una noche*"
             android:textColor="@color/LightGray"
-            android:textSize="18dp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@id/camara"
             app:layout_constraintStart_toStartOf="@id/camara"
             app:layout_constraintTop_toBottomOf="@+id/fecha"
