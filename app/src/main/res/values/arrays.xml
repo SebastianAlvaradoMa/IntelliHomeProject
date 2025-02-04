@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="nacionalidades">
-        <item>Nacionalidad...</item>
+        <item>Nacionalidad</item>
         <item>Argentina</item>
         <item>Bahamas</item>
         <item>Belice</item>
@@ -30,7 +30,7 @@
     </string-array>
 
     <string-array name="pasatiempos">
-        <item>Pasatiempos...</item>
+        <item>Pasatiempos</item>
         <item>Leer libros</item>
         <item>Escuchar música</item>
         <item>Jugar videojuegos</item>
