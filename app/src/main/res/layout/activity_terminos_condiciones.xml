@@ -25,13 +25,12 @@
         app:layout_constraintVertical_bias="0.088" />
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="371dp"
         android:layout_height="416dp"
         android:layout_marginTop="21dp"
         android:background="@color/white"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.451"
@@ -39,25 +38,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.478">
 
-
-        <ScrollView
+        <TextView
+            android:id="@+id/terminos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView">
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/paragraph"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-
-            <TextView
-                android:id="@+id/terminos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/paragraph"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-
-        </ScrollView>
-    </LinearLayout>
+    </ScrollView>
 
     <CheckBox
         android:id="@+id/check1"
