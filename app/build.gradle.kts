@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation ("com.google.android.libraries.places:places:3.3.0")
+    implementation ("com.google.android.libraries.places:places:4.1.0")
     implementation ("com.google.android.material:material:1.9.0")  //Material Icons library
     implementation ("com.google.android.gms:play-services-auth:21.3.0")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
