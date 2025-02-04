@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 
 public class LucesActivity extends AppCompatActivity {
-    private LightService lightService;
+    public LightService lightService;
     private boolean[] lightStates = new boolean[8]; // Track state of each light
 
     @Override
