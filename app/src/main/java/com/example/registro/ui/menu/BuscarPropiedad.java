@@ -54,12 +54,17 @@ public class BuscarPropiedad extends AppCompatActivity {
         adapter = new Adapter(this, propertyList);
         recyclerView.setAdapter(adapter);
 
+        //-------------------
+        //LAYOUT FILTROS
+        //--------------------
+
         ImageButton buttonShowLayout = findViewById(R.id.filtros);
         FrameLayout secondLayoutContainer = findViewById(R.id.frameFiltros);
 
         // Inflar el layout una sola vez
         LayoutInflater inflater = LayoutInflater.from(BuscarPropiedad.this);
         View secondLayout = inflater.inflate(R.layout.filtros, null);
+
 
         // Configurar el OnClickListener para el botón
         buttonShowLayout.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +84,7 @@ public class BuscarPropiedad extends AppCompatActivity {
                 isLayoutVisible = !isLayoutVisible;
             }
         });
+
 
 
         // Fetch properties from the server
@@ -129,6 +135,7 @@ public class BuscarPropiedad extends AppCompatActivity {
             Intent intent = new Intent(BuscarPropiedad.this, MenuPrincipal.class);
             startActivity(intent);
         });
+
 
     }
 

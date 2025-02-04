@@ -29,16 +29,28 @@
             android:textSize="12dp" />
 
 
+        <TextView
+            android:id="@+id/seekBarProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="18dp"
+            android:layout_toRightOf="@+id/precio"
+            android:text="Valor: 3"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp" />
+
         <SeekBar
             android:id="@+id/seekBar"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="157dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="151dp"
+            android:layout_marginStart="147dp"
+            android:layout_marginLeft="26dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="84dp"
+            android:layout_marginEnd="88dp"
             android:layout_toRightOf="@+id/precio"
             android:max="10"
             android:outlineAmbientShadowColor="@color/white"
@@ -66,7 +78,7 @@
             android:layout_marginLeft="17dp"
             android:layout_marginTop="35dp"
             android:layout_toRightOf="@+id/personas"
-            android:defaultValue="0" />
+            android:defaultValue="0"/>
 
         <TextView
             android:id="@+id/mascotas"
